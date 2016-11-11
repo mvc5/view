@@ -1,0 +1,17 @@
+{
+    "name": "mvc5/view",
+    "description": "View5 is a version of Blade Templates for the Mvc5 Framework",
+    "keywords": ["template", "view"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gregory Baboolal",
+            "email": "devosc@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "View5\\": "./src"
+        }
+    }
+}
