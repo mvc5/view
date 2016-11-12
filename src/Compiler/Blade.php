@@ -91,9 +91,9 @@ class Blade
             if (false !== strpos($match[1], '@')) {
                 $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
             } elseif ($this->hasDirective($match[1])) {
-                $match[0] = $this->callDirective($match[1], isset($match[3]) ? $match[3] : $match);
+                $match[0] = $this->callDirective($match[1], isset($match[3]) ? $match[3] : null);
             } elseif (method_exists($this, $method = 'compile'.ucfirst($match[1]))) {
-                $match[0] = $this->$method(isset($match[3]) ? $match[3] : $match);
+                $match[0] = $this->$method(isset($match[3]) ? $match[3] : null);
             }
 
             return isset($match[3]) ? $match[0] : $match[0].$match[2];
