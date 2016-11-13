@@ -6,6 +6,7 @@
 namespace View5\Template;
 
 use Mvc5\Model\Template;
+use Mvc5\Signal;
 use Mvc5\View\Template\Model as _Model;
 
 trait Model
@@ -14,6 +15,7 @@ trait Model
      *
      */
     use _Model;
+    use Signal;
 
     /**
      * @var callable|null
@@ -26,7 +28,7 @@ trait Model
      */
     protected function create($model)
     {
-        return ($this->provider ? call_user_func($this->provider, $model) : null) ? : new $this->model($model);
+        return ($this->provider ? $this->signal($this->provider, [$model]) : null) ? : new $this->model($model);
     }
 
     /**

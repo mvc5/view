@@ -20,11 +20,6 @@ class FileFinder
     protected $directory = [];
 
     /**
-     * @var array
-     */
-    protected $template = [];
-
-    /**
      * @var
      */
     protected $ext;
@@ -33,6 +28,11 @@ class FileFinder
      * @var array
      */
     protected $extensions = ['blade.phtml', 'phtml'];
+
+    /**
+     * @var array
+     */
+    protected $template = [];
 
     /**
      * @param array $directory
