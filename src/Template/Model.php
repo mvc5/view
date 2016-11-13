@@ -38,9 +38,6 @@ trait Model
      */
     protected function template($model, array $vars = [])
     {
-        return $this->model($model, $vars, function($template) {
-            $template['__env'] = $this;
-            return $template;
-        });
+        return $this->model($model, ['__env' => $this] + $vars);
     }
 }
