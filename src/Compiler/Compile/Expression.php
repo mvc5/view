@@ -6,7 +6,7 @@
 
 namespace View5\Compiler\Compile;
 
-trait Expressions
+trait Expression
 {
     /**
      * Counter to keep track of nested forelse statements.
@@ -42,6 +42,19 @@ trait Expressions
     protected function compileBreak($expression)
     {
         return $expression ? "<?php if{$expression} break; ?>" : '<?php break; ?>';
+    }
+
+    /**
+     * @param  string  $expression
+     * @return string
+     */
+    protected function compileCall($expression)
+    {
+        $segments = array_map('trim', explode(',', $this->stripParentheses($expression)));
+        $var      = count($segments) > 1 ? '$' . str_replace(['\'', '"'], '', array_shift($segments)) . ' = ' : null;
+        $name     = str_replace(['\'', '"'], '', array_shift($segments));
+
+        return '<?php ' . $var. "\$this->call('".$name."', [" . implode(',', $segments) . "]); ?>";
     }
 
     /**
@@ -321,6 +334,21 @@ trait Expressions
     }
 
     /**
+     * Compile the inject statements into valid PHP.
+     *
+     * @param  string  $expression
+     * @return string
+     */
+    protected function compileInject($expression)
+    {
+        $segments = array_map('trim', explode(',', $this->stripParentheses($expression)));
+
+        $plugin = str_replace(['\'', '"'], '', [array_shift($segments), array_shift($segments)]);
+
+        return '<?php $'.$plugin[0]." = \$this->plugin('".$plugin[1]."', [" . implode(',', $segments) . "]); ?>";
+    }
+
+    /**
      * Compile the overwrite statements into valid PHP.
      *
      * @param  string  $expression
@@ -447,11 +475,10 @@ trait Expressions
      * @param  string  $expression
      * @return string
      */
-    protected function stripParentheses($expression)
+    static function stripParentheses($expression)
     {
-        if ('' !== $expression && '(' === $expression[0]) {
-            $expression = substr($expression, 1, -1);
-        }
+        '' !== $expression && '(' === $expression[0]
+            && $expression = substr($expression, 1, -1);
 
         return $expression;
     }

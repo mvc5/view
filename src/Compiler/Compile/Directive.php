@@ -6,12 +6,12 @@
 
 namespace View5\Compiler\Compile;
 
-trait Directives
+trait Directive
 {
     /**
      * @var array
      */
-    protected $directives = [];
+    protected $directive = [];
 
     /**
      * @param  string  $name
@@ -23,7 +23,7 @@ trait Directives
         '' !== $value && '(' === $value[0] && substr($value, -1) === ')'
             && $value = substr($value, 1, -1);
 
-        return call_user_func($this->directives[$name], trim($value));
+        return call_user_func($this->directive[$name], trim($value));
     }
 
     /**
@@ -32,7 +32,7 @@ trait Directives
      */
     function directives(array $directives = null)
     {
-        return null !== $directives ? $this->directives = $directives : $this->directives;
+        return null !== $directives ? $this->directive = $directives : $this->directive;
     }
 
     /**
@@ -41,6 +41,6 @@ trait Directives
      */
     protected function hasDirective($name)
     {
-        return isset($this->directives[$name]);
+        return isset($this->directive[$name]);
     }
 }

@@ -3,9 +3,9 @@
  *
  */
 
-namespace View5\Finder;
+namespace View5\Path;
 
-interface ViewFinder
+interface Finder
 {
     /**
      * @param  string $name

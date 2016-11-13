@@ -8,9 +8,9 @@ namespace View5\Engine;
 trait Engine
 {
     /**
-     * @var EngineResolver
+     * @var Resolver
      */
-    protected $engine;
+    protected $resolver;
 
     /**
      * @param string $path
@@ -18,6 +18,6 @@ trait Engine
      */
     protected function engine($path)
     {
-        return $this->engine->resolve($path);
+        return $this->resolver->resolve($path);
     }
 }

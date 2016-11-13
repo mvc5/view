@@ -6,12 +6,12 @@
 
 namespace View5\Compiler\Compile;
 
-trait Extensions
+trait Extension
 {
     /**
      * @var array
      */
-    protected $extensions = [];
+    protected $extension = [];
 
     /**
      * @param  string  $value
@@ -19,7 +19,7 @@ trait Extensions
      */
     protected function compileExtensions($value)
     {
-        foreach($this->extensions as $compiler) {
+        foreach($this->extension as $compiler) {
             $value = call_user_func($compiler, $value, $this);
         }
 
@@ -32,6 +32,6 @@ trait Extensions
      */
     function extensions(array $extensions = null)
     {
-        return null !== $extensions ? $this->extensions = $extensions : $this->extensions;
+        return null !== $extensions ? $this->extension = $extensions : $this->extension;
     }
 }

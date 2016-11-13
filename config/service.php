@@ -8,16 +8,17 @@ use Mvc5\Plugin\Link;
 use Mvc5\Plugin\Param;
 use Mvc5\Plugin\Plugin;
 use Mvc5\Plugin\Service;
-use Mvc5\Plugin\Shared;
 
 return [
-    'template\render' => new Shared('view\factory'),
-    'view\compiler'   => [View5\Compiler\Blade::class, new Args(['cache_dir' => new Param('cache')])],
-    'view\engines'    => [View5\Engine\Resolver::class, new Args([
-        'blade' => new Plugin(View5\Engine\CompilerEngine::class, [new Plugin('view\compiler')]),
-        'php'   => new Plugin(View5\Engine\PhpEngine::class)
+    'template\render' => new Service(
+        View5\Render::class, [new Plugin('view\resolver'), new Plugin('view\finder'), new Link]
+    ),
+    'view\compiler' => View5\Compiler\Blade::class,
+    'view\resolver' => [View5\Engine\EngineResolver::class, new Args([
+        'blade' => new Plugin(
+            View5\Engine\CompilerEngine::class, [new Plugin('view\compiler'), new Args(['directory' => new Param('cache')])]
+        ),
+        'php' => new Plugin(View5\Engine\PhpEngine::class)
     ])],
-    'view\factory'  => new Service(View5\Factory::class, [new Plugin('view\engines'), new Plugin('view\finder'), new Link]),
-    'view\finder'   => [View5\Finder\File::class, new Args([new Param('view')]), new Param('templates')],
-    'view\renderer' => [View5\Renderer::class, new Shared('view\factory')]
+    'view\finder' => [View5\Path\FileFinder::class, new Args([new Param('view')]), new Param('templates')],
 ];

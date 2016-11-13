@@ -10,7 +10,7 @@ use Mvc5\Model\Template;
 interface ViewEngine
 {
     /**
-     * @param  Template $model
+     * @param Template $model
      * @return string
      */
     function render(Template $model);
