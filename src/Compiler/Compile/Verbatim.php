@@ -9,13 +9,6 @@ namespace View5\Compiler\Compile;
 trait Verbatim
 {
     /**
-     * Placeholder to temporary mark the position of verbatim blocks.
-     *
-     * @var string
-     */
-    protected $verbatimPlaceholder = '@__verbatim__@';
-
-    /**
      * Array to temporary store the verbatim blocks found in the template.
      *
      * @var array
@@ -23,19 +16,11 @@ trait Verbatim
     protected $verbatimBlocks = [];
 
     /**
-     * Store the verbatim blocks and replace them with a temporary placeholder.
+     * Placeholder to temporary mark the position of verbatim blocks.
      *
-     * @param  string  $value
-     * @return string
+     * @var string
      */
-    protected function storeVerbatimBlocks($value)
-    {
-        return preg_replace_callback('/(?<!@)@verbatim(.*?)@endverbatim/s', function ($matches) {
-            $this->verbatimBlocks[] = $matches[1];
-
-            return $this->verbatimPlaceholder;
-        }, $value);
-    }
+    protected $verbatimPlaceholder = '@__verbatim__@';
 
     /**
      * Replace the raw placeholders with the original code stored in the raw blocks.
@@ -52,5 +37,20 @@ trait Verbatim
         $this->verbatimBlocks = [];
 
         return $result;
+    }
+
+    /**
+     * Store the verbatim blocks and replace them with a temporary placeholder.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function storeVerbatimBlocks($value)
+    {
+        return preg_replace_callback('/(?<!@)@verbatim(.*?)@endverbatim/s', function ($matches) {
+            $this->verbatimBlocks[] = $matches[1];
+
+            return $this->verbatimPlaceholder;
+        }, $value);
     }
 }

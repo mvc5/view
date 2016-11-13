@@ -14,16 +14,12 @@ trait Directive
     protected $directive = [];
 
     /**
-     * @param  string  $name
-     * @param  string|null  $value
-     * @return string
+     * @param $name
+     * @return callable
      */
-    protected function callDirective($name, $value)
+    protected function directive($name)
     {
-        '' !== $value && '(' === $value[0] && substr($value, -1) === ')'
-            && $value = substr($value, 1, -1);
-
-        return call_user_func($this->directive[$name], trim($value));
+        return isset($this->directive[$name]) ? $this->directive[$name] : null;
     }
 
     /**
@@ -33,14 +29,5 @@ trait Directive
     function directives(array $directives = null)
     {
         return null !== $directives ? $this->directive = $directives : $this->directive;
-    }
-
-    /**
-     * @param $name
-     * @return bool
-     */
-    protected function hasDirective($name)
-    {
-        return isset($this->directive[$name]);
     }
 }

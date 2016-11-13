@@ -24,7 +24,7 @@ trait Stack
      */
     function appendSection()
     {
-        if (empty($this->sectionStack)) {
+        if (!$this->sectionStack) {
             throw new \InvalidArgumentException('Cannot end a section without first starting one.');
         }
 
@@ -103,7 +103,7 @@ trait Stack
      */
     function stopSection($overwrite = false)
     {
-        if (empty($this->sectionStack)) {
+        if (!$this->sectionStack) {
             throw new \InvalidArgumentException('Cannot end a section without first starting one.');
         }
 
