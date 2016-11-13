@@ -78,7 +78,7 @@ class Blade
 
         $this->verbatimBlocks && $result = $this->restoreVerbatimBlocks($result);
 
-        $this->footer && $result = ltrim($result, PHP_EOL) . PHP_EOL . implode(PHP_EOL, array_reverse($this->footer)) . PHP_EOL;
+        $this->footer && $result = ltrim($result, PHP_EOL) . PHP_EOL . implode(PHP_EOL, array_reverse($this->footer));
 
         return $result;
     }
