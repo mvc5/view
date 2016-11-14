@@ -1,7 +1,6 @@
 <?php
 /**
- * Portions copyright (c) Taylor Otwell https://laravel.com
- * under the MIT License https://opensource.org/licenses/MIT
+ *
  */
 
 namespace View5\Engine;
@@ -50,18 +49,6 @@ class CompilerEngine
     }
 
     /**
-     * @param \Exception $e
-     * @param $template
-     * @throws \ErrorException
-     */
-    protected function error(\Exception $e, $template)
-    {
-        throw new \ErrorException(
-            $e->getMessage() . ' (View: ' . realpath($template) . ')', 0, 1, $e->getFile(), $e->getLine(), $e
-        );
-    }
-
-    /**
      * @param Template $model
      * @param $template
      * @param $path
@@ -90,6 +77,7 @@ class CompilerEngine
      * @param $model
      * @param $template
      * @return null|string
+     * @throws \ErrorException
      */
     protected function template($model, $template)
     {
@@ -97,15 +85,10 @@ class CompilerEngine
 
             return $this->output($this->model($model, $template, $this->path($template)));
 
-        } catch(\Exception $exception) {
+        } catch(\Exception $exception) {} catch(\Throwable $exception) {}
 
-            $this->error($exception, $template);
-
-        } catch(\Throwable $exception) {
-
-            $this->error($exception, $template);
-        }
-
-        return null;
+        throw new \ErrorException(
+            $exception->getMessage() . ' (View: ' . realpath($template) . ')', 0, 1, $exception->getFile(), $exception->getLine(), $exception
+        );
     }
 }

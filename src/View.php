@@ -54,17 +54,17 @@ interface View
     function startPush($section, $content = '');
 
     /**
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    function stopPush();
-
-    /**
      * @param  string  $section
      * @param  string  $content
      * @return void
      */
     function startSection($section, $content = '');
+
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    function stopPush();
 
     /**
      * @param bool $overwrite

@@ -14,10 +14,10 @@ class Blade
     /**
      *
      */
-    use Compile\Directive;
     use Compile\Echos;
     use Compile\Expression;
     use Compile\Verbatim;
+    use Directive;
     use Signal;
 
     /**

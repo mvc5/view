@@ -1,10 +1,9 @@
 <?php
 /**
- * Portions copyright (c) Taylor Otwell https://laravel.com
- * under the MIT License https://opensource.org/licenses/MIT
+ *
  */
 
-namespace View5\Compiler\Compile;
+namespace View5\Compiler;
 
 trait Directive
 {

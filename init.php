@@ -2,7 +2,7 @@
 /**
  *
  */
-include __DIR__ . '/src/Compiler/Compile/Directive.php';
+include __DIR__ . '/src/Compiler/Directive.php';
 include __DIR__ . '/src/Compiler/Compile/Echos.php';
 include __DIR__ . '/src/Compiler/Compile/Expression.php';
 include __DIR__ . '/src/Compiler/Compile/Verbatim.php';

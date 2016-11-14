@@ -45,19 +45,6 @@ trait Expression
     }
 
     /**
-     * @param  string  $expression
-     * @return string
-     */
-    protected function compileCall($expression)
-    {
-        $segments = array_map('trim', explode(',', $this->stripParentheses($expression)));
-        $var      = count($segments) > 1 ? '$' . str_replace(['\'', '"'], '', array_shift($segments)) . ' = ' : null;
-        $name     = str_replace(['\'', '"'], '', array_shift($segments));
-
-        return '<?php ' . $var. "\$this->call('".$name."', [" . implode(',', $segments) . "]); ?>";
-    }
-
-    /**
      * Compile the continue statements into valid PHP.
      *
      * @param  string  $expression

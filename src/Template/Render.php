@@ -45,18 +45,11 @@ trait Render
 
             return $this->output($this->traverse($this->template($model, $vars)));
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception) {} catch (\Throwable $exception) {}
 
-            $this->reset();
+        $this->reset();
 
-            throw $exception;
-
-        } catch (\Throwable $exception) {
-
-            $this->reset();
-
-            throw $exception;
-        }
+        throw $exception;
     }
 
     /**
