@@ -6,11 +6,11 @@
 
 namespace View5\Compiler;
 
-interface Compiler
+interface Extensions
 {
     /**
-     * @param  string  $value
-     * @return string
+     * @param array|null $extensions
+     * @return array
      */
-    function compile($value);
+    function extensions(array $extensions = null);
 }

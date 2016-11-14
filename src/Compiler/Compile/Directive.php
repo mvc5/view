@@ -1,9 +1,10 @@
 <?php
 /**
- *
+ * Portions copyright (c) Taylor Otwell https://laravel.com
+ * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler;
+namespace View5\Compiler\Compile;
 
 trait Directive
 {
@@ -11,6 +12,16 @@ trait Directive
      * @var array
      */
     protected $directive = [];
+
+    /**
+     * @param $directive
+     * @param $value
+     * @return mixed
+     */
+    protected function callDirective($directive, $value)
+    {
+        return call_user_func($directive, trim(Expression::stripParentheses($value)));
+    }
 
     /**
      * @param $name

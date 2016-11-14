@@ -2,12 +2,14 @@
 /**
  *
  */
-include __DIR__ . '/src/Compiler/Directive.php';
+include __DIR__ . '/src/Compiler/Compile/Directive.php';
 include __DIR__ . '/src/Compiler/Compile/Echos.php';
 include __DIR__ . '/src/Compiler/Compile/Expression.php';
+include __DIR__ . '/src/Compiler/Compile/Extension.php';
 include __DIR__ . '/src/Compiler/Compile/Verbatim.php';
 include __DIR__ . '/src/Compiler/Compiler.php';
 include __DIR__ . '/src/Compiler/Directives.php';
+include __DIR__ . '/src/Compiler/Extensions.php';
 include __DIR__ . '/src/Compiler/Blade.php';
 include __DIR__ . '/src/Engine/Cache.php';
 include __DIR__ . '/src/Engine/ViewEngine.php';

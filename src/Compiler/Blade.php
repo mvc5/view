@@ -6,24 +6,22 @@
 
 namespace View5\Compiler;
 
-use Mvc5\Signal;
-
 class Blade
-    implements Compiler, Directives
+    implements Compiler, Directives, Extensions
 {
     /**
      *
      */
+    use Compile\Directive;
     use Compile\Echos;
     use Compile\Expression;
+    use Compile\Extension;
     use Compile\Verbatim;
-    use Directive;
-    use Signal;
 
     /**
      * @var array
      */
-    protected $compiler = ['Statements', 'Comments', 'Echos'];
+    protected $compiler = ['Extensions', 'Statements', 'Comments', 'Echos'];
 
     /**
      * @param array $options
@@ -45,18 +43,11 @@ class Blade
         isset($options['escapedTags']) &&
             $this->escapedTags = $options['escapedTags'];
 
+        isset($options['extension']) &&
+            $this->extension = $options['extension'];
+
         isset($options['rawTags']) &&
             $this->rawTags = $options['rawTags'];
-    }
-
-    /**
-     * @param $directive
-     * @param $value
-     * @return mixed
-     */
-    protected function callDirective($directive, $value)
-    {
-        return $this->signal($directive, [trim($this->stripParentheses($value))]);
     }
 
     /**
@@ -136,6 +127,8 @@ class Blade
      */
     protected function parseToken($token)
     {
-        return is_array($token) && T_INLINE_HTML === $token[0] ? $this->parseContent($token[1]) : $token;
+        return !is_array($token) ? $token : (
+            T_INLINE_HTML === $token[0] ? $this->parseContent($token[1]) : $token[1]
+        );
     }
 }
