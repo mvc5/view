@@ -6,8 +6,15 @@
 
 namespace View5\Compiler;
 
-interface Extensions
+interface BladeCompiler
+    extends Compiler
 {
+    /**
+     * @param array|null $directives
+     * @return array
+     */
+    function directives(array $directives = null);
+
     /**
      * @param array|null $extensions
      * @return array

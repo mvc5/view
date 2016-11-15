@@ -7,7 +7,7 @@
 namespace View5\Compiler;
 
 class Blade
-    implements Compiler, Directives, Extensions
+    implements BladeCompiler
 {
     /**
      *
