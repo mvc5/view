@@ -6,43 +6,23 @@
 
 namespace View5\Compiler\Compile;
 
+use View5\Compiler\Template;
+
 trait Extension
 {
     /**
-     * @var array
-     */
-    protected $extension = [];
-
-    /**
      * Execute the user defined extensions.
      *
+     * @param Template $template
      * @param  string  $value
      * @return string
      */
-    protected function compileExtensions($value)
+    protected function compileExtensions(Template $template, $value)
     {
-        foreach ($this->extension as $compiler) {
-            $value = call_user_func($compiler, $value, $this);
+        foreach($template->extensions() as $compiler) {
+            $value = call_user_func($compiler, $value, $template);
         }
 
         return $value;
-    }
-
-    /**
-     * @param $name
-     * @return callable
-     */
-    protected function extension($name)
-    {
-        return isset($this->extension[$name]) ? $this->extension[$name] : null;
-    }
-
-    /**
-     * @param array|null $extensions
-     * @return array
-     */
-    function extensions(array $extensions = null)
-    {
-        return null !== $extensions ? $this->extension = $extensions : $this->extension;
     }
 }

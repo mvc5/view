@@ -6,22 +6,10 @@
 
 namespace View5\Compiler\Compile;
 
+use View5\Compiler\Template;
+
 trait Expression
 {
-    /**
-     * Counter to keep track of nested forelse statements.
-     *
-     * @var int
-     */
-    protected $forelseCounter = 0;
-
-    /**
-     * Array of footer lines to be added to template.
-     *
-     * @var array
-     */
-    protected $footer = [];
-
     /**
      * Compile the append statements into valid PHP.
      *
@@ -92,11 +80,12 @@ trait Expression
      * Compile the forelse statements into valid PHP.
      *
      * @param  string  $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileEmpty($expression)
+    protected function compileEmpty($expression, $template)
     {
-        $empty = '$__empty_'.$this->forelseCounter--;
+        $empty = '$__empty_'.$template['forelseCounter']--;
 
         return "<?php endforeach; \$__env->popLoop(); \$loop = \$__env->getFirstLoop(); if ({$empty}): ?>";
     }
@@ -204,15 +193,16 @@ trait Expression
      * Compile the extends statements into valid PHP.
      *
      * @param  string  $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileExtends($expression)
+    protected function compileExtends($expression, $template)
     {
         $expression = $this->stripParentheses($expression);
 
         $data = "<?php echo \$__env->render($expression, array_diff_key(get_defined_vars(), ['__template' => 1, '__child' => 1, 'this' => 1, '__ob_level__' => 1])); ?>";
 
-        $this->footer[] = $data;
+        $template['footer'][] = $data;
 
         return '';
     }
@@ -253,11 +243,12 @@ trait Expression
      * Compile the forelse statements into valid PHP.
      *
      * @param  string  $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileForelse($expression)
+    protected function compileForelse($expression, $template)
     {
-        $empty = '$__empty_'.++$this->forelseCounter;
+        $empty = '$__empty_'.++$template['forelseCounter'];
 
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 

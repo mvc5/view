@@ -6,36 +6,10 @@
 
 namespace View5\Compiler\Compile;
 
+use View5\Compiler\Template;
+
 trait Echos
 {
-    /**
-     * Array of opening and closing tags for regular echos.
-     *
-     * @var array
-     */
-    protected $contentTags = ['{{', '}}'];
-
-    /**
-     * The "regular" / legacy echo string format.
-     *
-     * @var string
-     */
-    protected $echoFormat = "htmlspecialchars(%s)";
-
-    /**
-     * Array of opening and closing tags for escaped echos.
-     *
-     * @var array
-     */
-    protected $escapedTags = ['{{{', '}}}'];
-
-    /**
-     * Array of opening and closing tags for raw echos.
-     *
-     * @var array
-     */
-    protected $rawTags = ['{!!', '!!}'];
-
     /**
      * @param  string  $value
      * @return string
@@ -46,31 +20,33 @@ trait Echos
     }
 
     /**
+     * @param Template $template
      * @param  string  $value
      * @return string
      */
-    protected function compileEchos($value)
+    protected function compileEchos(Template $template, $value)
     {
-        foreach ($this->echoMethods() as $method => $length) {
-            $value = $this->$method($value);
+        foreach ($this->echoMethods($template) as $method => $length) {
+            $value = $this->$method($value, $template);
         }
 
         return $value;
     }
 
     /**
-     * @param  string  $value
+     * @param string $value
+     * @param Template $template
      * @return string
      */
-    protected function compileEscapedEchos($value)
+    protected function compileEscapedEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->escapedTags[0], $this->escapedTags[1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['escapedTags'][0], $template['escapedTags'][1]);
 
-        $match = function($match) {
+        $match = function($match) use($template) {
             $whitespace = empty($match[3]) ? '' : $match[3].$match[3];
 
             return $match[1] ? $match[0]
-                : '<?php echo ' . $this->formatEcho($this->compileEchoDefaults($match[2])) . ' ?>' . $whitespace;
+                : '<?php echo ' . $template->formatEcho($this->compileEchoDefaults($match[2])) . ' ?>' . $whitespace;
         };
 
         return preg_replace_callback($pattern, $match, $value);
@@ -78,11 +54,12 @@ trait Echos
 
     /**
      * @param  string  $value
+     * @param Template $template
      * @return string
      */
-    protected function compileRawEchos($value)
+    protected function compileRawEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->rawTags[0], $this->rawTags[1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['rawTags'][0], $template['rawTags'][1]);
 
         $match = function ($match) {
             $whitespace = empty($match[3]) ? '' : $match[3] . $match[3];
@@ -94,32 +71,34 @@ trait Echos
     }
 
     /**
-     * @param  string  $value
+     * @param string $value
+     * @param Template $template
      * @return string
      */
-    protected function compileRegularEchos($value)
+    protected function compileRegularEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $this->contentTags[0], $this->contentTags[1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['contentTags'][0], $template['contentTags'][1]);
 
-        $match = function ($match) {
+        $match = function ($match) use($template) {
             $whitespace = empty($match[3]) ? '' : $match[3] . $match[3];
 
             return $match[1] ? substr($match[0], 1)
-                : '<?php echo ' . $this->formatEcho($this->compileEchoDefaults($match[2])) . '; ?>' . $whitespace;
+                : '<?php echo ' . $template->formatEcho($this->compileEchoDefaults($match[2])) . '; ?>' . $whitespace;
         };
 
         return preg_replace_callback($pattern, $match, $value);
     }
 
     /**
+     * @param Template $template
      * @return array
      */
-    protected function echoMethods()
+    protected function echoMethods($template)
     {
         $method = [
-            'compileRawEchos'     => strlen(stripcslashes($this->rawTags[0])),
-            'compileEscapedEchos' => strlen(stripcslashes($this->escapedTags[0])),
-            'compileRegularEchos' => strlen(stripcslashes($this->contentTags[0])),
+            'compileRawEchos'     => strlen(stripcslashes($template['rawTags'][0])),
+            'compileEscapedEchos' => strlen(stripcslashes($template['escapedTags'][0])),
+            'compileRegularEchos' => strlen(stripcslashes($template['contentTags'][0])),
         ];
 
         uksort($method, function ($method1, $method2) use ($method) {
@@ -150,14 +129,5 @@ trait Echos
         });
 
         return $method;
-    }
-
-    /**
-     * @param $value
-     * @return string
-     */
-    protected function formatEcho($value)
-    {
-        return sprintf($this->echoFormat, $value);
     }
 }

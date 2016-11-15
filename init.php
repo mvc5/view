@@ -2,14 +2,18 @@
 /**
  *
  */
-include __DIR__ . '/src/Compiler/Compile/Directive.php';
+include __DIR__ . '/src/Compiler/Compile/Comments.php';
 include __DIR__ . '/src/Compiler/Compile/Echos.php';
 include __DIR__ . '/src/Compiler/Compile/Expression.php';
 include __DIR__ . '/src/Compiler/Compile/Extension.php';
-include __DIR__ . '/src/Compiler/Compile/Verbatim.php';
+include __DIR__ . '/src/Compiler/Compile/Statements.php';
 include __DIR__ . '/src/Compiler/Compiler.php';
-include __DIR__ . '/src/Compiler/BladeCompiler.php';
 include __DIR__ . '/src/Compiler/Blade.php';
+include __DIR__ . '/src/Compiler/Template.php';
+include __DIR__ . '/src/Compiler/BladeTemplate.php';
+include __DIR__ . '/src/Compiler/Footer.php';
+include __DIR__ . '/src/Compiler/Parser.php';
+include __DIR__ . '/src/Compiler/Verbatim.php';
 include __DIR__ . '/src/Engine/Cache.php';
 include __DIR__ . '/src/Engine/ViewEngine.php';
 include __DIR__ . '/src/Engine/PhpEngine.php';
