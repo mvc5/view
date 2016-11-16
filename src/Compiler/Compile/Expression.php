@@ -85,7 +85,7 @@ trait Expression
      */
     protected function compileEmpty($expression, $template)
     {
-        $empty = '$__empty_'.$template['forelseCounter']--;
+        $empty = '$__empty_'.$template['forElseCounter']--;
 
         return "<?php endforeach; \$__env->popLoop(); \$loop = \$__env->getFirstLoop(); if ({$empty}): ?>";
     }
@@ -248,7 +248,7 @@ trait Expression
      */
     protected function compileForelse($expression, $template)
     {
-        $empty = '$__empty_'.++$template['forelseCounter'];
+        $empty = '$__empty_'.++$template['forElseCounter'];
 
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 

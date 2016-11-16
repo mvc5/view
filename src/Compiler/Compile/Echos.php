@@ -40,7 +40,7 @@ trait Echos
      */
     protected function compileEscapedEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['escapedTags'][0], $template['escapedTags'][1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['escapedTag'][0], $template['escapedTag'][1]);
 
         $match = function($match) use($template) {
             $whitespace = empty($match[3]) ? '' : $match[3].$match[3];
@@ -59,7 +59,7 @@ trait Echos
      */
     protected function compileRawEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['rawTags'][0], $template['rawTags'][1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['rawTag'][0], $template['rawTag'][1]);
 
         $match = function ($match) {
             $whitespace = empty($match[3]) ? '' : $match[3] . $match[3];
@@ -77,7 +77,7 @@ trait Echos
      */
     protected function compileRegularEchos($value, $template)
     {
-        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['contentTags'][0], $template['contentTags'][1]);
+        $pattern = sprintf('/(@)?%s\s*(.+?)\s*%s(\r?\n)?/s', $template['contentTag'][0], $template['contentTag'][1]);
 
         $match = function ($match) use($template) {
             $whitespace = empty($match[3]) ? '' : $match[3] . $match[3];
@@ -96,9 +96,9 @@ trait Echos
     protected function echoMethods($template)
     {
         $method = [
-            'compileRawEchos'     => strlen(stripcslashes($template['rawTags'][0])),
-            'compileEscapedEchos' => strlen(stripcslashes($template['escapedTags'][0])),
-            'compileRegularEchos' => strlen(stripcslashes($template['contentTags'][0])),
+            'compileRawEchos'     => strlen(stripcslashes($template['rawTag'][0])),
+            'compileEscapedEchos' => strlen(stripcslashes($template['escapedTag'][0])),
+            'compileRegularEchos' => strlen(stripcslashes($template['contentTag'][0])),
         ];
 
         uksort($method, function ($method1, $method2) use ($method) {

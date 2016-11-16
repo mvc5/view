@@ -26,18 +26,13 @@ interface Template
      *
      * @return array
      */
-    function contentTags();
+    function contentTag();
 
     /**
      * @param $name
      * @return array
      */
     function directive($name);
-
-    /**
-     * @return array
-     */
-    function directives();
 
     /**
      * The "regular" / legacy echo string format.
@@ -51,12 +46,12 @@ interface Template
      *
      * @return array
      */
-    function escapedTags();
+    function escapedTag();
 
     /**
      * @return array
      */
-    function extensions();
+    function extension();
 
     /**
      * @return array
@@ -79,10 +74,10 @@ interface Template
      *
      * @return array
      */
-    function rawTags();
+    function rawTag();
 
     /**
      * @return array
      */
-    function verbatimBlocks();
+    function verbatimBlock();
 }

@@ -17,7 +17,7 @@ trait Comments
      */
     protected function compileComments(Template $template, $value)
     {
-        $pattern = sprintf('/%s--(.*?)--%s/s', $template['contentTags'][0], $template['contentTags'][1]);
+        $pattern = sprintf('/%s--(.*?)--%s/s', $template['contentTag'][0], $template['contentTag'][1]);
 
         return preg_replace($pattern, '', $value);
     }

@@ -24,7 +24,7 @@ class Verbatim
     protected function restoreVerbatimBlocks(Template $template)
     {
         return preg_replace_callback('/'.preg_quote($this->verbatimPlaceholder).'/', function() use($template) {
-            return array_shift($template['verbatimBlocks']);
+            return array_shift($template['verbatimBlock']);
         }, $template->content());
     }
 
@@ -38,7 +38,7 @@ class Verbatim
     protected function storeVerbatimBlocks(Template $template, $value)
     {
         return preg_replace_callback('/(?<!@)@verbatim(.*?)@endverbatim/s', function ($matches) use($template) {
-            $template['verbatimBlocks'][] = $matches[1];
+            $template['verbatimBlock'][] = $matches[1];
 
             return $this->verbatimPlaceholder;
         }, $value);
@@ -59,7 +59,7 @@ class Verbatim
         /** @var Template $template */
         $template = $next($template);
 
-        $template['verbatimBlocks'] &&
+        $template['verbatimBlock'] &&
             $template['content'] = $this->restoreVerbatimBlocks($template);
 
         return $template;

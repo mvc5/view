@@ -19,7 +19,7 @@ trait Extension
      */
     protected function compileExtensions(Template $template, $value)
     {
-        foreach($template->extensions() as $compiler) {
+        foreach($template->extension() as $compiler) {
             $value = call_user_func($compiler, $value, $template);
         }
 

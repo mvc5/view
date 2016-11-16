@@ -19,7 +19,8 @@ class Footer
         $template = $next($template);
 
         $template->footer() &&
-            $template['content'] = ltrim($template->content(), PHP_EOL) . PHP_EOL . implode(PHP_EOL, array_reverse($template->footer()));
+            $template['content'] = ltrim($template->content(), PHP_EOL)
+                . PHP_EOL . implode(PHP_EOL, array_reverse($template->footer()));
 
         return $template;
     }

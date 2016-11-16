@@ -4,12 +4,11 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler;
+namespace View5\Compiler\Config;
 
 use Mvc5\Config\Overload;
 
-class BladeTemplate
-    implements Template
+trait Template
 {
     /**
      *
@@ -21,15 +20,15 @@ class BladeTemplate
      */
     protected $default = [
         'compiler'       => ['Extensions', 'Statements', 'Comments', 'Echos'],
-        'contentTags'    => ['{{', '}}'],
+        'contentTag'     => ['{{', '}}'],
         'directive'      => [],
         'echoFormat'     => 'htmlspecialchars(%s)',
-        'escapedTags'    => ['{{{', '}}}'],
+        'escapedTag'     => ['{{{', '}}}'],
         'extension'      => [],
-        'forelseCounter' => 0,
+        'forElseCounter' => 0,
         'footer'         => [],
-        'rawTags'        => ['{!!', '!!}'],
-        'verbatimBlocks' => [],
+        'rawTag'         => ['{!!', '!!}'],
+        'verbatimBlock'  => [],
     ];
 
     /**
@@ -59,9 +58,9 @@ class BladeTemplate
     /**
      * @return array
      */
-    function contentTags()
+    function contentTag()
     {
-        return $this['contentTags'];
+        return $this['contentTag'];
     }
 
     /**
@@ -74,15 +73,7 @@ class BladeTemplate
     }
 
     /**
-     * @return array
-     */
-    function directives()
-    {
-        return $this['directive'];
-    }
-
-    /**
-     * @return array
+     * @return string
      */
     function echoFormat()
     {
@@ -92,15 +83,15 @@ class BladeTemplate
     /**
      * @return array
      */
-    function escapedTags()
+    function escapedTag()
     {
-        return $this['escapedTags'];
+        return $this['escapedTag'];
     }
 
     /**
      * @return array
      */
-    function extensions()
+    function extension()
     {
         return $this['extension'];
     }
@@ -118,7 +109,7 @@ class BladeTemplate
      */
     function forElseCounter()
     {
-        return $this['forelseCounter'];
+        return $this['forElseCounter'];
     }
 
     /**
@@ -133,17 +124,17 @@ class BladeTemplate
     /**
      * @return array
      */
-    function rawTags()
+    function rawTag()
     {
-        return $this['rawTags'];
+        return $this['rawTag'];
     }
 
     /**
      * @return array
      */
-    function verbatimBlocks()
+    function verbatimBlock()
     {
-        return $this['verbatimBlocks'];
+        return $this['verbatimBlock'];
     }
 
     /**
