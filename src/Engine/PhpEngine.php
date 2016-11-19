@@ -17,6 +17,14 @@ class PhpEngine
     use Output;
 
     /**
+     * @param bool|false $checkFileExists
+     */
+    function __construct($checkFileExists = false)
+    {
+        $checkFileExists && $this->checkFileExists = $checkFileExists;
+    }
+
+    /**
      * @param  Template $model
      * @return string
      */
