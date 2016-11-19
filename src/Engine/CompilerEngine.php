@@ -15,8 +15,8 @@ class CompilerEngine
     /**
      *
      */
-    use Cache;
     use Output;
+    use Storage;
 
     /**
      * @var Compiler

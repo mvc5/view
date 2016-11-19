@@ -59,7 +59,7 @@ class Verbatim
         /** @var Template $template */
         $template = $next($template);
 
-        $template['verbatimBlock'] &&
+        $template->verbatimBlock() &&
             $template['content'] = $this->restoreVerbatimBlocks($template);
 
         return $template;

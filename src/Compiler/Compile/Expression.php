@@ -13,10 +13,9 @@ trait Expression
     /**
      * Compile the append statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileAppend($expression)
+    protected function compileAppend()
     {
         return '<?php $__env->appendSection(); ?>';
     }
@@ -57,10 +56,9 @@ trait Expression
     /**
      * Compile the else statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileElse($expression)
+    protected function compileElse()
     {
         return '<?php else: ?>';
     }
@@ -71,13 +69,13 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileElseif($expression)
+    protected function compileElseIf($expression)
     {
         return "<?php elseif{$expression}: ?>";
     }
 
     /**
-     * Compile the forelse statements into valid PHP.
+     * Compile the for-else-empty statements into valid PHP.
      *
      * @param  string  $expression
      * @param Template $template
@@ -93,10 +91,9 @@ trait Expression
     /**
      * Compile the end-for statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndfor($expression)
+    protected function compileEndFor()
     {
         return '<?php endfor; ?>';
     }
@@ -104,10 +101,9 @@ trait Expression
     /**
      * Compile the end-for-each statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndforeach($expression)
+    protected function compileEndForEach()
     {
         return '<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>';
     }
@@ -115,10 +111,9 @@ trait Expression
     /**
      * Compile the end-for-else statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndforelse($expression)
+    protected function compileEndForElse()
     {
         return '<?php endif; ?>';
     }
@@ -126,10 +121,9 @@ trait Expression
     /**
      * Compile the end-if statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndif($expression)
+    protected function compileEndIf()
     {
         return '<?php endif; ?>';
     }
@@ -137,21 +131,19 @@ trait Expression
     /**
      * Compile end-php statement into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndphp($expression)
+    protected function compileEndPhp()
     {
         return ' ?>';
     }
 
     /**
-     * Compile the endpush statements into valid PHP.
+     * Compile the end-push statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndpush($expression)
+    protected function compileEndPush()
     {
         return '<?php $__env->stopPush(); ?>';
     }
@@ -159,21 +151,19 @@ trait Expression
     /**
      * Compile the end-section statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndsection($expression)
+    protected function compileEndSection()
     {
         return '<?php $__env->stopSection(); ?>';
     }
 
     /**
-     * Compile the end unless statements into valid PHP.
+     * Compile the end-unless statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndunless($expression)
+    protected function compileEndUnless()
     {
         return '<?php endif; ?>';
     }
@@ -181,10 +171,9 @@ trait Expression
     /**
      * Compile the end-while statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileEndwhile($expression)
+    protected function compileEndWhile()
     {
         return '<?php endwhile; ?>';
     }
@@ -224,15 +213,15 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileForeach($expression)
+    protected function compileForEach($expression)
     {
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
-        $iteratee = trim($matches[1]);
+        $loopData = trim($matches[1]);
 
         $iteration = trim($matches[2]);
 
-        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
+        $initLoop = "\$__currentLoopData = {$loopData}; \$__env->addLoop(\$__currentLoopData);";
 
         $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getFirstLoop();';
 
@@ -240,23 +229,23 @@ trait Expression
     }
 
     /**
-     * Compile the forelse statements into valid PHP.
+     * Compile the for-else statements into valid PHP.
      *
      * @param  string  $expression
      * @param Template $template
      * @return string
      */
-    protected function compileForelse($expression, $template)
+    protected function compileForElse($expression, $template)
     {
         $empty = '$__empty_'.++$template['forElseCounter'];
 
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
-        $iteratee = trim($matches[1]);
+        $loopData = trim($matches[1]);
 
         $iteration = trim($matches[2]);
 
-        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
+        $initLoop = "\$__currentLoopData = {$loopData}; \$__env->addLoop(\$__currentLoopData);";
 
         $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getFirstLoop();';
 
@@ -329,10 +318,9 @@ trait Expression
     /**
      * Compile the overwrite statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileOverwrite($expression)
+    protected function compileOverwrite()
     {
         return '<?php $__env->stopSection(true); ?>';
     }
@@ -373,10 +361,9 @@ trait Expression
     /**
      * Compile the show statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileShow($expression)
+    protected function compileShow()
     {
         return '<?php echo $__env->yieldSection(); ?>';
     }
@@ -395,10 +382,9 @@ trait Expression
     /**
      * Compile the stop statements into valid PHP.
      *
-     * @param  string  $expression
      * @return string
      */
-    protected function compileStop($expression)
+    protected function compileStop()
     {
         return '<?php $__env->stopSection(); ?>';
     }

@@ -5,7 +5,7 @@
 
 namespace View5\Engine;
 
-trait Cache
+trait Storage
 {
     /**
      * @var string

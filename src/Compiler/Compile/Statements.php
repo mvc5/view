@@ -34,7 +34,7 @@ trait Statements
                 $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
             } elseif ($directive = $template->directive($match[1])) {
                 $match[0] = $this->callDirective($directive, isset($match[3]) ? $match[3] : null);
-            } elseif (method_exists($this, $method = 'compile'.ucfirst($match[1]))) {
+            } elseif (method_exists($this, $method = 'compile' . $match[1])) {
                 $match[0] = $this->$method(isset($match[3]) ? $match[3] : null, $template);
             }
 

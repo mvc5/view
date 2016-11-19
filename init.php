@@ -15,7 +15,7 @@ include __DIR__ . '/src/Compiler/Footer.php';
 include __DIR__ . '/src/Compiler/Parser.php';
 include __DIR__ . '/src/Compiler/Verbatim.php';
 include __DIR__ . '/src/Compiler/ViewTemplate.php';
-include __DIR__ . '/src/Engine/Cache.php';
+include __DIR__ . '/src/Engine/Storage.php';
 include __DIR__ . '/src/Engine/ViewEngine.php';
 include __DIR__ . '/src/Engine/PhpEngine.php';
 include __DIR__ . '/src/Engine/CompilerEngine.php';
