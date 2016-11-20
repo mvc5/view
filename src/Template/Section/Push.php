@@ -6,6 +6,8 @@
 
 namespace View5\Template\Section;
 
+use Mvc5\Exception;
+
 trait Push
 {
     /**
@@ -54,9 +56,8 @@ trait Push
      */
     function stopPush()
     {
-        if (!$this->pushStack) {
-            throw new \InvalidArgumentException('Cannot end a section without first starting one.');
-        }
+        !$this->pushStack &&
+            Exception::invalidArgument('Cannot end a section without first starting one.');
 
         $last = array_pop($this->pushStack);
 

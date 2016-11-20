@@ -6,6 +6,8 @@
 
 namespace View5\Template\Section;
 
+use Mvc5\Exception;
+
 trait Stack
 {
     /**
@@ -24,9 +26,8 @@ trait Stack
      */
     function appendSection()
     {
-        if (!$this->sectionStack) {
-            throw new \InvalidArgumentException('Cannot end a section without first starting one.');
-        }
+        !$this->sectionStack &&
+            Exception::invalidArgument('Cannot end a section without first starting one.');
 
         $last = array_pop($this->sectionStack);
 
@@ -103,9 +104,8 @@ trait Stack
      */
     function stopSection($overwrite = false)
     {
-        if (!$this->sectionStack) {
-            throw new \InvalidArgumentException('Cannot end a section without first starting one.');
-        }
+        !$this->sectionStack &&
+            Exception::invalidArgument('Cannot end a section without first starting one.');
 
         $last = array_pop($this->sectionStack);
 
