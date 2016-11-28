@@ -275,6 +275,15 @@ trait Expression
     }
 
     /**
+     * @param $expression
+     * @return string
+     */
+    protected function compileImport($expression)
+    {
+        return $this->import($expression);
+    }
+
+    /**
      * Compile the include statements into valid PHP.
      *
      * @param  string  $expression
@@ -440,6 +449,33 @@ trait Expression
     protected function compileWhile($expression)
     {
         return "<?php while{$expression}: ?>";
+    }
+
+    /**
+     * @param $namespace
+     * @return string
+     */
+    static function import($namespace)
+    {
+        static $import = [];
+
+        $namespace = strtolower(static::stripParentheses($namespace));
+
+        if (isset($import[$namespace])) {
+            return $import[$namespace];
+        }
+
+        $length = strlen($namespace);
+
+        $use = [];
+
+        foreach(get_defined_functions()['user'] as $f) {
+            $namespace === substr($f, 0, $length) &&
+            $use[] = $f;
+        }
+
+        return !$use ? null : $import[$namespace] =
+            '<?php use function ' . implode('; ?><?php use function ', $use) . '; ?>';
     }
 
     /**
