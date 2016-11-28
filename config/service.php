@@ -24,11 +24,12 @@ return [
         new Args(['directory' => new Param('view'), 'paths' => new Param('templates')])
     ]),
     'template\provider' => new Link,
-    'view\compiler' => [Engine::class, new Plugin(ViewTemplate::class),
+    'view\compiler' => [Engine::class, new Plugin('view5\template'),
         new Args([new Plugin(Footer::class), new Plugin(Verbatim::class), new Plugin(Parser::class)])
     ],
     'view\resolver' => [EngineResolver::class, new Args([
         'blade' => new Plugin(CompilerEngine::class, [new Plugin('view\compiler'), new Args(['directory' => new Param('cache')])]),
         'php' => new Plugin(PhpEngine::class)
-    ])]
+    ])],
+    'view5\template' => ViewTemplate::class
 ];
