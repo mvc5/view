@@ -412,6 +412,15 @@ trait Expression
     }
 
     /**
+     * @param $expression
+     * @return string
+     */
+    protected function compileUse($expression)
+    {
+        return "<?php use " . static::stripParentheses($expression) . "; ?>";
+    }
+
+    /**
      * Compile the yield statements into valid PHP.
      *
      * @param  string  $expression
