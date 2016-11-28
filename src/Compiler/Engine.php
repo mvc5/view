@@ -55,7 +55,7 @@ class Engine
     function compile($value)
     {
         return (string) (!$this->stack ? $value : $this->call(
-            current($this->stack), [$this->template->with('content', $value), $this->next()]
+            reset($this->stack), [$this->template->with('content', $value), $this->next()]
         ));
     }
 }
