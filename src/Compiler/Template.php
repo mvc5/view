@@ -70,6 +70,11 @@ interface Template
     function formatEcho($value);
 
     /**
+     * @return array
+     */
+    function import();
+
+    /**
      * Array of opening and closing tags for raw echos.
      *
      * @return array

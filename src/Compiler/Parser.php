@@ -52,6 +52,10 @@ class Parser
     {
         $result = '<?php /** @var \View5\View $__env */ ?>';
 
+        foreach($template->import() as $namespace) {
+            $result .= $this->import($namespace);
+        }
+
         foreach(token_get_all($template->content()) as $token) {
             $result .= $this->parseToken($template, $token);
         }

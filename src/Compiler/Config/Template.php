@@ -124,6 +124,14 @@ trait Template
     /**
      * @return array
      */
+    function import()
+    {
+        return $this['import'] ?: [];
+    }
+
+    /**
+     * @return array
+     */
     function rawTag()
     {
         return $this['rawTag'];
