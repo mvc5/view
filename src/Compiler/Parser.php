@@ -56,7 +56,7 @@ class Parser
             $result .= $this->import($namespace);
         }
 
-        foreach(token_get_all($template->content()) as $token) {
+        foreach(token_get_all(trim($template->content())) as $token) {
             $result .= $this->parseToken($template, $token);
         }
 
