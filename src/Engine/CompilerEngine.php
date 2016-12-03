@@ -5,6 +5,7 @@
 
 namespace View5\Engine;
 
+use Mvc5\Exception;
 use Mvc5\Model\Template;
 use Mvc5\View\Template\Output;
 use View5\Compiler\Compiler;
@@ -87,8 +88,8 @@ class CompilerEngine
 
         } catch(\Exception $exception) {} catch(\Throwable $exception) {}
 
-        throw new \ErrorException(
-            $exception->getMessage() . ' (View: ' . realpath($template) . ')', 0, 1, $exception->getFile(), $exception->getLine(), $exception
+        Exception::errorException(
+            $exception->getMessage() . ' (View: ' . realpath($template) . ')', 0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
         );
     }
 }
