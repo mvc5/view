@@ -30,7 +30,7 @@ interface Template
 
     /**
      * @param $name
-     * @return array
+     * @return callable
      */
     function directive($name);
 
