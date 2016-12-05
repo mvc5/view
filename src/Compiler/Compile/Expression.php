@@ -489,6 +489,6 @@ trait Expression
         '' !== $expression && '(' === $expression[0]
             && $expression = substr($expression, 1, -1);
 
-        return $expression;
+        return trim($expression);
     }
 }
