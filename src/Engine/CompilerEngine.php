@@ -88,7 +88,7 @@ class CompilerEngine
 
         } catch(\Exception $exception) {} catch(\Throwable $exception) {}
 
-        Exception::errorException(
+        return Exception::errorException(
             $exception->getMessage() . ' (View: ' . realpath($template) . ')', 0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
         );
     }
