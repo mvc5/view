@@ -11,16 +11,6 @@ use View5\Compiler\Template;
 trait Statements
 {
     /**
-     * @param $directive
-     * @param $value
-     * @return mixed
-     */
-    protected function callDirective($directive, $value)
-    {
-        return call_user_func($directive, trim(Expression::stripParentheses($value)));
-    }
-
-    /**
      * Compile Blade statements that start with "@".
      *
      * @param Template $template
@@ -33,7 +23,7 @@ trait Statements
             if (false !== strpos($match[1], '@')) {
                 $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
             } elseif ($directive = $template->directive($match[1])) {
-                $match[0] = $this->callDirective($directive, isset($match[3]) ? $match[3] : null);
+                $match[0] = $directive(isset($match[3]) ? Expression::stripParentheses($match[3]) : null, $template);
             } elseif (method_exists($this, $method = 'compile' . $match[1])) {
                 $match[0] = $this->$method(isset($match[3]) ? $match[3] : null, $template);
             }
