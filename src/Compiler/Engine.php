@@ -30,12 +30,12 @@ class Engine
 
     /**
      * @param callable $next
-     * @param array $args
+     * @param Template $template
      * @return mixed
      */
-    protected function call($next, array $args = [])
+    protected function call($next, $template)
     {
-        return call_user_func_array($next, $args);
+        return $next($template, $this->next());
     }
 
     /**
@@ -44,7 +44,7 @@ class Engine
     protected function next()
     {
         return function(Template $template) {
-            return ($next = next($this->stack)) ? $this->call($next, [$template, $this->next()]) : $template;
+            return ($next = next($this->stack)) ? $this->call($next, $template) : $template;
         };
     }
 
@@ -55,7 +55,7 @@ class Engine
     function compile($value)
     {
         return (string) (!$this->stack ? $value : $this->call(
-            reset($this->stack), [$this->template->with('content', $value), $this->next()]
+            reset($this->stack), $this->template->with('content', $value)
         ));
     }
 }
