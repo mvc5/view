@@ -5,20 +5,20 @@
 
 namespace View5\Template;
 
-use Mvc5\Model\Template;
-use Mvc5\View\Template\Model as _Model;
+use Mvc5\Template\TemplateModel;
+use Mvc5\View\Template\Model;
 
-trait Model
+trait Template
 {
     /**
      *
      */
-    use _Model;
+    use Model;
 
     /**
-     * @param array|string|Template $model
+     * @param array|string|TemplateModel $model
      * @param array $vars
-     * @return Template
+     * @return mixed|TemplateModel
      */
     protected function template($model, array $vars = [])
     {

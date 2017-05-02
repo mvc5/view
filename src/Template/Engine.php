@@ -3,7 +3,10 @@
  *
  */
 
-namespace View5\Engine;
+namespace View5\Template;
+
+use Mvc5\View\ViewEngine;
+use View5\Engine\Resolver;
 
 trait Engine
 {

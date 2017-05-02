@@ -29,13 +29,13 @@ class Engine
     }
 
     /**
-     * @param callable $next
+     * @param callable $compiler
      * @param Template $template
      * @return mixed
      */
-    protected function call($next, $template)
+    protected function call($compiler, $template)
     {
-        return $next($template, $this->next());
+        return $compiler($template, $this->next());
     }
 
     /**
@@ -44,7 +44,7 @@ class Engine
     protected function next()
     {
         return function(Template $template) {
-            return ($next = next($this->stack)) ? $this->call($next, $template) : $template;
+            return ($compiler = next($this->stack)) ? $this->call($compiler, $template) : $template;
         };
     }
 

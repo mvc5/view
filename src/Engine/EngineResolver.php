@@ -5,6 +5,8 @@
 
 namespace View5\Engine;
 
+use Mvc5\View\ViewEngine;
+
 class EngineResolver
     implements Resolver
 {
@@ -21,22 +23,22 @@ class EngineResolver
     /**
      * @var array
      */
-    protected $extension = [
+    protected $extensions = [
         'blade.phtml' => 'blade',
         'phtml'       => 'php'
     ];
 
     /**
      * @param array $engine
-     * @param array|null $extension
+     * @param array $extensions
      */
-    function __construct(array $engine = [], array $extension = null)
+    function __construct(array $engine = [], array $extensions = [])
     {
         $this->engine = $engine;
 
-        $extension && $this->extension = $extension;
+        $extensions && $this->extensions = $extensions;
 
-        $this->default = array_pop($this->extension);
+        $this->default = array_pop($this->extensions);
     }
 
     /**
@@ -54,7 +56,7 @@ class EngineResolver
      */
     function resolve($path)
     {
-        foreach($this->extension as $extension => $name) {
+        foreach($this->extensions as $extension => $name) {
             if (substr($path, -strlen('.' . $extension)) === '.' . $extension) {
                 return $this->engine($name);
             }

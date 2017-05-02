@@ -6,17 +6,16 @@
 namespace View5\Engine;
 
 use Mvc5\Exception;
-use Mvc5\Model\Template;
-use Mvc5\View\Template\Output;
+use Mvc5\Template\TemplateModel;
+use Mvc5\View\Engine\PhpEngine;
 use View5\Compiler\Compiler;
 
 class CompilerEngine
-    implements ViewEngine
+    extends PhpEngine
 {
     /**
      *
      */
-    use Output;
     use Storage;
 
     /**
@@ -50,26 +49,24 @@ class CompilerEngine
     }
 
     /**
-     * @param Template $model
+     * @param TemplateModel $model
      * @param $template
      * @param $path
-     * @return Template
+     * @return TemplateModel
      */
-    protected function model(Template $model, $template, $path)
+    protected function model(TemplateModel $model, $template, $path)
     {
         $this->expired($template, $path)
             && $this->compile($template, $path);
 
-        $model->template($path);
-
-        return $model;
+        return $model->withTemplate($path);
     }
 
     /**
-     * @param  Template $model
+     * @param  TemplateModel $model
      * @return string
      */
-    function render(Template $model)
+    function render(TemplateModel $model)
     {
         return $this->template($model, $model->template());
     }
@@ -84,12 +81,13 @@ class CompilerEngine
     {
         try {
 
-            return $this->output($this->model($model, $template, $this->path($template)));
+            return parent::render($this->model($model, $template, $this->path($template)));
 
-        } catch(\Exception $exception) {} catch(\Throwable $exception) {}
-
-        return Exception::errorException(
-            $exception->getMessage() . ' (View: ' . realpath($template) . ')', 0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
-        );
+        } catch(\Throwable $exception) {
+            return Exception::errorException(
+                $exception->getMessage() . ' (View: ' . realpath($template) . ')',
+                0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
+            );
+        }
     }
 }

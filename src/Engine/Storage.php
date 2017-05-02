@@ -24,7 +24,7 @@ trait Storage
      */
     protected function expired($template, $path)
     {
-        return !file_exists($path) ? true : filemtime($template) >= filemtime($path);
+        return !file_exists($path) ?: filemtime($template) >= filemtime($path);
     }
 
     /**

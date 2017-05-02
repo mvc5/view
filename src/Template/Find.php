@@ -20,7 +20,7 @@ trait Find
     protected $directory;
 
     /**
-     * @var
+     * @var string
      */
     protected $extension;
 
@@ -35,7 +35,7 @@ trait Find
      */
     function find($name)
     {
-        return $this->path($name) ?: $this->path[$name] = $this->match($name);
+        return $this->path($name) ?: $this->paths[$name] = $this->match($name);
     }
 
     /**

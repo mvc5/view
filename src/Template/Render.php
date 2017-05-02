@@ -5,9 +5,9 @@
 
 namespace View5\Template;
 
-use Mvc5\Model\Template;
+use Mvc5\Template\TemplateModel;
 use Mvc5\View\Template\Traverse;
-use View5\Engine\ViewEngine;
+use Mvc5\View\ViewEngine;
 
 trait Render
 {
@@ -24,16 +24,16 @@ trait Render
     protected abstract function engine($path);
 
     /**
-     * @param Template $model
+     * @param TemplateModel $model
      * @return string
      */
-    protected function output(Template $model)
+    protected function output(TemplateModel $model)
     {
         return $this->start() ? $this->finish($this->engine($model->template())->render($model)) : null;
     }
 
     /**
-     * @param string|Template $model
+     * @param string|TemplateModel $model
      * @param array $vars
      * @return mixed|null|string
      * @throws \Exception
@@ -45,17 +45,18 @@ trait Render
 
             return $this->output($this->traverse($this->template($model, $vars)));
 
-        } catch (\Exception $exception) {} catch (\Throwable $exception) {}
+        } catch (\Throwable $exception) {
 
-        $this->reset();
+            $this->reset();
 
-        throw $exception;
+            throw $exception;
+        }
     }
 
     /**
-     * @param array|string|Template $model
+     * @param array|string|TemplateModel $model
      * @param array $vars
-     * @return Template
+     * @return mixed|TemplateModel
      */
     protected abstract function template($model, array $vars = []);
 
@@ -66,6 +67,6 @@ trait Render
      */
     function __invoke($model = null, array $vars = [])
     {
-        return !$model instanceof Template ? $model : $this->render($model, $vars);
+        return !$model instanceof TemplateModel ? $model : $this->render($model, $vars);
     }
 }

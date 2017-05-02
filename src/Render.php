@@ -5,42 +5,37 @@
 
 namespace View5;
 
-use Mvc5\Service;
-use Mvc5\View\Template\Paths;
+use Mvc5\Service\Service;
+use Mvc5\ViewModel;
 
 class Render
-    implements Paths, Service, View
+    implements View
 {
     /**
      *
      */
-    use Engine\Engine;
+    use Template\Engine;
     use Template\Find;
-    use Template\Model;
+    use Template\Template;
     use Template\Render;
 
     /**
+     * @param Service $service
      * @param Engine\Resolver $resolver
-     * @param callable|null $provider
      * @param array $options
      */
-    function __construct(Engine\Resolver $resolver, callable $provider = null, array $options = [])
+    function __construct(Service $service, Engine\Resolver $resolver, array $options = [])
     {
         $this->resolver = $resolver;
+        $this->service = $service;
 
-        $provider && $this->provider = $provider;
-
-        isset($options['directory'])
-            && $this->directory = $options['directory'];
+        $this->directory = $options['directory'] ?? null;
+        $this->model = $options['model'] ?? ViewModel::class;
+        $this->paths = $options['paths'] ?? [];
+        $this->provider = $options['provider'] ?? null;
 
         isset($options['extensions'])
             && $this->extensions = $options['extensions'];
-
-        isset($options['model'])
-            && $this->model = $options['model'];
-
-        isset($options['paths'])
-            && $this->path = $options['paths'];
 
         $this->extension = array_pop($this->extensions);
     }
