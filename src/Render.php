@@ -32,7 +32,6 @@ class Render
         $this->directory = $options['directory'] ?? null;
         $this->model = $options['model'] ?? ViewModel::class;
         $this->paths = $options['paths'] ?? [];
-        $this->provider = $options['provider'] ?? null;
 
         isset($options['extensions'])
             && $this->extensions = $options['extensions'];

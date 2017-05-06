@@ -18,7 +18,7 @@ use View5\Engine\EngineResolver;
 return [
     'template\render' => [View5\Render::class,
         new Link, new Plugin('view\resolver'),
-        new Args(['directory' => new Param('view'), 'paths' => new Param('templates'), 'provider' => new Link])
+        new Args(['directory' => new Param('view'), 'paths' => new Param('templates')])
     ],
     'view\compiler' => [Engine::class, new Plugin('view5\template'),
         new Args([new Plugin(Footer::class), new Plugin(Verbatim::class), new Plugin(Parser::class)])
