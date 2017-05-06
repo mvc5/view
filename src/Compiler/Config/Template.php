@@ -6,15 +6,8 @@
 
 namespace View5\Compiler\Config;
 
-use Mvc5\Config\Overload;
-
 trait Template
 {
-    /**
-     *
-     */
-    use Overload;
-
     /**
      * @var array
      */

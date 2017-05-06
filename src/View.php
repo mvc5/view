@@ -5,10 +5,8 @@
 
 namespace View5;
 
-use Mvc5\View\View as _View;
-
 interface View
-    extends _View
+    extends \Mvc5\View\View
 {
     /**
      * @param  array  $data
