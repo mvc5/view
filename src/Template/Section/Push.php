@@ -21,11 +21,6 @@ trait Push
     protected $pushStack = [];
 
     /**
-     * @return int
-     */
-    protected abstract function current();
-
-    /**
      * @param  string  $section
      * @param  string  $content
      * @return void

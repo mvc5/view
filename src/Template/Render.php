@@ -18,12 +18,6 @@ trait Render
     use Traverse;
 
     /**
-     * @param string $path
-     * @return ViewEngine
-     */
-    protected abstract function engine($path);
-
-    /**
      * @param TemplateModel $model
      * @return string
      */
@@ -52,13 +46,6 @@ trait Render
             throw $exception;
         }
     }
-
-    /**
-     * @param array|string|TemplateModel $model
-     * @param array $vars
-     * @return mixed|TemplateModel
-     */
-    protected abstract function template($model, array $vars = []);
 
     /**
      * @param $model
