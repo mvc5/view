@@ -18,6 +18,11 @@ trait Render
     use Traverse;
 
     /**
+     * @param string $path
+     * @return ViewEngine
+     */
+    protected abstract function engine($path);
+    /**
      * @param TemplateModel $model
      * @return string
      */
