@@ -7,7 +7,6 @@ namespace View5\Template;
 
 use Mvc5\Template\TemplateModel;
 use Mvc5\View\Template\Traverse;
-use Mvc5\View\ViewEngine;
 
 trait Render
 {
@@ -19,7 +18,7 @@ trait Render
 
     /**
      * @param string $path
-     * @return ViewEngine
+     * @return \Mvc5\View\ViewEngine
      */
     protected abstract function engine($path);
     /**

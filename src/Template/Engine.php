@@ -5,19 +5,16 @@
 
 namespace View5\Template;
 
-use Mvc5\View\ViewEngine;
-use View5\Engine\Resolver;
-
 trait Engine
 {
     /**
-     * @var Resolver
+     * @var \View5\Engine\Resolver
      */
     protected $resolver;
 
     /**
      * @param string $path
-     * @return ViewEngine
+     * @return \Mvc5\View\ViewEngine
      */
     protected function engine($path)
     {

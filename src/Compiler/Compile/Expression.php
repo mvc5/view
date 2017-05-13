@@ -6,8 +6,6 @@
 
 namespace View5\Compiler\Compile;
 
-use View5\Compiler\Template;
-
 trait Expression
 {
     /**
@@ -78,7 +76,7 @@ trait Expression
      * Compile the for-else-empty statements into valid PHP.
      *
      * @param  string  $expression
-     * @param Template $template
+     * @param \View5\Compiler\Template $template
      * @return string
      */
     protected function compileEmpty($expression, $template)
@@ -182,7 +180,7 @@ trait Expression
      * Compile the extends statements into valid PHP.
      *
      * @param  string  $expression
-     * @param Template $template
+     * @param \View5\Compiler\Template $template
      * @return string
      */
     protected function compileExtends($expression, $template)
@@ -232,7 +230,7 @@ trait Expression
      * Compile the for-else statements into valid PHP.
      *
      * @param  string  $expression
-     * @param Template $template
+     * @param \View5\Compiler\Template $template
      * @return string
      */
     protected function compileForElse($expression, $template)

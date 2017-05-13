@@ -5,8 +5,6 @@
 
 namespace View5\Engine;
 
-use Mvc5\View\ViewEngine;
-
 class EngineResolver
     implements Resolver
 {
@@ -16,7 +14,7 @@ class EngineResolver
     protected $default;
 
     /**
-     * @var ViewEngine[]
+     * @var \Mvc5\View\ViewEngine[]
      */
     protected $engine = [];
 
@@ -43,7 +41,7 @@ class EngineResolver
 
     /**
      * @param  string $name
-     * @return ViewEngine
+     * @return \Mvc5\View\ViewEngine
      */
     protected function engine($name)
     {
@@ -52,7 +50,7 @@ class EngineResolver
 
     /**
      * @param  string $path
-     * @return ViewEngine
+     * @return \Mvc5\View\ViewEngine
      */
     function resolve($path)
     {
