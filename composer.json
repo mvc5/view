@@ -9,6 +9,10 @@
             "email": "devosc@gmail.com"
         }
     ],
+    "require": {
+        "php": "^7.0",
+        "mvc5/mvc5": "7.*"
+    },
     "autoload": {
         "psr-4": {
             "View5\\": "./src"
