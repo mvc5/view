@@ -66,7 +66,7 @@ class CompilerEngine
      * @param  TemplateModel $model
      * @return string
      */
-    function render(TemplateModel $model)
+    function render(TemplateModel $model) : string
     {
         return $this->template($model, $model->template());
     }
