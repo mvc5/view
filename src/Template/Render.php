@@ -37,7 +37,7 @@ trait Render
      * @throws \Exception
      * @throws \Throwable
      */
-    function render($model, array $vars = [])
+    function render($model, array $vars = []) : string
     {
         try {
 
