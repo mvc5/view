@@ -11,21 +11,17 @@ class Parser
     /**
      *
      */
-    use Compile\Comments;
-    use Compile\Echos;
     use Compile\Expression;
-    use Compile\Extension;
-    use Compile\Statements;
 
     /**
      * @param Template $template
-     * @param $content
-     * @return mixed
+     * @param string $content
+     * @return string
      */
-    protected function parseContent(Template $template, $content)
+    protected function parseContent(Template $template, string $content) : string
     {
         foreach($template->compiler() as $type) {
-            $content = $this->{"compile{$type}"}($template, $content);
+            $content = $type($template, $content);
         }
 
         return $content;
@@ -36,7 +32,7 @@ class Parser
      * @param  array|string  $token
      * @return string
      */
-    protected function parseToken(Template $template, $token)
+    protected function parseToken(Template $template, $token) : string
     {
         return !is_array($token) ? $token : (
             T_INLINE_HTML === $token[0] ? $this->parseContent($template, $token[1]) : $token[1]
@@ -48,7 +44,7 @@ class Parser
      * @param callable $next
      * @return Template
      */
-    function __invoke(Template $template, callable $next)
+    function __invoke(Template $template, callable $next) : Template
     {
         $result = '<?php /** @var \View5\View $__env */ ?>';
 

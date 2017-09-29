@@ -8,14 +8,14 @@ namespace View5\Compiler\Compile;
 
 use View5\Compiler\Template;
 
-trait Comments
+final class Comments
 {
     /**
      * @param Template $template
      * @param string $value
      * @return string
      */
-    protected function compileComments(Template $template, $value)
+    function __invoke(Template $template, string $value) : string
     {
         $pattern = sprintf('/%s--(.*?)--%s/s', $template['contentTag'][0], $template['contentTag'][1]);
 

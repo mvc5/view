@@ -8,24 +8,29 @@ namespace View5\Compiler\Compile;
 
 use View5\Compiler\Template;
 
-trait Statements
+class Statements
 {
+    /**
+     *
+     */
+    use Expression;
+
     /**
      * Compile Blade statements that start with "@".
      *
      * @param Template $template
      * @param string $value
-     * @return mixed
+     * @return string
      */
-    protected function compileStatements(Template $template, $value)
+    function __invoke(Template $template, string $value) : string
     {
         $match = function ($match) use($template) {
             if (false !== strpos($match[1], '@')) {
-                $match[0] = isset($match[3]) ? $match[1].$match[3] : $match[1];
-            } elseif ($directive = $template->directive($match[1])) {
-                $match[0] = $directive(isset($match[3]) ? Expression::stripParentheses($match[3]) : null, $template);
+                $match[0] = isset($match[3]) ? $match[1] . $match[3] : $match[1];
+            } elseif ($directive = $template->directive(strtolower($match[1]))) {
+                $match[0] = $directive($match[3] ?? '', $template, $template);
             } elseif (method_exists($this, $method = 'compile' . $match[1])) {
-                $match[0] = $this->$method(isset($match[3]) ? $match[3] : null, $template);
+                $match[0] = $this->$method($match[3] ?? '', $template);
             }
 
             return isset($match[3]) ? $match[0] : $match[0].$match[2];

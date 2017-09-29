@@ -6,6 +6,8 @@
 
 namespace View5\Compiler\Compile;
 
+use View5\Compiler\Template;
+
 trait Expression
 {
     /**
@@ -13,7 +15,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileAppend()
+    protected function compileAppend() : string
     {
         return '<?php $__env->appendSection(); ?>';
     }
@@ -24,7 +26,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileBreak($expression)
+    protected function compileBreak(string $expression) : string
     {
         return $expression ? "<?php if{$expression} break; ?>" : '<?php break; ?>';
     }
@@ -35,7 +37,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileContinue($expression)
+    protected function compileContinue(string $expression) : string
     {
         return $expression ? "<?php if{$expression} continue; ?>" : '<?php continue; ?>';
     }
@@ -46,7 +48,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileEach($expression)
+    protected function compileEach(string $expression) : string
     {
         return "<?php echo \$__env->renderEach{$expression}; ?>";
     }
@@ -56,7 +58,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileElse()
+    protected function compileElse() : string
     {
         return '<?php else: ?>';
     }
@@ -67,7 +69,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileElseIf($expression)
+    protected function compileElseIf(string $expression) : string
     {
         return "<?php elseif{$expression}: ?>";
     }
@@ -75,11 +77,11 @@ trait Expression
     /**
      * Compile the for-else-empty statements into valid PHP.
      *
-     * @param  string  $expression
-     * @param \View5\Compiler\Template $template
+     * @param string $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileEmpty($expression, $template)
+    protected function compileEmpty(string $expression, Template $template) : string
     {
         $empty = '$__empty_'.$template['forElseCounter']--;
 
@@ -91,7 +93,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndFor()
+    protected function compileEndFor() : string
     {
         return '<?php endfor; ?>';
     }
@@ -101,7 +103,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndForEach()
+    protected function compileEndForEach() : string
     {
         return '<?php endforeach; $__env->popLoop(); $loop = $__env->getFirstLoop(); ?>';
     }
@@ -111,7 +113,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndForElse()
+    protected function compileEndForElse() : string
     {
         return '<?php endif; ?>';
     }
@@ -121,7 +123,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndIf()
+    protected function compileEndIf() : string
     {
         return '<?php endif; ?>';
     }
@@ -131,7 +133,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndPhp()
+    protected function compileEndPhp() : string
     {
         return ' ?>';
     }
@@ -141,7 +143,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndPush()
+    protected function compileEndPush() : string
     {
         return '<?php $__env->stopPush(); ?>';
     }
@@ -151,7 +153,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndSection()
+    protected function compileEndSection() : string
     {
         return '<?php $__env->stopSection(); ?>';
     }
@@ -161,7 +163,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndUnless()
+    protected function compileEndUnless() : string
     {
         return '<?php endif; ?>';
     }
@@ -171,7 +173,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileEndWhile()
+    protected function compileEndWhile() : string
     {
         return '<?php endwhile; ?>';
     }
@@ -183,7 +185,7 @@ trait Expression
      * @param \View5\Compiler\Template $template
      * @return string
      */
-    protected function compileExtends($expression, $template)
+    protected function compileExtends(string $expression, Template $template) : string
     {
         $expression = $this->stripParentheses($expression);
 
@@ -200,7 +202,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileFor($expression)
+    protected function compileFor(string $expression) : string
     {
         return "<?php for{$expression}: ?>";
     }
@@ -211,7 +213,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileForEach($expression)
+    protected function compileForEach(string $expression) : string
     {
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
@@ -230,10 +232,10 @@ trait Expression
      * Compile the for-else statements into valid PHP.
      *
      * @param  string  $expression
-     * @param \View5\Compiler\Template $template
+     * @param Template $template
      * @return string
      */
-    protected function compileForElse($expression, $template)
+    protected function compileForElse(string $expression, Template $template) : string
     {
         $empty = '$__empty_'.++$template['forElseCounter'];
 
@@ -256,7 +258,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileHasSection($expression)
+    protected function compileHasSection(string $expression) : string
     {
         return "<?php if (! empty(trim(\$__env->yieldContent{$expression}))): ?>";
     }
@@ -267,7 +269,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileIf($expression)
+    protected function compileIf(string $expression) : string
     {
         return "<?php if{$expression}: ?>";
     }
@@ -276,7 +278,7 @@ trait Expression
      * @param $expression
      * @return string
      */
-    protected function compileImport($expression)
+    protected function compileImport(string $expression) : string
     {
         return $this->import($expression);
     }
@@ -287,7 +289,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileInclude($expression)
+    protected function compileInclude(string $expression) : string
     {
         $expression = $this->stripParentheses($expression);
 
@@ -300,7 +302,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileIncludeIf($expression)
+    protected function compileIncludeIf(string $expression) : string
     {
         $expression = $this->stripParentheses($expression);
 
@@ -313,7 +315,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileInject($expression)
+    protected function compileInject(string $expression) : string
     {
         $segments = array_map('trim', explode(',', $this->stripParentheses($expression)));
 
@@ -327,7 +329,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileOverwrite()
+    protected function compileOverwrite() : string
     {
         return '<?php $__env->stopSection(true); ?>';
     }
@@ -338,7 +340,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compilePhp($expression)
+    protected function compilePhp(string $expression) : string
     {
         return $expression ? "<?php {$expression}; ?>" : '<?php ';
     }
@@ -349,7 +351,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compilePush($expression)
+    protected function compilePush(string $expression) : string
     {
         return "<?php \$__env->startPush{$expression}; ?>";
     }
@@ -360,7 +362,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileSection($expression)
+    protected function compileSection(string $expression) : string
     {
         return "<?php \$__env->startSection{$expression}; ?>";
     }
@@ -370,7 +372,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileShow()
+    protected function compileShow() : string
     {
         return '<?php echo $__env->yieldSection(); ?>';
     }
@@ -381,7 +383,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileStack($expression)
+    protected function compileStack(string $expression) : string
     {
         return "<?php echo \$__env->yieldPushContent{$expression}; ?>";
     }
@@ -391,7 +393,7 @@ trait Expression
      *
      * @return string
      */
-    protected function compileStop()
+    protected function compileStop() : string
     {
         return '<?php $__env->stopSection(); ?>';
     }
@@ -402,7 +404,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileUnless($expression)
+    protected function compileUnless(string $expression) : string
     {
         return "<?php if (! $expression): ?>";
     }
@@ -413,7 +415,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileUnset($expression)
+    protected function compileUnset(string $expression) : string
     {
         return "<?php unset{$expression}; ?>";
     }
@@ -422,7 +424,7 @@ trait Expression
      * @param $expression
      * @return string
      */
-    protected function compileUse($expression)
+    protected function compileUse(string $expression) : string
     {
         return "<?php use " . static::stripParentheses($expression) . "; ?>";
     }
@@ -433,7 +435,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileYield($expression)
+    protected function compileYield(string $expression) : string
     {
         return "<?php echo \$__env->yieldContent{$expression}; ?>";
     }
@@ -444,16 +446,16 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    protected function compileWhile($expression)
+    protected function compileWhile(string $expression) : string
     {
         return "<?php while{$expression}: ?>";
     }
 
     /**
-     * @param $namespace
+     * @param string $namespace
      * @return string
      */
-    static function import($namespace)
+    static function import(string $namespace) : string
     {
         static $import = [];
 
@@ -472,7 +474,7 @@ trait Expression
             $use[] = $f;
         }
 
-        return !$use ? null : $import[$namespace] =
+        return !$use ? '' : $import[$namespace] =
             '<?php use function ' . implode('; ?><?php use function ', $use) . '; ?>';
     }
 
@@ -482,7 +484,7 @@ trait Expression
      * @param  string  $expression
      * @return string
      */
-    static function stripParentheses($expression)
+    static function stripParentheses(string $expression) : string
     {
         '' !== $expression && '(' === $expression[0]
             && $expression = substr($expression, 1, -1);
