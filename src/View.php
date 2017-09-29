@@ -10,28 +10,27 @@ interface View
 {
     /**
      * @param  array  $data
-     * @return void
      */
-    function addLoop($data);
+    function addLoop(array $data);
 
     /**
      * @return string
      * @throws \InvalidArgumentException
      */
-    function appendSection();
+    function appendSection() : string;
 
     /**
-     * @return null|object
+     * @return object|null
      */
     function getFirstLoop();
 
     /**
-     * @return void
+     *
      */
     function incrementLoopIndices();
 
     /**
-     * @return void
+     *
      */
     function popLoop();
 
@@ -42,51 +41,49 @@ interface View
      * @param  string  $empty
      * @return string
      */
-    function renderEach($view, $data, $iterator, $empty = 'raw|');
+    function renderEach(string $view, array $data, string $iterator, string $empty = 'raw|') : string;
 
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    function startPush($section, $content = '');
+    function startPush(string $section, string $content = '');
 
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    function startSection($section, $content = '');
+    function startSection(string $section, string $content = '');
 
     /**
      * @return string
      * @throws \InvalidArgumentException
      */
-    function stopPush();
+    function stopPush() : string;
 
     /**
      * @param bool $overwrite
      * @return string
      * @throws \InvalidArgumentException
      */
-    function stopSection($overwrite = false);
+    function stopSection(bool $overwrite = false) : string;
 
     /**
      * @param  string  $section
      * @param  string  $content
      * @return string
      */
-    function yieldContent($section, $content = '');
+    function yieldContent(string $section, string $content = '') : string;
 
     /**
      * @param  string  $section
      * @param  string  $default
      * @return string
      */
-    function yieldPushContent($section, $default = '');
+    function yieldPushContent(string $section, string $default = '') : string;
 
     /**
      * @return string
      */
-    function yieldSection();
+    function yieldSection() : string;
 }

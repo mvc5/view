@@ -5,16 +5,19 @@
 
 namespace View5\Engine;
 
+use Mvc5\Exception;
+use Mvc5\View\ViewEngine;
+
 class EngineResolver
     implements Resolver
 {
     /**
      * @var string
      */
-    protected $default;
+    protected $default = 'php';
 
     /**
-     * @var \Mvc5\View\ViewEngine[]
+     * @var ViewEngine[]
      */
     protected $engine = [];
 
@@ -36,23 +39,24 @@ class EngineResolver
 
         $extensions && $this->extensions = $extensions;
 
-        $this->default = array_pop($this->extensions);
+        ($default = array_pop($this->extensions)) && $this->default =  $default;
     }
 
     /**
      * @param  string $name
-     * @return \Mvc5\View\ViewEngine
+     * @return ViewEngine
+     * @throws \RuntimeException
      */
-    protected function engine($name)
+    protected function engine(string $name) : ViewEngine
     {
-        return isset($this->engine[$name]) ? $this->engine[$name] : null;
+        return $this->engine[$name] ?? Exception::runtime('View engine not found: ' . $name);
     }
 
     /**
      * @param  string $path
-     * @return \Mvc5\View\ViewEngine
+     * @return ViewEngine
      */
-    function resolve($path)
+    function resolve(string $path) : ViewEngine
     {
         foreach($this->extensions as $extension => $name) {
             if (substr($path, -strlen('.' . $extension)) === '.' . $extension) {

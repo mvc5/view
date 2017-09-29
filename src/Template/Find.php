@@ -33,7 +33,7 @@ trait Find
      * @param  string $name
      * @return string
      */
-    function find($name)
+    function find(string $name) : string
     {
         return $this->path($name) ?: $this->paths[$name] = $this->match($name);
     }
@@ -42,7 +42,7 @@ trait Find
      * @param  string $name
      * @return string
      */
-    protected function match($name)
+    protected function match(string $name) : string
     {
         if (false !== strpos($name, '.')) {
             return $name;

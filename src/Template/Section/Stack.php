@@ -24,7 +24,7 @@ trait Stack
      * @return string
      * @throws \InvalidArgumentException
      */
-    function appendSection()
+    function appendSection() : string
     {
         !$this->sectionStack &&
             Exception::invalidArgument('Cannot end a section without first starting one.');
@@ -39,9 +39,8 @@ trait Stack
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    protected function extendSection($section, $content)
+    protected function extendSection(string $section, string $content)
     {
         isset($this->section[$section]) &&
             $content = str_replace('@parent', $content, $this->section[$section]);
@@ -52,23 +51,22 @@ trait Stack
     /**
      * @param $model
      * @param array $vars
-     * @return mixed|null|string
+     * @return string
      * @throws \Exception
      * @throws \Throwable
      */
-    abstract function render($model, array $vars = []);
+    abstract function render($model, array $vars = []) : string;
 
     /**
-     * @param  string  $view
-     * @param  array   $data
-     * @param  string  $iterator
-     * @param  string  $empty
+     * @param string  $view
+     * @param array   $data
+     * @param string  $iterator
+     * @param string  $empty
+     * @param string $result
      * @return string
      */
-    function renderEach($view, $data, $iterator, $empty = 'raw|')
+    function renderEach(string $view, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
     {
-        $result = '';
-
         // If data in the array, we will loop through the data and append
         // an instance of the partial view to the final result HTML passing in the
         // iterated value of this data array, allowing the views to access them.
@@ -90,9 +88,8 @@ trait Stack
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    function startSection($section, $content = '')
+    function startSection(string $section, string $content = '')
     {
         $content === '' ? ob_start() && $this->sectionStack[] = $section : $this->extendSection($section, $content);
     }
@@ -102,7 +99,7 @@ trait Stack
      * @return string
      * @throws \InvalidArgumentException
      */
-    function stopSection($overwrite = false)
+    function stopSection(bool $overwrite = false) : string
     {
         !$this->sectionStack &&
             Exception::invalidArgument('Cannot end a section without first starting one.');
@@ -115,11 +112,11 @@ trait Stack
     }
 
     /**
-     * @param  string  $section
-     * @param  string  $content
+     * @param string $section
+     * @param string $content
      * @return string
      */
-    function yieldContent($section, $content = '')
+    function yieldContent(string $section, string $content = '') : string
     {
         isset($this->section[$section]) &&
             $content = $this->section[$section];
@@ -134,7 +131,7 @@ trait Stack
     /**
      * @return string
      */
-    function yieldSection()
+    function yieldSection() : string
     {
         return $this->sectionStack ? $this->yieldContent($this->stopSection()) : '';
     }

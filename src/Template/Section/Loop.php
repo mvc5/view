@@ -15,9 +15,8 @@ trait Loop
 
     /**
      * @param array $data
-     * @return void
      */
-    function addLoop($data)
+    function addLoop(array $data)
     {
         $length = count($data);
 
@@ -26,7 +25,7 @@ trait Loop
         $this->loopStack[] = [
             'iteration' => 0,
             'index'     => 0,
-            'remaining' => isset($length) ? $length : null,
+            'remaining' => $length ?? null,
             'count'     => $length,
             'first'     => true,
             'last'      => isset($length) ? $length == 1 : null,
@@ -36,7 +35,7 @@ trait Loop
     }
 
     /**
-     * @return null|object
+     * @return object|null
      */
     function getFirstLoop()
     {
@@ -44,7 +43,7 @@ trait Loop
     }
 
     /**
-     * @return void
+     *
      */
     function incrementLoopIndices()
     {
@@ -63,7 +62,7 @@ trait Loop
     }
 
     /**
-     * @return void
+     *
      */
     function popLoop()
     {

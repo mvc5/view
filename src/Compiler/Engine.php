@@ -33,7 +33,7 @@ class Engine
      * @param Template $template
      * @return mixed
      */
-    protected function call($compiler, $template)
+    protected function call(callable $compiler, Template $template)
     {
         return $compiler($template, $this->next());
     }
@@ -41,21 +41,19 @@ class Engine
     /**
      * @return \Closure
      */
-    protected function next()
+    protected function next() : \Closure
     {
-        return function(Template $template) {
+        return function(Template $template) : Template {
             return ($compiler = next($this->stack)) ? $this->call($compiler, $template) : $template;
         };
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return string
      */
-    function compile($value)
+    function compile(string $value) : string
     {
-        return (string) (!$this->stack ? $value : $this->call(
-            reset($this->stack), $this->template->with('content', $value)
-        ));
+        return !$this->stack ? $value : $this->call(reset($this->stack), $this->template->with('content', $value));
     }
 }

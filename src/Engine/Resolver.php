@@ -5,11 +5,13 @@
 
 namespace View5\Engine;
 
+use Mvc5\View\ViewEngine;
+
 interface Resolver
 {
     /**
-     * @param $path
-     * @return \Mvc5\View\ViewEngine
+     * @param string $path
+     * @return ViewEngine
      */
-    function resolve($path);
+    function resolve(string $path) : ViewEngine;
 }

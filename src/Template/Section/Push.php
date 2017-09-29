@@ -23,9 +23,8 @@ trait Push
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    protected function extendPush($section, $content)
+    protected function extendPush(string $section, string $content)
     {
         !isset($this->push[$section])
             && $this->push[$section] = [];
@@ -38,9 +37,8 @@ trait Push
     /**
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    function startPush($section, $content = '')
+    function startPush(string $section, string $content = '')
     {
         $content === '' ? (ob_start() && $this->pushStack[] = $section) : $this->extendPush($section, $content);
     }
@@ -49,7 +47,7 @@ trait Push
      * @return string
      * @throws \InvalidArgumentException
      */
-    function stopPush()
+    function stopPush() : string
     {
         !$this->pushStack &&
             Exception::invalidArgument('Cannot end a section without first starting one.');
@@ -62,11 +60,11 @@ trait Push
     }
 
     /**
-     * @param  string  $section
-     * @param  string  $default
+     * @param string $section
+     * @param string $default
      * @return string
      */
-    function yieldPushContent($section, $default = '')
+    function yieldPushContent(string $section, string $default = '') : string
     {
         return !isset($this->push[$section]) ? $default : implode($this->push[$section]);
     }

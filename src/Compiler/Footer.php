@@ -13,7 +13,7 @@ class Footer
      * @param callable $next
      * @return Template
      */
-    function __invoke(Template $template, callable $next)
+    function __invoke(Template $template, callable $next) : Template
     {
         /** @var Template $template */
         $template = $next($template);

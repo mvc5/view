@@ -13,6 +13,11 @@ trait Storage
     protected $directory;
 
     /**
+     * @var bool
+     */
+    protected $expired = false;
+
+    /**
      * @var null|string
      */
     protected $extension = 'phtml';
@@ -22,36 +27,36 @@ trait Storage
      * @param string $path
      * @return bool
      */
-    protected function expired($template, $path)
+    protected function expired(string $template, string $path) : bool
     {
-        return !file_exists($path) ?: filemtime($template) >= filemtime($path);
+        return $this->expired || !file_exists($path) ?: filemtime($template) >= filemtime($path);
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    protected function path($path)
+    protected function path(string $path) : string
     {
         return $this->directory . DIRECTORY_SEPARATOR . sha1($path) . '.' . $this->extension;
     }
 
     /**
-     * @param  string  $path
+     * @param string $path
      * @return string
      */
-    protected function read($path)
+    protected function read(string $path) : string
     {
-        return file_get_contents($path);
+        return (string) file_get_contents($path);
     }
 
     /**
      * @param string $path
      * @param string $content
-     * @return string
+     * @return bool
      */
-    protected function store($path, $content)
+    protected function store(string $path, string $content) : bool
     {
-        return file_put_contents($path, $content);
+        return (bool) file_put_contents($path, $content);
     }
 }

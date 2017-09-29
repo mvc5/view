@@ -9,8 +9,8 @@ namespace View5\Compiler;
 interface Compiler
 {
     /**
-     * @param  string  $value
+     * @param string $value
      * @return string
      */
-    function compile($value);
+    function compile(string $value) : string;
 }

@@ -12,7 +12,7 @@ trait Template
      * @var array
      */
     protected $default = [
-        'compiler'       => ['Extensions', 'Statements', 'Comments', 'Echos'],
+        'compiler'       => [],
         'contentTag'     => ['{{', '}}'],
         'directive'      => [],
         'echoFormat'     => 'htmlspecialchars(%s)',
@@ -35,15 +35,15 @@ trait Template
     /**
      * @return array
      */
-    function compiler()
+    function compiler() : array
     {
-        return $this['compiler'];
+        return $this['compiler'] ?? [];
     }
 
     /**
      * @return string
      */
-    function content()
+    function content() : string
     {
         return $this['content'];
     }
@@ -51,24 +51,24 @@ trait Template
     /**
      * @return array
      */
-    function contentTag()
+    function contentTag() : array
     {
-        return $this['contentTag'];
+        return $this['contentTag'] ?? [];
     }
 
     /**
      * @param $name
-     * @return array
+     * @return callable|null
      */
     function directive($name)
     {
-        return isset($this['directive'][$name]) ? $this['directive'][$name] : null;
+        return $this['directive'][$name] ?? null;
     }
 
     /**
      * @return string
      */
-    function echoFormat()
+    function echoFormat() : string
     {
         return $this['echoFormat'];
     }
@@ -76,40 +76,40 @@ trait Template
     /**
      * @return array
      */
-    function escapedTag()
+    function escapedTag() : array
     {
-        return $this['escapedTag'];
+        return $this['escapedTag'] ?? [];
     }
 
     /**
      * @return array
      */
-    function extension()
+    function extension() : array
     {
-        return $this['extension'];
+        return $this['extension'] ?? [];
     }
 
     /**
      * @return array
      */
-    function footer()
+    function footer() : array
     {
-        return $this['footer'];
+        return $this['footer'] ?? [];
     }
 
     /**
      * @return array
      */
-    function forElseCounter()
+    function forElseCounter() : array
     {
-        return $this['forElseCounter'];
+        return $this['forElseCounter'] ?? [];
     }
 
     /**
      * @param $value
      * @return string
      */
-    function formatEcho($value)
+    function formatEcho(string $value) : string
     {
         return sprintf($this->echoFormat(), $value);
     }
@@ -117,32 +117,32 @@ trait Template
     /**
      * @return array
      */
-    function import()
+    function import() : array
     {
-        return $this['import'] ?: [];
+        return $this['import'] ?? [];
     }
 
     /**
      * @return array
      */
-    function rawTag()
+    function rawTag() : array
     {
-        return $this['rawTag'];
+        return $this['rawTag'] ?? [];
     }
 
     /**
      * @return array
      */
-    function verbatimBlock()
+    function verbatimBlock() : array
     {
-        return $this['verbatimBlock'];
+        return $this['verbatimBlock'] ?? [];
     }
 
     /**
      * @return string
      */
-    function __toString()
+    function __toString() : string
     {
-        return $this['content'];
+        return $this->content();
     }
 }

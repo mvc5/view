@@ -14,75 +14,80 @@ interface Template
     /**
      * @return array
      */
-    function compiler();
+    function compiler() : array;
 
     /**
      * @return string
      */
-    function content();
+    function content() : string;
 
     /**
      * Array of opening and closing tags for regular echos.
      *
      * @return array
      */
-    function contentTag();
+    function contentTag() : array;
 
     /**
      * @param $name
-     * @return callable
+     * @return callable|null
      */
     function directive($name);
 
     /**
      * The "regular" / legacy echo string format.
      *
-     * @return array
+     * @return string
      */
-    function echoFormat();
+    function echoFormat() : string;
 
     /**
      * Array of opening and closing tags for escaped echos.
      *
      * @return array
      */
-    function escapedTag();
+    function escapedTag() : array;
 
     /**
      * @return array
      */
-    function extension();
+    function extension() : array;
 
     /**
      * @return array
      */
-    function footer();
+    function footer() : array;
 
     /**
      * @return array
      */
-    function forElseCounter();
+    function forElseCounter() : array;
 
     /**
      * @param string $value
      * @return string
      */
-    function formatEcho($value);
+    function formatEcho(string $value) : string;
 
     /**
      * @return array
      */
-    function import();
+    function import() : array;
 
     /**
      * Array of opening and closing tags for raw echos.
      *
      * @return array
      */
-    function rawTag();
+    function rawTag() : array;
 
     /**
      * @return array
      */
-    function verbatimBlock();
+    function verbatimBlock() : array;
+
+    /**
+     * @return string
+     */
+    function __toString() : string;
 }

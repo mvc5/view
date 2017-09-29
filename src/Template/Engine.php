@@ -5,6 +5,8 @@
 
 namespace View5\Template;
 
+use Mvc5\View\ViewEngine;
+
 trait Engine
 {
     /**
@@ -14,9 +16,9 @@ trait Engine
 
     /**
      * @param string $path
-     * @return \Mvc5\View\ViewEngine
+     * @return ViewEngine
      */
-    protected function engine($path)
+    protected function engine(string $path) : ViewEngine
     {
         return $this->resolver->resolve($path);
     }

@@ -6,6 +6,7 @@
 namespace View5\Template;
 
 use Mvc5\Template\TemplateModel;
+use Mvc5\View\ViewEngine;
 use Mvc5\View\Template\Traverse;
 
 trait Render
@@ -18,22 +19,23 @@ trait Render
 
     /**
      * @param string $path
-     * @return \Mvc5\View\ViewEngine
+     * @return ViewEngine
      */
-    protected abstract function engine($path);
+    protected abstract function engine(string $path) : ViewEngine;
+
     /**
      * @param TemplateModel $model
      * @return string
      */
-    protected function output(TemplateModel $model)
+    protected function output(TemplateModel $model) : string
     {
-        return $this->start() ? $this->finish($this->engine($model->template())->render($model)) : null;
+        return $this->start() ? $this->finish($this->engine($model->template())->render($model)) : '';
     }
 
     /**
      * @param string|TemplateModel $model
      * @param array $vars
-     * @return mixed|null|string
+     * @return string
      * @throws \Exception
      * @throws \Throwable
      */
@@ -52,7 +54,7 @@ trait Render
     }
 
     /**
-     * @param $model
+     * @param array|string|TemplateModel $model
      * @param array $vars
      * @return mixed
      */

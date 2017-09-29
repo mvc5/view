@@ -31,6 +31,9 @@ class CompilerEngine
     {
         $this->compiler = $compiler;
 
+        isset($options['expired']) &&
+            $this->expired = (bool) $options['expired'];
+
         isset($options['directory']) &&
             $this->directory = $options['directory'];
 
@@ -41,20 +44,20 @@ class CompilerEngine
     /**
      * @param string $template
      * @param string $path
-     * @return void
+     * @return bool
      */
-    protected function compile($template, $path)
+    protected function compile($template, $path) : bool
     {
-        $this->store($path, $this->compiler->compile($this->read($template)));
+        return $this->store($path, $this->compiler->compile($this->read($template)));
     }
 
     /**
      * @param TemplateModel $model
-     * @param $template
-     * @param $path
+     * @param string $template
+     * @param string $path
      * @return TemplateModel
      */
-    protected function model(TemplateModel $model, $template, $path)
+    protected function model(TemplateModel $model, string $template, string $path) : TemplateModel
     {
         $this->expired($template, $path)
             && $this->compile($template, $path);
@@ -72,12 +75,12 @@ class CompilerEngine
     }
 
     /**
-     * @param $model
-     * @param $template
-     * @return null|string
+     * @param TemplateModel $model
+     * @param string $template
+     * @return string
      * @throws \ErrorException
      */
-    protected function template($model, $template)
+    protected function template(TemplateModel $model, string $template) : string
     {
         try {
 

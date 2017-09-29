@@ -23,16 +23,16 @@ trait Section
     /**
      * @return int
      */
-    protected function current()
+    protected function current() : int
     {
         return $this->current;
     }
 
     /**
-     * @param null|string $content
-     * @return null|string
+     * @param string $content
+     * @return string
      */
-    protected function finish($content = null)
+    protected function finish(string $content) : string
     {
         $this->stop();
 
@@ -42,7 +42,7 @@ trait Section
     }
 
     /**
-     * @return void
+     *
      */
     protected function reset()
     {
@@ -58,7 +58,7 @@ trait Section
     /**
      * @return int
      */
-    protected function start()
+    protected function start() : int
     {
         return ++$this->current;
     }
@@ -66,7 +66,7 @@ trait Section
     /**
      * @return int
      */
-    protected function stop()
+    protected function stop() : int
     {
         return --$this->current;
     }
@@ -74,7 +74,7 @@ trait Section
     /**
      * @return bool
      */
-    protected function valid()
+    protected function valid() : bool
     {
         return 0 === $this->current;
     }
