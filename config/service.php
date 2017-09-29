@@ -24,7 +24,7 @@ return [
         new Args([new Plugin(Footer::class), new Plugin(Verbatim::class), new Plugin(Parser::class)])
     ],
     'view\resolver' => [EngineResolver::class, new Args([
-        'blade' => new Plugin(CompilerEngine::class, [new Plugin('view\compiler'), new Args(['directory' => new Param('cache')])]),
+        'blade' => new Plugin(CompilerEngine::class, [new Plugin('view\compiler'), new Args(['directory' => new Param('cache'), 'expired' => false])]),
         'php' => new Plugin('view\engine')
     ])],
     'view5\template' => ViewTemplate::class
