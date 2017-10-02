@@ -7,7 +7,7 @@ namespace View5;
 
 use Mvc5\Overload;
 
-class ViewTemplate
+class CompilerTemplate
     extends Overload
     implements Template
 {
