@@ -3,7 +3,7 @@
  *
  */
 
-namespace View5\Compiler;
+namespace View5;
 
 use Mvc5\Overload;
 
@@ -14,5 +14,5 @@ class ViewTemplate
     /**
      *
      */
-    use Config\Template;
+    use Template\Config;
 }

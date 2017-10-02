@@ -6,37 +6,34 @@
 
 namespace View5\Compiler;
 
-class Parser
+use View5\Template;
+
+final class Token
 {
     /**
-     *
+     * @param Template $template
+     * @param  array|string  $token
+     * @return string
      */
-    use Compile\Expression;
+    protected function parse(Template $template, $token) : string
+    {
+        return !is_array($token) ? $token : (
+            T_INLINE_HTML === $token[0] ? $this->token($template, $token[1]) : $token[1]
+        );
+    }
 
     /**
      * @param Template $template
      * @param string $content
      * @return string
      */
-    protected function parseContent(Template $template, string $content) : string
+    protected function token(Template $template, string $content) : string
     {
-        foreach($template->compiler() as $type) {
+        foreach($template->token() as $type) {
             $content = $type($template, $content);
         }
 
         return $content;
-    }
-
-    /**
-     * @param Template $template
-     * @param  array|string  $token
-     * @return string
-     */
-    protected function parseToken(Template $template, $token) : string
-    {
-        return !is_array($token) ? $token : (
-            T_INLINE_HTML === $token[0] ? $this->parseContent($template, $token[1]) : $token[1]
-        );
     }
 
     /**
@@ -48,12 +45,8 @@ class Parser
     {
         $result = '<?php /** @var \View5\View $__env */ ?>';
 
-        foreach($template->import() as $namespace) {
-            $result .= $this->import($namespace);
-        }
-
         foreach(token_get_all(trim($template->content())) as $token) {
-            $result .= $this->parseToken($template, $token);
+            $result .= $this->parse($template, $token);
         }
 
         $template['content'] = $result;

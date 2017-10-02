@@ -20,14 +20,19 @@ trait Find
     protected $directory;
 
     /**
-     * @var string
+     * @var array
      */
-    protected $extension;
+    protected $extensions = ['blade' => 'blade.php', 'php' => 'phtml'];
 
     /**
-     * @var null|string
+     * @param string $name
+     * @param string $extension
+     * @return string
      */
-    protected $extensions = ['blade.phtml', 'phtml'];
+    protected function file(string $name, string $extension) : string
+    {
+        return $this->directory . DIRECTORY_SEPARATOR . $name . '.' . $extension;
+    }
 
     /**
      * @param  string $name
@@ -35,7 +40,7 @@ trait Find
      */
     function find(string $name) : string
     {
-        return $this->path($name) ?: $this->paths[$name] = $this->match($name);
+        return $this->path($name) ?? $this->paths[$name] = $this->match($name);
     }
 
     /**
@@ -44,16 +49,9 @@ trait Find
      */
     protected function match(string $name) : string
     {
-        if (false !== strpos($name, '.')) {
-            return $name;
-        }
-
-        foreach($this->extensions as $extension) {
-            if (file_exists($file = $this->directory . DIRECTORY_SEPARATOR . $name . '.' . $extension)) {
-                return $file;
-            }
-        }
-
-        return $this->directory . DIRECTORY_SEPARATOR . $name . '.' . $this->extension;
+        return false !== strpos($name, '.') ? $name : (
+            file_exists($file = $this->file($name, $this->extensions['blade'])) ? $file :
+                $this->file($name, $this->extensions['php'])
+        );
     }
 }

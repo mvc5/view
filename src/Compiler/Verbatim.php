@@ -6,7 +6,9 @@
 
 namespace View5\Compiler;
 
-class Verbatim
+use View5\Template;
+
+final class Verbatim
 {
     /**
      * Placeholder to temporary mark the position of verbatim blocks.

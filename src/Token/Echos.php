@@ -4,9 +4,9 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler\Compile;
+namespace View5\Token;
 
-use View5\Compiler\Template;
+use View5\Template;
 
 final class Echos
 {

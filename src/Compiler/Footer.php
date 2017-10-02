@@ -6,7 +6,9 @@
 
 namespace View5\Compiler;
 
-class Footer
+use View5\Template;
+
+final class Footer
 {
     /**
      * @param Template $template

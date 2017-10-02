@@ -3,52 +3,49 @@
  *
  */
 
-namespace View5\Engine;
+namespace View5;
 
 use Mvc5\Exception;
 use Mvc5\Template\TemplateModel;
 use Mvc5\View\Engine\PhpEngine;
-use View5\Compiler\Compiler;
 
-class CompilerEngine
+final class Engine
     extends PhpEngine
 {
     /**
-     *
+     * @var File
      */
-    use Storage;
+    protected $file;
 
     /**
-     * @var Compiler
+     * @var callable
      */
     protected $compiler;
 
     /**
-     * @param Compiler $compiler
-     * @param array $options
+     * @var string
      */
-    function __construct(Compiler $compiler, array $options = [])
+    protected $extension;
+
+    /**
+     * @param File $file
+     * @param callable $compiler
+     * @param string $extension
+     */
+    function __construct(File $file, callable $compiler, string $extension = 'blade.php')
     {
         $this->compiler = $compiler;
-
-        isset($options['expired']) &&
-            $this->expired = (bool) $options['expired'];
-
-        isset($options['directory']) &&
-            $this->directory = $options['directory'];
-
-        isset($options['extension']) &&
-            $this->extension = $options['extension'];
+        $this->extension = $extension;
+        $this->file = $file;
     }
 
     /**
-     * @param string $template
      * @param string $path
      * @return bool
      */
-    protected function compile($template, $path) : bool
+    protected function match(string $path) : bool
     {
-        return $this->store($path, $this->compiler->compile($this->read($template)));
+        return substr($path, -strlen('.' . $this->extension)) === '.' . $this->extension;
     }
 
     /**
@@ -59,8 +56,8 @@ class CompilerEngine
      */
     protected function model(TemplateModel $model, string $template, string $path) : TemplateModel
     {
-        $this->expired($template, $path)
-            && $this->compile($template, $path);
+        $this->file->expired($template, $path)
+            && $this->file->write($path, ($this->compiler)($this->file->read($template)));
 
         return $model->withTemplate($path);
     }
@@ -71,7 +68,7 @@ class CompilerEngine
      */
     function render(TemplateModel $model) : string
     {
-        return $this->template($model, $model->template());
+        return $this->match($model->template()) ? $this->template($model, $model->template()) : parent::render($model);
     }
 
     /**
@@ -84,7 +81,7 @@ class CompilerEngine
     {
         try {
 
-            return parent::render($this->model($model, $template, $this->path($template)));
+            return parent::render($this->model($model, $template, $this->file->path($template)));
 
         } catch(\Throwable $exception) {
             return Exception::errorException(
@@ -92,5 +89,14 @@ class CompilerEngine
                 0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
             );
         }
+    }
+
+    /**
+     * @param TemplateModel $model
+     * @return string
+     */
+    function __invoke(TemplateModel $model) : string
+    {
+        return $this->render($model);
     }
 }

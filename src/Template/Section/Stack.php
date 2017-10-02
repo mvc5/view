@@ -21,6 +21,11 @@ trait Stack
     protected $sectionStack = [];
 
     /**
+     * @var mixed
+     */
+    protected static $parentPlaceholder = [];
+
+    /**
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -43,9 +48,24 @@ trait Stack
     protected function extendSection(string $section, string $content)
     {
         isset($this->section[$section]) &&
-            $content = str_replace('@parent', $content, $this->section[$section]);
+            $content = str_replace(static::parentPlaceholder($section), $content, $this->section[$section]);
 
         $this->section[$section] = $content;
+    }
+
+    /**
+     * Get the parent placeholder for the current request.
+     *
+     * @param  string  $section
+     * @return string
+     */
+    protected static function parentPlaceholder($section = '')
+    {
+        if (! isset(static::$parentPlaceholder[$section])) {
+            static::$parentPlaceholder[$section] = '##parent-placeholder-'.sha1($section).'##';
+        }
+
+        return static::$parentPlaceholder[$section];
     }
 
     /**
@@ -121,10 +141,9 @@ trait Stack
         isset($this->section[$section]) &&
             $content = $this->section[$section];
 
-        $content = str_replace('@@parent', '--parent--holder--', $content);
-
         return str_replace(
-            '--parent--holder--', '@parent', str_replace('@parent', '', $content)
+            '--parent--holder--', '@parent',
+            str_replace(static::parentPlaceholder($section), '', str_replace('@@parent', '--parent--holder--', $content))
         );
     }
 

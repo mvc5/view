@@ -4,18 +4,13 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler;
+namespace View5;
 
 use Mvc5\Config\Configuration;
 
 interface Template
     extends Configuration
 {
-    /**
-     * @return array
-     */
-    function compiler() : array;
-
     /**
      * @return string
      */
@@ -80,6 +75,11 @@ interface Template
      * @return array
      */
     function rawTag() : array;
+
+    /**
+     * @return array
+     */
+    function token() : array;
 
     /**
      * @return array

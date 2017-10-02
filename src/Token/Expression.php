@@ -4,12 +4,17 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler\Compile;
+namespace View5\Token;
 
-use View5\Compiler\Template;
+use View5\Template;
 
-trait Expression
+class Expression
 {
+    /**
+     * @var array
+     */
+    static $import = [];
+
     /**
      * Compile the append statements into valid PHP.
      *
@@ -182,7 +187,7 @@ trait Expression
      * Compile the extends statements into valid PHP.
      *
      * @param  string  $expression
-     * @param \View5\Compiler\Template $template
+     * @param Template $template
      * @return string
      */
     protected function compileExtends(string $expression, Template $template) : string
@@ -457,12 +462,10 @@ trait Expression
      */
     static function import(string $namespace) : string
     {
-        static $import = [];
-
         $namespace = strtolower(static::stripParentheses($namespace));
 
-        if (isset($import[$namespace])) {
-            return $import[$namespace];
+        if (isset(static::$import[$namespace])) {
+            return static::$import[$namespace];
         }
 
         $length = strlen($namespace);
@@ -470,12 +473,11 @@ trait Expression
         $use = [];
 
         foreach(get_defined_functions()['user'] as $f) {
-            $namespace === substr($f, 0, $length) &&
-            $use[] = $f;
+            $namespace === substr($f, 0, $length) && $use[] = $f;
         }
 
-        return !$use ? '' : $import[$namespace] =
-            '<?php use function ' . implode('; ?><?php use function ', $use) . '; ?>';
+        return !$use ? '' : static::$import[$namespace] =
+            "\n".'<?php '."\n".'use function ' . implode(';'."\n".'use function ', $use) . ';'."\n".'?>' . "\n";
     }
 
     /**
@@ -490,5 +492,29 @@ trait Expression
             && $expression = substr($expression, 1, -1);
 
         return trim($expression);
+    }
+
+    /**
+     * Compile Blade statements that start with "@".
+     *
+     * @param Template $template
+     * @param string $value
+     * @return string
+     */
+    function __invoke(Template $template, string $value) : string
+    {
+        $match = function ($match) use($template) {
+            if (false !== strpos($match[1], '@')) {
+                $match[0] = isset($match[3]) ? $match[1] . $match[3] : $match[1];
+            } elseif ($directive = $template->directive($match[1])) {
+                $match[0] = $directive($match[3] ?? '', $template, $template);
+            } elseif (method_exists($this, $method = 'compile' . $match[1])) {
+                $match[0] = $this->$method($match[3] ?? '', $template);
+            }
+
+            return isset($match[3]) ? $match[0] : $match[0].$match[2];
+        };
+
+        return preg_replace_callback('/\B@(@?\w+(?:::\w+)?)([ \t]*)(\( ( (?>[^()]+) | (?3) )* \))?/x', $match, $value);
     }
 }

@@ -3,9 +3,10 @@
  *
  */
 
-namespace View5\Engine;
+namespace View5;
 
-trait Storage
+final class Container
+    implements File
 {
     /**
      * @var string
@@ -18,16 +19,21 @@ trait Storage
     protected $expired = false;
 
     /**
-     * @var null|string
+     * @param string $directory
+     * @param bool $expired
      */
-    protected $extension = 'phtml';
+    function __construct(string $directory, bool $expired = false)
+    {
+        $this->directory = $directory;
+        $this->expired = $expired;
+    }
 
     /**
      * @param string $template
      * @param string $path
      * @return bool
      */
-    protected function expired(string $template, string $path) : bool
+    function expired(string $template, string $path) : bool
     {
         return $this->expired || !file_exists($path) ?: filemtime($template) >= filemtime($path);
     }
@@ -36,16 +42,16 @@ trait Storage
      * @param string $path
      * @return string
      */
-    protected function path(string $path) : string
+    function path(string $path) : string
     {
-        return $this->directory . DIRECTORY_SEPARATOR . sha1($path) . '.' . $this->extension;
+        return $this->directory . DIRECTORY_SEPARATOR . sha1($path) . '.php';
     }
 
     /**
      * @param string $path
      * @return string
      */
-    protected function read(string $path) : string
+    function read(string $path) : string
     {
         return (string) file_get_contents($path);
     }
@@ -55,7 +61,7 @@ trait Storage
      * @param string $content
      * @return bool
      */
-    protected function store(string $path, string $content) : bool
+    function write(string $path, string $content) : bool
     {
         return (bool) file_put_contents($path, $content);
     }

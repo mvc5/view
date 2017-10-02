@@ -4,24 +4,29 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Compiler\Config;
+namespace View5\Template;
 
-trait Template
+trait Config
 {
     /**
      * @var array
      */
+    protected $config = [];
+
+    /**
+     * @var array
+     */
     protected $default = [
-        'compiler'       => [],
-        'contentTag'     => ['{{', '}}'],
-        'directive'      => [],
-        'echoFormat'     => 'htmlspecialchars(%s)',
-        'escapedTag'     => ['{{{', '}}}'],
-        'extension'      => [],
+        'token' => [],
+        'contentTag' => ['{{', '}}'],
+        'directive' => [],
+        'echoFormat' => 'htmlspecialchars(%s)',
+        'escapedTag' => ['{{{', '}}}'],
+        'extension' => [],
         'forElseCounter' => 0,
-        'footer'         => [],
-        'rawTag'         => ['{!!', '!!}'],
-        'verbatimBlock'  => [],
+        'footer' => [],
+        'rawTag' => ['{!!', '!!}'],
+        'verbatimBlock' => [],
     ];
 
     /**
@@ -30,14 +35,6 @@ trait Template
     function __construct($config = [])
     {
         $this->config = $config + $this->default;
-    }
-
-    /**
-     * @return array
-     */
-    function compiler() : array
-    {
-        return $this['compiler'] ?? [];
     }
 
     /**
@@ -53,7 +50,7 @@ trait Template
      */
     function contentTag() : array
     {
-        return $this['contentTag'] ?? [];
+        return $this['contentTag'];
     }
 
     /**
@@ -78,7 +75,7 @@ trait Template
      */
     function escapedTag() : array
     {
-        return $this['escapedTag'] ?? [];
+        return $this['escapedTag'];
     }
 
     /**
@@ -86,7 +83,7 @@ trait Template
      */
     function extension() : array
     {
-        return $this['extension'] ?? [];
+        return $this['extension'];
     }
 
     /**
@@ -94,7 +91,7 @@ trait Template
      */
     function footer() : array
     {
-        return $this['footer'] ?? [];
+        return $this['footer'];
     }
 
     /**
@@ -102,7 +99,7 @@ trait Template
      */
     function forElseCounter() : array
     {
-        return $this['forElseCounter'] ?? [];
+        return $this['forElseCounter'];
     }
 
     /**
@@ -119,7 +116,7 @@ trait Template
      */
     function import() : array
     {
-        return $this['import'] ?? [];
+        return $this['import'];
     }
 
     /**
@@ -127,7 +124,15 @@ trait Template
      */
     function rawTag() : array
     {
-        return $this['rawTag'] ?? [];
+        return $this['rawTag'];
+    }
+
+    /**
+     * @return array
+     */
+    function token() : array
+    {
+        return $this['token'];
     }
 
     /**
@@ -135,7 +140,7 @@ trait Template
      */
     function verbatimBlock() : array
     {
-        return $this['verbatimBlock'] ?? [];
+        return $this['verbatimBlock'];
     }
 
     /**
