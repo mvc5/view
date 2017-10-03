@@ -7,6 +7,7 @@ namespace View5;
 
 use Mvc5\Service\Service;
 use Mvc5\ViewModel;
+use Mvc5\View\View;
 
 final class Render
     implements View

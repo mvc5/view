@@ -20,5 +20,4 @@ include __DIR__ . '/src/Template.php';
 include __DIR__ . '/src/Compiler.php';
 include __DIR__ . '/src/File.php';
 include __DIR__ . '/src/Engine.php';
-include __DIR__ . '/src/View.php';
 include __DIR__ . '/src/Render.php';
