@@ -48,7 +48,7 @@ trait Stack
     protected function extendSection(string $section, string $content)
     {
         isset($this->section[$section]) &&
-            $content = str_replace(static::parentPlaceholder($section), $content, $this->section[$section]);
+            $content = str_replace($this->parentPlaceholder($section), $content, $this->section[$section]);
 
         $this->section[$section] = $content;
     }
@@ -143,7 +143,7 @@ trait Stack
 
         return str_replace(
             '--parent--holder--', '@parent',
-            str_replace(static::parentPlaceholder($section), '', str_replace('@@parent', '--parent--holder--', $content))
+            str_replace($this->parentPlaceholder($section), '', str_replace('@@parent', '--parent--holder--', $content))
         );
     }
 
