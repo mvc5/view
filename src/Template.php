@@ -1,93 +1,150 @@
 <?php
 /**
- * Portions copyright (c) Taylor Otwell https://laravel.com
- * under the MIT License https://opensource.org/licenses/MIT
+ *
  */
 
 namespace View5;
 
-use Mvc5\Config\Configuration;
+use Mvc5\Overload;
 
-interface Template
-    extends Configuration
+class Template
+    extends Overload
 {
+    /**
+     * @var array
+     */
+    protected $default = [
+        'token' => [],
+        'contentTag' => ['{{', '}}'],
+        'directive' => [],
+        'echoFormat' => 'htmlspecialchars(%s)',
+        'escapedTag' => ['{{{', '}}}'],
+        'extension' => [],
+        'forElseCounter' => 0,
+        'footer' => [],
+        'rawTag' => ['{!!', '!!}'],
+        'verbatimBlock' => [],
+    ];
+
+    /**
+     * @param array $config
+     */
+    function __construct($config = [])
+    {
+        parent::__construct($config + $this->default);
+    }
+
     /**
      * @return string
      */
-    function content() : string;
+    function content() : string
+    {
+        return $this['content'];
+    }
 
     /**
-     * Array of opening and closing tags for regular echos.
-     *
      * @return array
      */
-    function contentTag() : array;
+    function contentTag() : array
+    {
+        return $this['contentTag'];
+    }
 
     /**
      * @param $name
      * @return callable|null
      */
-    function directive($name);
-
-    /**
-     * The "regular" / legacy echo string format.
-     *
-     * @return string
-     */
-    function echoFormat() : string;
-
-    /**
-     * Array of opening and closing tags for escaped echos.
-     *
-     * @return array
-     */
-    function escapedTag() : array;
-
-    /**
-     * @return array
-     */
-    function extension() : array;
-
-    /**
-     * @return array
-     */
-    function footer() : array;
-
-    /**
-     * @return array
-     */
-    function forElseCounter() : array;
-
-    /**
-     * @param string $value
-     * @return string
-     */
-    function formatEcho(string $value) : string;
-
-    /**
-     * @return array
-     */
-    function import() : array;
-
-    /**
-     * Array of opening and closing tags for raw echos.
-     *
-     * @return array
-     */
-    function rawTag() : array;
-
-    /**
-     * @return array
-     */
-    function token() : array;
-
-    /**
-     * @return array
-     */
-    function verbatimBlock() : array;
+    function directive($name)
+    {
+        return $this['directive'][$name] ?? null;
+    }
 
     /**
      * @return string
      */
-    function __toString() : string;
+    function echoFormat() : string
+    {
+        return $this['echoFormat'];
+    }
+
+    /**
+     * @return array
+     */
+    function escapedTag() : array
+    {
+        return $this['escapedTag'];
+    }
+
+    /**
+     * @return array
+     */
+    function extension() : array
+    {
+        return $this['extension'];
+    }
+
+    /**
+     * @return array
+     */
+    function footer() : array
+    {
+        return $this['footer'];
+    }
+
+    /**
+     * @return array
+     */
+    function forElseCounter() : array
+    {
+        return $this['forElseCounter'];
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    function formatEcho(string $value) : string
+    {
+        return sprintf($this->echoFormat(), $value);
+    }
+
+    /**
+     * @return array
+     */
+    function import() : array
+    {
+        return $this['import'];
+    }
+
+    /**
+     * @return array
+     */
+    function rawTag() : array
+    {
+        return $this['rawTag'];
+    }
+
+    /**
+     * @return array
+     */
+    function token() : array
+    {
+        return $this['token'];
+    }
+
+    /**
+     * @return array
+     */
+    function verbatimBlock() : array
+    {
+        return $this['verbatimBlock'];
+    }
+
+    /**
+     * @return string
+     */
+    function __toString() : string
+    {
+        return $this->content();
+    }
 }

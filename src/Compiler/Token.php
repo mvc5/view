@@ -29,8 +29,8 @@ final class Token
      */
     protected function token(Template $template, string $content) : string
     {
-        foreach($template->token() as $type) {
-            $content = $type($template, $content);
+        foreach($template->token() as $token) {
+            $content = $token($template, $content);
         }
 
         return $content;

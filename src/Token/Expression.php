@@ -477,7 +477,7 @@ class Expression
         }
 
         return !$use ? '' : static::$import[$namespace] =
-            "\n".'<?php '."\n".'use function ' . implode(';'."\n".'use function ', $use) . ';'."\n".'?>' . "\n";
+            '<?php use function ' . implode('; use function ', $use) . '; ?>' . "\n";
     }
 
     /**
