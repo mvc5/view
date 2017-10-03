@@ -10,7 +10,6 @@ include __DIR__ . '/src/Compiler/Verbatim.php';
 include __DIR__ . '/src/Template/Section/Loop.php';
 include __DIR__ . '/src/Template/Section/Push.php';
 include __DIR__ . '/src/Template/Section/Stack.php';
-include __DIR__ . '/src/Template/Config.php';
 include __DIR__ . '/src/Template/Find.php';
 include __DIR__ . '/src/Template/Section.php';
 include __DIR__ . '/src/Template/Render.php';
