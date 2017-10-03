@@ -5,7 +5,7 @@
 
 namespace View5;
 
-final class Container
+final class FileContainer
     implements File
 {
     /**
