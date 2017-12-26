@@ -63,8 +63,9 @@ final class Engine
     }
 
     /**
-     * @param  TemplateModel $model
+     * @param TemplateModel $model
      * @return string
+     * @throws \ErrorException
      */
     function render(TemplateModel $model) : string
     {
@@ -94,6 +95,7 @@ final class Engine
     /**
      * @param TemplateModel $model
      * @return string
+     * @throws \ErrorException
      */
     function __invoke(TemplateModel $model) : string
     {

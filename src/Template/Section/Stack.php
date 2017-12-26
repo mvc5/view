@@ -36,7 +36,7 @@ trait Stack
 
         $last = array_pop($this->sectionStack);
 
-        isset($this->section[$last]) ? $this->section[$last] .= ob_get_clean() : $this->section[$last] = ob_get_clean();
+        $this->section[$last] = ($this->section[$last] ?? '') . ob_get_clean();
 
         return $last;
     }
@@ -59,13 +59,10 @@ trait Stack
      * @param  string  $section
      * @return string
      */
-    protected static function parentPlaceholder($section = '')
+    static function parentPlaceholder($section = '')
     {
-        if (! isset(static::$parentPlaceholder[$section])) {
-            static::$parentPlaceholder[$section] = '##parent-placeholder-'.sha1($section).'##';
-        }
-
-        return static::$parentPlaceholder[$section];
+        return static::$parentPlaceholder[$section] ??
+            (static::$parentPlaceholder[$section] = '##parent-placeholder-'.sha1($section).'##');
     }
 
     /**
@@ -76,34 +73,6 @@ trait Stack
      * @throws \Throwable
      */
     abstract function render($model, array $vars = []) : string;
-
-    /**
-     * @param string  $view
-     * @param array   $data
-     * @param string  $iterator
-     * @param string  $empty
-     * @param string $result
-     * @return string
-     */
-    function renderEach(string $view, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
-    {
-        // If data in the array, we will loop through the data and append
-        // an instance of the partial view to the final result HTML passing in the
-        // iterated value of this data array, allowing the views to access them.
-        // If there is no data in the array, we will render the contents of the empty
-        // view. Alternatively, the "empty view" could be a raw string that begins
-        // with "raw|" for convenience and to let this know that it is a string.
-
-        if (count($data) > 0) {
-            foreach ($data as $key => $value) {
-                $result .= $this->render($view, ['key' => $key, $iterator => $value]);
-            }
-        } else {
-            $result = 'raw|' === substr($empty, 4) ? substr($empty, 4) : $this->render($empty);
-        }
-
-        return $result;
-    }
 
     /**
      * @param  string  $section
@@ -138,8 +107,7 @@ trait Stack
      */
     function yieldContent(string $section, string $content = '') : string
     {
-        isset($this->section[$section]) &&
-            $content = $this->section[$section];
+        isset($this->section[$section]) && $content = $this->section[$section];
 
         return str_replace(
             '--parent--holder--', '@parent',

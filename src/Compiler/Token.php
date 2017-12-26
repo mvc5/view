@@ -43,7 +43,7 @@ final class Token
      */
     function __invoke(Template $template, callable $next) : Template
     {
-        $result = '<?php /** @var \View5\View $__env */ ?>';
+        $result = '';
 
         foreach(token_get_all(trim($template->content())) as $token) {
             $result .= $this->parse($template, $token);

@@ -17,8 +17,8 @@ final class Comments
      */
     function __invoke(Template $template, string $value) : string
     {
-        $pattern = sprintf('/%s--(.*?)--%s/s', $template['contentTag'][0], $template['contentTag'][1]);
-
-        return preg_replace($pattern, '', $value);
+        return preg_replace(
+            sprintf('/%s--(.*?)--%s/s', $template['contentTag'][0], $template['contentTag'][1]), '', $value
+        );
     }
 }

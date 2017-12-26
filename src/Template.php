@@ -14,16 +14,19 @@ class Template
      * @var array
      */
     protected $default = [
-        'token' => [],
+        'content' => '',
         'contentTag' => ['{{', '}}'],
         'directive' => [],
         'echoFormat' => 'htmlspecialchars(%s)',
         'escapedTag' => ['{{{', '}}}'],
         'extension' => [],
-        'forElseCounter' => 0,
         'footer' => [],
+        'forElseCounter' => 0,
+        'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+        'import' => [],
+        'rawBlocks' => [],
         'rawTag' => ['{!!', '!!}'],
-        'verbatimBlock' => [],
+        'token' => []
     ];
 
     /**
@@ -119,6 +122,14 @@ class Template
     /**
      * @return array
      */
+    function rawBlocks() : array
+    {
+        return $this['rawBlocks'];
+    }
+
+    /**
+     * @return array
+     */
     function rawTag() : array
     {
         return $this['rawTag'];
@@ -130,14 +141,6 @@ class Template
     function token() : array
     {
         return $this['token'];
-    }
-
-    /**
-     * @return array
-     */
-    function verbatimBlock() : array
-    {
-        return $this['verbatimBlock'];
     }
 
     /**

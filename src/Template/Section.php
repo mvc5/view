@@ -11,6 +11,7 @@ trait Section
     /**
      *
      */
+    use Section\Components;
     use Section\Loop;
     use Section\Push;
     use Section\Stack;
@@ -51,6 +52,7 @@ trait Section
         $this->section = [];
         $this->sectionStack = [];
 
+        $this->prepends = [];
         $this->push = [];
         $this->pushStack = [];
     }

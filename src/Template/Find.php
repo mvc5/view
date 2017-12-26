@@ -31,7 +31,7 @@ trait Find
      */
     protected function file(string $name, string $extension) : string
     {
-        return $this->directory . DIRECTORY_SEPARATOR . $name . '.' . $extension;
+        return $this->directory . DIRECTORY_SEPARATOR . ltrim($name, DIRECTORY_SEPARATOR) . '.' . $extension;
     }
 
     /**

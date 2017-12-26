@@ -27,5 +27,5 @@ return [
     'template\container' => [File::class, new Param('cache')],
     'template\engine' => [Engine::class, new Plugin('template\container'), new Plugin('view5\compiler')],
     'view5\compiler' => [Compiler::class, new Plugin('view5\template'), [new Footer, new Verbatim, new Token]],
-    'view5\template' => [Template::class, ['token' => [new Expression, new Comments, new Echos]]]
+    'view5\template' => [Template::class, ['token' => [new Comments, new Expression, new Echos]]]
 ];

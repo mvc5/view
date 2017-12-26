@@ -11,11 +11,15 @@ use View5\Template;
 final class Verbatim
 {
     /**
-     * Placeholder to temporary mark the position of verbatim blocks.
+     * Get a placeholder to temporary mark the position of raw blocks.
      *
-     * @var string
+     * @param  int|string  $replace
+     * @return string
      */
-    protected $verbatimPlaceholder = '@__verbatim__@';
+    protected function rawPlaceholder($replace)
+    {
+        return str_replace('#', $replace, '@__raw_block_#__@');
+    }
 
     /**
      * Replace the raw placeholders with the original code stored in the raw blocks.
@@ -23,11 +27,36 @@ final class Verbatim
      * @param Template $template
      * @return string
      */
-    protected function restoreVerbatimBlocks(Template $template) : string
+    protected function restoreRawContent(Template $template) : string
     {
-        return preg_replace_callback('/'.preg_quote($this->verbatimPlaceholder).'/', function() use($template) {
-            return array_shift($template['verbatimBlock']);
+        return preg_replace_callback('/'.$this->rawPlaceholder('(\d+)').'/', function ($matches) use($template) {
+            return $template['rawBlocks'][$matches[1]];
         }, $template->content());
+    }
+
+    /**
+     * Store the verbatim blocks and replace them with a temporary placeholder.
+     *
+     * @param Template $template
+     * @param  string  $value
+     * @return string
+     */
+    protected function storePHPBlocks(Template $template, string $value) : string
+    {
+        return preg_replace_callback('/(?<!@)@php(.*?)@endphp/s', function ($matches) use($template) {
+            return $this->storeRawBlock("<?php{$matches[1]}?>", $template);
+        }, $value);
+    }
+
+    /**
+     * Store a raw block and return a unique raw placeholder.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    protected function storeRawBlock($value, Template $template)
+    {
+        return $this->rawPlaceHolder(array_push($template['rawBlocks'], $value) - 1);
     }
 
     /**
@@ -40,9 +69,7 @@ final class Verbatim
     protected function storeVerbatimBlocks(Template $template, string $value) : string
     {
         return preg_replace_callback('/(?<!@)@verbatim(.*?)@endverbatim/s', function ($matches) use($template) {
-            $template['verbatimBlock'][] = $matches[1];
-
-            return $this->verbatimPlaceholder;
+            return $this->storeRawBlock($matches[1], $template);
         }, $value);
     }
 
@@ -56,13 +83,18 @@ final class Verbatim
         $value = $template->content();
 
         (strpos($value, '@verbatim') !== false) &&
-            $template['content'] = $this->storeVerbatimBlocks($template, $value);
+            $value = $this->storeVerbatimBlocks($template, $value);
+
+        (strpos($template['content'], '@php') !== false) &&
+            $value = $this->storePHPBlocks($template, $value);
+
+        $template['content'] = $value;
 
         /** @var Template $template */
         $template = $next($template);
 
-        $template->verbatimBlock() &&
-            $template['content'] = $this->restoreVerbatimBlocks($template);
+        $template->rawBlocks() &&
+            $template['content'] = $this->restoreRawContent($template);
 
         return $template;
     }
