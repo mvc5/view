@@ -6,7 +6,7 @@
 
 namespace View5\Token\Expression;
 
-trait Injections
+trait Plugin
 {
     /**
      * @param string $expression
@@ -14,9 +14,9 @@ trait Injections
      */
     protected function compileAssign(string $expression) : string
     {
-        list($variable, $value) = explode(',', $this->stripParentheses($expression), 2);
+        list($variable, $value) = $this->args($expression, 2);
 
-        return '<?php $' . trim($variable, '\'$') . ' = ' . $value . '; ?>';
+        return '<?php $' . trim($variable, '"\'$') . ' = ' . $value . '; ?>';
     }
 
     /**
@@ -25,7 +25,7 @@ trait Injections
      */
     protected function compileCall(string $expression) : string
     {
-        $args = explode(',', $this->stripParentheses($expression));
+        $args = $this->args($expression);
 
         return '<?php echo $this->call(' . array_shift($args) . ', [' . implode(',', $args) . ']); ?>';
     }
@@ -50,27 +50,25 @@ trait Injections
 
     /**
      * @param string $expression
-     * @param $service
-     * @return string
-     */
-    protected function service(string $expression, $service) : string
-    {
-        $args = explode(',', $this->stripParentheses($expression));
-
-        $variable = array_shift($args);
-        $plugin = array_shift($args) ?: $variable;
-
-        list($variable, $plugin) = str_replace(['(', ')', '\\', '"', '\''], '', [$variable, $plugin]);
-
-        return '<?php $' . $variable . ' = $this->' . $service . '(\'' . $plugin . '\', [\' . implode(\',\', $args) . \']); ?>';
-    }
-
-    /**
-     * @param string $expression
      * @return string
      */
     protected function compileShared(string $expression) : string
     {
         return $this->service($expression, 'shared');
+    }
+
+    /**
+     * @param string $expression
+     * @param $service
+     * @return string
+     */
+    protected function service(string $expression, $service) : string
+    {
+        $args = $this->args($expression);
+
+        $variable = trim(array_shift($args), '"\'$');
+        $plugin = array_shift($args) ?: '\'' . $variable . '\'';
+
+        return '<?php $' . $variable . ' = $this->' . $service . '(' . $plugin . ', [' . implode(',', $args) . ']); ?>';
     }
 }

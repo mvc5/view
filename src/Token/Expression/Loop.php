@@ -8,7 +8,7 @@ namespace View5\Token\Expression;
 
 use View5\Template;
 
-trait Loops
+trait Loop
 {
     /**
      * Compile the break statements into valid PHP.
@@ -21,7 +21,7 @@ trait Loops
         if ($expression) {
             preg_match('/\(\s*(-?\d+)\s*\)$/', $expression, $matches);
 
-            return $matches ? '<?php break '.max(1, $matches[1]).'; ?>' : "<?php if{$expression} break; ?>";
+            return $matches ? '<?php break ' . max(1, $matches[1]) . '; ?>' : '<?php if' . $expression . ' break; ?>';
         }
 
         return '<?php break; ?>';
@@ -38,7 +38,7 @@ trait Loops
         if ($expression) {
             preg_match('/\(\s*(-?\d+)\s*\)$/', $expression, $matches);
 
-            return $matches ? '<?php continue '.max(1, $matches[1]).'; ?>' : "<?php if{$expression} continue; ?>";
+            return $matches ? '<?php continue ' . max(1, $matches[1]) . '; ?>' : '<?php if' . $expression . ' continue; ?>';
         }
 
         return '<?php continue; ?>';
@@ -53,13 +53,13 @@ trait Loops
      */
     protected function compileEmpty($expression, Template $template)
     {
-        if ($expression) {
-            return "<?php if(empty{$expression}): ?>";
-        }
-
-        $empty = '$__empty_'.$template['forElseCounter']--;
-
-        return "<?php endforeach; \$__env->popLoop(); \$loop = \$__env->getLastLoop(); if ({$empty}): ?>";
+        return $expression ? '<?php if(empty' . $expression . '): ?>' :
+            '<?php '
+            . 'endforeach; '
+            . '$__env->popLoop(); '
+            . '$loop = $__env->getLastLoop(); '
+            . 'if ($__empty_' . $template['forElseCounter']-- . '): '
+            . '?>';
     }
 
     /**
@@ -120,7 +120,7 @@ trait Loops
      */
     protected function compileFor($expression)
     {
-        return "<?php for{$expression}: ?>";
+        return '<?php for' . $expression . ': ?>';
     }
 
     /**
@@ -133,15 +133,11 @@ trait Loops
     {
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
-        $iteratee = trim($matches[1]);
-
-        $iteration = trim($matches[2]);
-
-        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
-
-        $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getLastLoop();';
-
-        return "<?php {$initLoop} foreach(\$__currentLoopData as {$iteration}): {$iterateLoop} ?>";
+        return '<?php '
+            . 'foreach($__env->addLoop(' . trim($matches[1]) . ') as ' . trim($matches[2]) . '): '
+                . '$__env->incrementLoopIndices(); '
+                . '$loop = $__env->getLastLoop(); '
+            . '?>';
     }
 
     /**
@@ -153,19 +149,15 @@ trait Loops
      */
     protected function compileForElse($expression, Template $template)
     {
-        $empty = '$__empty_'.++$template['forElseCounter'];
-
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
-        $iteratee = trim($matches[1]);
-
-        $iteration = trim($matches[2]);
-
-        $initLoop = "\$__currentLoopData = {$iteratee}; \$__env->addLoop(\$__currentLoopData);";
-
-        $iterateLoop = '$__env->incrementLoopIndices(); $loop = $__env->getLastLoop();';
-
-        return "<?php {$empty} = true; {$initLoop} foreach(\$__currentLoopData as {$iteration}): {$iterateLoop} {$empty} = false; ?>";
+        return '<?php '
+            . '$__empty_' . ++$template['forElseCounter'] . ' = true; '
+            . 'foreach($__env->addLoop(' . trim($matches[1]) . ') as ' . trim($matches[2]) . '): '
+                . '$__env->incrementLoopIndices(); '
+                . '$loop = $__env->getLastLoop(); '
+                . '$__empty_' . $template['forElseCounter'] . ' = false; '
+            . '?>';
     }
 
     /**
@@ -176,6 +168,6 @@ trait Loops
      */
     protected function compileWhile($expression)
     {
-        return "<?php while{$expression}: ?>";
+        return '<?php while' . $expression . ': ?>';
     }
 }

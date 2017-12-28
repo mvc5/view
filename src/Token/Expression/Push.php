@@ -6,7 +6,7 @@
 
 namespace View5\Token\Expression;
 
-trait Stacks
+trait Push
 {
     /**
      * Compile the end-prepend statements into valid PHP.
@@ -36,7 +36,7 @@ trait Stacks
      */
     protected function compilePrepend($expression)
     {
-        return "<?php \$__env->startPrepend{$expression}; ?>";
+        return '<?php $__env->startPrepend' . $expression . '; ?>';
     }
 
     /**
@@ -47,7 +47,7 @@ trait Stacks
      */
     protected function compilePush($expression)
     {
-        return "<?php \$__env->startPush{$expression}; ?>";
+        return '<?php $__env->startPush' . $expression . '; ?>';
     }
 
     /**
@@ -58,6 +58,6 @@ trait Stacks
      */
     protected function compileStack($expression)
     {
-        return "<?php echo \$__env->yieldPushContent{$expression}; ?>";
+        return '<?php echo $__env->stack' . $expression . '; ?>';
     }
 }

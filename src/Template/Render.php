@@ -1,20 +1,19 @@
 <?php
 /**
- *
+ * Portions copyright (c) Taylor Otwell https://laravel.com
+ * under the MIT License https://opensource.org/licenses/MIT
  */
 
 namespace View5\Template;
 
 use Mvc5\Template\TemplateModel;
-use Mvc5\View\Template\Traverse;
 
 trait Render
 {
     /**
      *
      */
-    use Section;
-    use Traverse;
+    use Stack;
 
     /**
      * @var callable
@@ -60,22 +59,11 @@ trait Render
      */
     function renderEach(string $view, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
     {
-        // If data in the array, we will loop through the data and append
-        // an instance of the partial view to the final result HTML passing in the
-        // iterated value of this data array, allowing the views to access them.
-        // If there is no data in the array, we will render the contents of the empty
-        // view. Alternatively, the "empty view" could be a raw string that begins
-        // with "raw|" for convenience and to let this know that it is a string.
-
-        if (count($data) > 0) {
-            foreach($data as $key => $value) {
-                $result .= $this->render($view, ['key' => $key, $iterator => $value]);
-            }
-
-            return $result;
+        foreach($data as $key => $value) {
+            $result .= $this->render($view, ['key' => $key, $iterator => $value]);
         }
 
-        return 'raw|' === substr($empty, 0, 4) ? substr($empty, 4) : $this->render($empty);
+        return $data ? $result : ('raw|' === substr($empty, 0, 4) ? substr($empty, 4) : $this->render($empty));
     }
 
     /**
@@ -87,12 +75,13 @@ trait Render
     function renderFirst(array $names, array $vars = []) : string
     {
         foreach($names as $name) {
-            if (file_exists($template = $this->find($name))) {
+            $path = $this->find($name);
+            if ($path instanceof FilePath || file_exists($path)) {
                 break;
             }
         }
 
-        return $this->render($this->create($name, ['__template' => $template]), $vars);
+        return $this->render($this->create($name, ['__template' => (string) $path]), $vars);
     }
 
     /**
@@ -103,8 +92,8 @@ trait Render
      */
     function renderIf($model, array $vars = []) : string
     {
-        return file_exists($template = $this->find($model)) ?
-            $this->render($this->create($model, ['__template' => $template]), $vars) : '';
+        return (($path = $this->find($model)) instanceof FilePath || file_exists($path)) ?
+            $this->render($this->create($model, ['__template' => (string) $path]), $vars) : '';
     }
 
     /**
@@ -123,7 +112,7 @@ trait Render
      * @param array $vars
      * @return array
      */
-    function vars(array $vars)
+    function vars(array $vars) : array
     {
         return array_diff_key($vars, ['__template' => 1, '__child' => 1, 'this' => 1, '__ob_level__' => 1]);
     }

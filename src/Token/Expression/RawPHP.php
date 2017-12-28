@@ -16,6 +16,6 @@ trait RawPHP
      */
     protected function compileUnset(string $expression) : string
     {
-        return "<?php unset{$expression}; ?>";
+        return '<?php unset' . $expression . '; ?>';
     }
 }

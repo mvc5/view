@@ -6,7 +6,7 @@
 
 namespace View5\Token\Expression;
 
-trait Components
+trait Component
 {
     /**
      * Compile the component statements into valid PHP.
@@ -16,7 +16,7 @@ trait Components
      */
     protected function compileComponent($expression)
     {
-        return "<?php \$__env->startComponent{$expression}; ?>";
+        return '<?php $__env->startComponent' . $expression . '; ?>';
     }
 
     /**
@@ -37,7 +37,7 @@ trait Components
      */
     protected function compileSlot($expression)
     {
-        return "<?php \$__env->slot{$expression}; ?>";
+        return '<?php $__env->slot' . $expression. '; ?>';
     }
 
     /**

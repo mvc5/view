@@ -36,21 +36,21 @@ trait Find
 
     /**
      * @param  string $name
-     * @return string
+     * @return string|FilePath
      */
-    function find(string $name) : string
+    function find(string $name)
     {
         return $this->path($name) ?? $this->paths[$name] = $this->match($name);
     }
 
     /**
      * @param  string $name
-     * @return string
+     * @return string|FilePath
      */
-    protected function match(string $name) : string
+    protected function match(string $name)
     {
         return false !== strpos($name, '.') ? $name : (
-            file_exists($file = $this->file($name, $this->extensions['blade'])) ? $file :
+            file_exists($path = $this->file($name, $this->extensions['blade'])) ? new FilePath($path) :
                 $this->file($name, $this->extensions['php'])
         );
     }

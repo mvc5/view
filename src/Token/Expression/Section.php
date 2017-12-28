@@ -8,7 +8,7 @@ namespace View5\Token\Expression;
 
 use View5\Template;
 
-trait Layouts
+trait Section
 {
     /**
      * The name of the last section that was started.
@@ -46,9 +46,9 @@ trait Layouts
      */
     protected function compileExtends(string $expression, Template $template) : string
     {
-        $expression = $this->stripParentheses($expression);
+        $expression = $this->expr($expression);
 
-        $data = "<?php echo \$__env->render($expression, array_diff_key(get_defined_vars(), ['__template' => 1, '__child' => 1, 'this' => 1, '__ob_level__' => 1])); ?>";
+        $data = '<?php echo $__env->render(' . $expression . ', $__env->vars(get_defined_vars())); ?>';
 
         $template['footer'][] = $data;
 
@@ -72,7 +72,7 @@ trait Layouts
      */
     protected function compileParent()
     {
-        return Template\Section\Stack::parentPlaceholder($this->lastSection ?: '');
+        return Template\Stack\Section::parentPlaceholder($this->lastSection ?: '');
     }
 
     /**
@@ -83,9 +83,9 @@ trait Layouts
      */
     protected function compileSection(string $expression) : string
     {
-        $this->lastSection = trim($expression, "()'\" ");
+        $this->lastSection = trim($expression, '()\'" ');
 
-        return "<?php \$__env->startSection{$expression}; ?>";
+        return '<?php $__env->startSection' . $expression . '; ?>';
     }
 
     /**
@@ -95,7 +95,7 @@ trait Layouts
      */
     protected function compileShow() : string
     {
-        return '<?php echo $__env->yieldSection(); ?>';
+        return '<?php echo $__env->section(); ?>';
     }
 
     /**
@@ -116,6 +116,6 @@ trait Layouts
      */
     protected function compileYield(string $expression) : string
     {
-        return "<?php echo \$__env->yieldContent{$expression}; ?>";
+        return '<?php echo $__env->content' . $expression . '; ?>';
     }
 }

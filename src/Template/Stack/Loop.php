@@ -4,7 +4,7 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Template\Section;
+namespace View5\Template\Stack;
 
 trait Loop
 {
@@ -14,7 +14,8 @@ trait Loop
     protected $loopStack = [];
 
     /**
-     * @param array $data
+     * @param array|\Countable $data
+     * @return array|\Countable
      */
     function addLoop($data)
     {
@@ -32,6 +33,8 @@ trait Loop
             'depth' => count($this->loopStack) + 1,
             'parent' => $parent ? (object) $parent : null,
         ];
+
+        return $data;
     }
 
     /**

@@ -8,7 +8,7 @@ namespace View5\Token\Expression;
 
 use View5\Token\Expression;
 
-trait Conditionals
+trait Conditional
 {
     /**
      * Identifier for the first case in switch statement.
@@ -28,10 +28,10 @@ trait Conditionals
         if ($this->firstCaseInSwitch) {
             $this->firstCaseInSwitch = false;
 
-            return "case {$expression}: ?>";
+            return 'case ' . $expression. ': ?>';
         }
 
-        return "<?php case {$expression}: ?>";
+        return '<?php case ' . $expression . ': ?>';
     }
 
     /**
@@ -62,7 +62,7 @@ trait Conditionals
      */
     protected function compileElseIf(string $expression) : string
     {
-        return "<?php elseif{$expression}: ?>";
+        return '<?php elseif' . $expression . ': ?>';
     }
 
     /**
@@ -113,7 +113,7 @@ trait Conditionals
      */
     protected function compileHasSection(string $expression) : string
     {
-        return "<?php if (! empty(trim(\$__env->yieldContent{$expression}))): ?>";
+        return '<?php if (!empty(trim($__env->content' . $expression . '))): ?>';
     }
 
     /**
@@ -124,7 +124,7 @@ trait Conditionals
      */
     protected function compileIf(string $expression) : string
     {
-        return "<?php if{$expression}: ?>";
+        return '<?php if' . $expression . ': ?>';
     }
 
     /**
@@ -135,7 +135,7 @@ trait Conditionals
      */
     protected function compileIsset($expression)
     {
-        return "<?php if(isset{$expression}): ?>";
+        return '<?php if(isset'. $expression . '): ?>';
     }
 
     /**
@@ -148,7 +148,7 @@ trait Conditionals
     {
         $this->firstCaseInSwitch = true;
 
-        return "<?php switch{$expression}:";
+        return '<?php switch' . $expression . ':';
     }
 
     /**
@@ -159,6 +159,6 @@ trait Conditionals
      */
     protected function compileUnless(string $expression) : string
     {
-        return "<?php if (! $expression): ?>";
+        return '<?php if (!' . $expression . '): ?>';
     }
 }

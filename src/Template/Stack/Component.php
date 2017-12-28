@@ -4,9 +4,9 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Template\Section;
+namespace View5\Template\Stack;
 
-trait Components
+trait Component
 {
     /**
      * The components being rendered.
@@ -54,10 +54,7 @@ trait Components
      */
     protected function componentData($name)
     {
-        return array_merge(
-            $this->componentData[$count = count($this->componentStack)],
-            ['slot' => trim(ob_get_clean())], $this->slots[$count]
-        );
+        return ['slot' => trim(ob_get_clean())] + $this->slots[$slot = count($this->componentStack)] + $this->componentData[$slot];
     }
 
     /**
@@ -69,9 +66,7 @@ trait Components
     {
         end($this->componentStack);
 
-        $currentSlot = array_pop($this->slotStack[$this->currentComponent()]);
-
-        $this->slots[$this->currentComponent()][$currentSlot] = trim(ob_get_clean());
+        $this->slots[$current = $this->currentComponent()][array_pop($this->slotStack[$current])] = trim(ob_get_clean());
     }
 
     /**
@@ -81,9 +76,7 @@ trait Components
      */
     function renderComponent()
     {
-        $name = array_pop($this->componentStack);
-
-        return $this->render($name, $this->componentData($name));
+        return $this->render($name = array_pop($this->componentStack), $this->componentData($name));
     }
 
     /**
@@ -95,14 +88,13 @@ trait Components
      */
     function slot($name, $content = null)
     {
-        if (count(func_get_args()) == 2) {
-            $this->slots[$this->currentComponent()][$name] = $content;
-        } else {
-            if (ob_start()) {
-                $this->slots[$this->currentComponent()][$name] = '';
+        $current = $this->currentComponent();
 
-                $this->slotStack[$this->currentComponent()][] = $name;
-            }
+        if (count(func_get_args()) == 2) {
+            $this->slots[$current][$name] = $content;
+        } elseif(ob_start()) {
+            $this->slots[$current][$name] = '';
+            $this->slotStack[$current][] = $name;
         }
     }
 
@@ -118,9 +110,9 @@ trait Components
         if (ob_start()) {
             $this->componentStack[] = $name;
 
-            $this->componentData[$this->currentComponent()] = $data;
-
-            $this->slots[$this->currentComponent()] = [];
+            $current = $this->currentComponent();
+            $this->componentData[$current] = $data;
+            $this->slots[$current] = [];
         }
     }
 }

@@ -7,6 +7,7 @@ namespace View5\Template;
 
 use Mvc5\Template\TemplateModel;
 use Mvc5\View\Template\Model;
+use Mvc5\View\Template\Traverse;
 
 trait Template
 {
@@ -14,6 +15,7 @@ trait Template
      *
      */
     use Model;
+    use Traverse;
 
     /**
      * @param array|string|TemplateModel $model

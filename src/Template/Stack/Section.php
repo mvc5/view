@@ -4,11 +4,11 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Template\Section;
+namespace View5\Template\Stack;
 
 use Mvc5\Exception;
 
-trait Stack
+trait Section
 {
     /**
      * @var array
@@ -42,15 +42,28 @@ trait Stack
     }
 
     /**
+     * @param string $section
+     * @param string $content
+     * @return string
+     */
+    function content(string $section, string $content = '') : string
+    {
+        isset($this->section[$section]) && $content = $this->section[$section];
+
+        return str_replace(
+            '--parent--holder--', '@parent',
+            str_replace($this->parentPlaceholder($section), '', str_replace('@@parent', '--parent--holder--', $content))
+        );
+    }
+
+    /**
      * @param  string  $section
      * @param  string  $content
      */
     protected function extendSection(string $section, string $content)
     {
-        isset($this->section[$section]) &&
-            $content = str_replace($this->parentPlaceholder($section), $content, $this->section[$section]);
-
-        $this->section[$section] = $content;
+        $this->section[$section] = isset($this->section[$section]) ?
+            str_replace($this->parentPlaceholder($section), $content, $this->section[$section]) : $content;
     }
 
     /**
@@ -66,13 +79,12 @@ trait Stack
     }
 
     /**
-     * @param $model
-     * @param array $vars
      * @return string
-     * @throws \Exception
-     * @throws \Throwable
      */
-    abstract function render($model, array $vars = []) : string;
+    function section() : string
+    {
+        return $this->sectionStack ? $this->content($this->stopSection()) : '';
+    }
 
     /**
      * @param  string  $section
@@ -98,28 +110,5 @@ trait Stack
         $overwrite ? $this->section[$last] = ob_get_clean() : $this->extendSection($last, ob_get_clean());
 
         return $last;
-    }
-
-    /**
-     * @param string $section
-     * @param string $content
-     * @return string
-     */
-    function yieldContent(string $section, string $content = '') : string
-    {
-        isset($this->section[$section]) && $content = $this->section[$section];
-
-        return str_replace(
-            '--parent--holder--', '@parent',
-            str_replace($this->parentPlaceholder($section), '', str_replace('@@parent', '--parent--holder--', $content))
-        );
-    }
-
-    /**
-     * @return string
-     */
-    function yieldSection() : string
-    {
-        return $this->sectionStack ? $this->yieldContent($this->stopSection()) : '';
     }
 }

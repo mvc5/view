@@ -6,15 +6,15 @@
 
 namespace View5\Template;
 
-trait Section
+trait Stack
 {
     /**
      *
      */
-    use Section\Components;
-    use Section\Loop;
-    use Section\Push;
-    use Section\Stack;
+    use Stack\Component;
+    use Stack\Loop;
+    use Stack\Push;
+    use Stack\Section;
 
     /**
      * @var int

@@ -13,23 +13,34 @@ class Expression
     /**
      *
      */
-    use Expression\Components;
-    use Expression\Conditionals;
-    use Expression\Includes;
-    use Expression\Injections;
+    use Expression\Component;
+    use Expression\Conditional;
+    use Expression\Import;
     use Expression\Json;
-    use Expression\Layouts;
-    use Expression\Loops;
+    use Expression\Loop;
+    use Expression\Plugin;
+    use Expression\Push;
     use Expression\RawPHP;
-    use Expression\Stacks;
+    use Expression\Render;
+    use Expression\Section;
+
+    /**
+     * @param string $expression
+     * @param int|null $limit
+     * @return string
+     */
+    static function args(string $expression , $limit = null) : array
+    {
+        return array_map('trim', explode(',', static::expr($expression), $limit ?? \PHP_INT_MAX));
+    }
 
     /**
      * Strip the parentheses from the given expression.
      *
-     * @param  string  $expression
+     * @param string $expression
      * @return string
      */
-    static function stripParentheses(string $expression) : string
+    static function expr(string $expression) : string
     {
         '' !== $expression && '(' === $expression[0]
             && $expression = substr($expression, 1, -1);

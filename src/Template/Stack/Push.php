@@ -4,7 +4,7 @@
  * under the MIT License https://opensource.org/licenses/MIT
  */
 
-namespace View5\Template\Section;
+namespace View5\Template\Stack;
 
 use Mvc5\Exception;
 
@@ -28,6 +28,19 @@ trait Push
     protected $pushStack = [];
 
     /**
+     * Prepend content to a given stack.
+     *
+     * @param string $section
+     * @param string $content
+     */
+    protected function extendPrepend($section, $content)
+    {
+        !isset($this->prepends[$section]) && $this->prepends[$section] = [];
+
+        $this->prepends[$section][$this->current()] = $content . ($this->prepends[$section][$this->current()] ?? '');
+    }
+
+    /**
      * @param  string  $section
      * @param  string  $content
      */
@@ -35,9 +48,7 @@ trait Push
     {
         !isset($this->push[$section]) && $this->push[$section] = [];
 
-        !isset($this->push[$section][$this->current()])
-            ? $this->push[$section][$this->current()] = $content
-                : $this->push[$section][$this->current()] .= $content;
+        $this->push[$section][$this->current()] = ($this->push[$section][$this->current()] ?? '') . $content;
     }
 
     /**
@@ -91,26 +102,11 @@ trait Push
     }
 
     /**
-     * Prepend content to a given stack.
-     *
-     * @param string $section
-     * @param string $content
-     */
-    protected function extendPrepend($section, $content)
-    {
-        !isset($this->prepends[$section]) && $this->prepends[$section] = [];
-
-        $this->prepends[$section][$this->current()] =
-            !isset($this->prepends[$section][$this->current()]) ? $content :
-                $content . $this->prepends[$section][$this->current()];
-    }
-
-    /**
      * @param string $section
      * @param string $default
      * @return string
      */
-    function yieldPushContent(string $section, string $default = '') : string
+    function stack(string $section, string $default = '') : string
     {
         if (!isset($this->push[$section]) && !isset($this->prepends[$section])) {
             return $default;
