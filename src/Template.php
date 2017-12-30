@@ -19,7 +19,6 @@ class Template
         'directive' => [],
         'echoFormat' => 'htmlspecialchars(%s)',
         'escapedTag' => ['{{{', '}}}'],
-        'extension' => [],
         'footer' => [],
         'forElseCounter' => 0,
         'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
@@ -32,9 +31,9 @@ class Template
     /**
      * @param array $config
      */
-    function __construct($config = [])
+    function __construct(array $config = [], array $token = [], array $directive = [])
     {
-        parent::__construct($config + $this->default);
+        parent::__construct($config + ['token' => $token] + ['directive' => $directive] + $this->default);
     }
 
     /**
@@ -76,14 +75,6 @@ class Template
     function escapedTag() : array
     {
         return $this['escapedTag'];
-    }
-
-    /**
-     * @return array
-     */
-    function extension() : array
-    {
-        return $this['extension'];
     }
 
     /**
