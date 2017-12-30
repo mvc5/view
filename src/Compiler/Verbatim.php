@@ -29,7 +29,7 @@ final class Verbatim
      */
     protected function restoreRawContent(Template $template) : string
     {
-        return preg_replace_callback('/'.$this->rawPlaceholder('(\d+)').'/', function ($matches) use($template) {
+        return preg_replace_callback('/' . $this->rawPlaceholder('(\d+)') . '/', function ($matches) use($template) {
             return $template['rawBlocks'][$matches[1]];
         }, $template->content());
     }
@@ -44,7 +44,7 @@ final class Verbatim
     protected function storePHPBlocks(Template $template, string $value) : string
     {
         return preg_replace_callback('/(?<!@)@php(.*?)@endphp/s', function ($matches) use($template) {
-            return $this->storeRawBlock("<?php{$matches[1]}?>", $template);
+            return $this->storeRawBlock('<?php' . $matches[1] . '?>', $template);
         }, $value);
     }
 

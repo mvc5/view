@@ -25,9 +25,7 @@ trait Plugin
      */
     protected function compileCall(string $expression) : string
     {
-        $args = $this->args($expression);
-
-        return '<?php echo $this->call(' . array_shift($args) . ', [' . implode(',', $args) . ']); ?>';
+        return '<?php echo $this->call' . $expression . '; ?>';
     }
 
     /**
@@ -58,6 +56,8 @@ trait Plugin
     }
 
     /**
+     * Name of variable is required when service arguments are provided.
+     *
      * @param string $expression
      * @param $service
      * @return string

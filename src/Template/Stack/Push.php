@@ -35,8 +35,6 @@ trait Push
      */
     protected function extendPrepend($section, $content)
     {
-        !isset($this->prepends[$section]) && $this->prepends[$section] = [];
-
         $this->prepends[$section][$this->current()] = $content . ($this->prepends[$section][$this->current()] ?? '');
     }
 
@@ -46,8 +44,6 @@ trait Push
      */
     protected function extendPush(string $section, string $content)
     {
-        !isset($this->push[$section]) && $this->push[$section] = [];
-
         $this->push[$section][$this->current()] = ($this->push[$section][$this->current()] ?? '') . $content;
     }
 
