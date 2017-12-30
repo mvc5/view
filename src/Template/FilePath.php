@@ -21,6 +21,15 @@ class FilePath
     }
 
     /**
+     * @param $path
+     * @return bool
+     */
+    static function exists($path) : bool
+    {
+        return ($path instanceof self) || file_exists($path);
+    }
+
+    /**
      * @return string
      */
     function __toString() : string
