@@ -50,17 +50,25 @@ trait Render
     }
 
     /**
-     * @param string  $view
-     * @param array   $data
-     * @param string  $iterator
-     * @param string  $empty
+     * @return string
+     */
+    function renderComponent() : string
+    {
+        return $this->render($name = $this->currentComponentName(), $this->componentData($name));
+    }
+
+    /**
+     * @param string|TemplateModel $model
+     * @param array $data
+     * @param string $iterator
+     * @param string $empty
      * @param string $result
      * @return string
      */
-    function renderEach(string $view, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
+    function renderEach($model, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
     {
         foreach($data as $key => $value) {
-            $result .= $this->render($view, ['key' => $key, $iterator => $value]);
+            $result .= $this->render($model, ['key' => $key, $iterator => $value]);
         }
 
         return $data ? $result : ('raw|' === substr($empty, 0, 4) ? substr($empty, 4) : $this->render($empty));
@@ -69,43 +77,56 @@ trait Render
     /**
      * @param array $names
      * @param array $vars
+     * @param array $merge
      * @return string
      * @throws \Throwable
      */
-    function renderFirst(array $names, array $vars = []) : string
+    function renderFirst(array $names, array $vars = [], $merge = []) : string
     {
         foreach($names as $name) {
-            $path = $this->find($name);
-            if ($path instanceof FilePath || file_exists($path)) {
+            if (FilePath::exists($path = $this->find($name))) {
                 break;
             }
         }
 
-        return $this->render($this->create($name, ['__template' => (string) $path]), $vars);
+        return $this->renderInclude((string) $path, $vars, $merge);
     }
 
     /**
      * @param string|TemplateModel $model
      * @param array $vars
+     * @param array $merge
      * @return string
      * @throws \Throwable
      */
-    function renderIf($model, array $vars = []) : string
+    function renderInclude($model, array $vars = [], array $merge = []) : string
     {
-        return (($path = $this->find($model)) instanceof FilePath || file_exists($path)) ?
-            $this->render($this->create($model, ['__template' => (string) $path]), $vars) : '';
+        return $this->render($model, $vars + $merge);
+    }
+
+    /**
+     * @param string $path
+     * @param array $vars
+     * @param array $merge
+     * @return string
+     * @throws \Throwable
+     */
+    function renderIf(string $path, array $vars = [], array $merge = []) : string
+    {
+        return FilePath::exists($path = $this->find($path)) ? $this->renderInclude((string) $path, $vars + $merge) : '';
     }
 
     /**
      * @param bool $condition
-     * @param string|TemplateModel $model
+     * @param string $path
      * @param array $vars
+     * @param array $merge
      * @return string
      * @throws \Throwable
      */
-    function renderWhen($condition, $model, array $vars = []) : string
+    function renderWhen($condition, string $path, array $vars = [], array $merge = []) : string
     {
-        return $condition ? $this->render($model, $vars) : '';
+        return $condition ? $this->render($path, $vars + $merge) : '';
     }
 
     /**
@@ -114,7 +135,7 @@ trait Render
      */
     function vars(array $vars) : array
     {
-        return array_diff_key($vars, ['__template' => 1, '__child' => 1, 'this' => 1, '__ob_level__' => 1]);
+        return array_diff_key($vars, ['__env' => 1, '__template' => 1, '__child' => 1, 'this' => 1, '__ob_level__' => 1]);
     }
 
     /**
