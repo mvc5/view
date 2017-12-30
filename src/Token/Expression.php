@@ -43,7 +43,7 @@ class Expression
     protected function create(Template $template, string $match, $directive) : string
     {
         return is_string($directive) ? str_replace(
-            ['{expression}', '{expr}'], [$match, static::expr($match)], $directive
+            ['{expression}', '{expr}', '{var}'], [$match, $this->expr($match), $this->var($match)], $directive
         ) : $directive($match, $template);
     }
 
@@ -59,6 +59,15 @@ class Expression
             && $expression = substr($expression, 1, -1);
 
         return trim($expression);
+    }
+
+    /**
+     * @param string $expression
+     * @return string
+     */
+    static function var(string $expression) : string
+    {
+        return trim($expression, '()"\'$ ');
     }
 
     /**

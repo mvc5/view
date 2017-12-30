@@ -16,7 +16,7 @@ trait Plugin
     {
         list($variable, $value) = $this->args($expression, 2);
 
-        return '<?php $' . trim($variable, '"\'$') . ' = ' . $value . '; ?>';
+        return '<?php $' . $this->var($variable) . ' = ' . $value . '; ?>';
     }
 
     /**
@@ -66,9 +66,9 @@ trait Plugin
     {
         $args = $this->args($expression);
 
-        $variable = trim(array_shift($args), '"\'$');
-        $plugin = array_shift($args) ?: '\'' . $variable . '\'';
+        $variable = array_shift($args);
+        $plugin = array_shift($args) ?: '\'' . trim($variable, '"\'$') . '\'';
 
-        return '<?php $' . $variable . ' = $this->' . $service . '(' . $plugin . ', [' . implode(',', $args) . ']); ?>';
+        return '<?php $' . $this->var($variable) . ' = $this->' . $service . '(' . $plugin . ', [' . implode(',', $args) . ']); ?>';
     }
 }
