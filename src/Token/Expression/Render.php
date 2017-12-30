@@ -9,69 +9,97 @@ namespace View5\Token\Expression;
 trait Render
 {
     /**
-     * Compile the each statements into valid PHP.
-     *
-     * @param  string  $expression
+     * @param string $expression
      * @return string
      */
     protected function compileEach(string $expression) : string
     {
-        return '<?php echo $__env->renderEach' . $expression . '; ?>';
+        return $this->echoRender($expression, 'Each');
     }
 
     /**
-     * Compile the include statements into valid PHP.
-     *
-     * @param  string  $expression
+     * @param string $expression
      * @return string
      */
     protected function compileInclude(string $expression) : string
     {
-        return $this->compileRender($expression);
+        return $this->echoRender($expression, 'Include', true);
     }
 
     /**
-     * Compile the include-first statements into valid PHP.
-     *
-     * @param  string  $expression
+     * @param string $expression
      * @return string
      */
     protected function compileIncludeFirst($expression)
     {
-        return $this->compileRender($expression, 'first');
+        return $this->echoRender($expression, 'First', true);
     }
 
     /**
-     * Compile the include-if statements into valid PHP.
-     *
-     * @param  string  $expression
+     * @param string $expression
      * @return string
      */
     protected function compileIncludeIf(string $expression) : string
     {
-        return $this->compileRender($expression, 'if');
+        return $this->echoRender($expression, 'If', true);
     }
 
     /**
-     * Compile the include-when statements into valid PHP.
-     *
      * @param string $expression
      * @return string
      */
     protected function compileIncludeWhen($expression)
     {
-        return $this->compileRender($expression, 'when');
+        return $this->echoRender($expression, 'When', true);
     }
 
     /**
-     * Compile the render statements into valid PHP.
-     *
      * @param string $expression
      * @param string $method
      * @return string
      */
-    protected function compileRender(string $expression, string $method = '') : string
+    protected function compileRender(string $expression) : string
     {
-        return '<?php echo $__env->render' . $method . '(' . $this->expr($expression) . ', $__env->vars(get_defined_vars())); ?>';
+        return $this->echoRender($expression);
+    }
+
+    /**
+     * @param string $expression
+     * @return string
+     */
+    protected function compileRenderFirst($expression)
+    {
+        return $this->echoRender($expression, 'First');
+    }
+
+    /**
+     * @param string $expression
+     * @return string
+     */
+    protected function compileRenderIf(string $expression) : string
+    {
+        return $this->echoRender($expression, 'If');
+    }
+
+    /**
+     * @param string $expression
+     * @return string
+     */
+    protected function compileRenderWhen($expression)
+    {
+        return $this->echoRender($expression, 'When');
+    }
+
+    /**
+     * @param string $expression
+     * @param string|null $method
+     * @param bool|false $merge
+     * @return string
+     */
+    protected function echoRender(string $expression, string $method = null, bool $merge = false) : string
+    {
+        return '<?php echo $__env->render' . $method . '(' .
+            $this->expr($expression) . ($merge ? ', $__env->vars(get_defined_vars())' : '')
+        . '); ?>';
     }
 }

@@ -46,12 +46,7 @@ trait Section
      */
     protected function compileExtends(string $expression, Template $template) : string
     {
-        $expression = $this->expr($expression);
-
-        $data = '<?php echo $__env->render(' . $expression . ', $__env->vars(get_defined_vars())); ?>';
-
-        $template['footer'][] = $data;
-
+        $template['footer'][] = $this->compileInclude($expression);
         return '';
     }
 
