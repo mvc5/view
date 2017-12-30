@@ -35,6 +35,19 @@ class Expression
     }
 
     /**
+     * @param Template $template
+     * @param string $match
+     * @param $directive
+     * @return string
+     */
+    protected function create(Template $template, string $match, $directive) : string
+    {
+        return is_string($directive) ? str_replace(
+            ['{expression}', '{expr}'], [$match, static::expr($match)], $directive
+        ) : $directive($match, $template);
+    }
+
+    /**
      * Strip the parentheses from the given expression.
      *
      * @param string $expression
@@ -61,7 +74,7 @@ class Expression
             if (false !== strpos($match[1], '@')) {
                 $match[0] = isset($match[3]) ? $match[1] . $match[3] : $match[1];
             } elseif ($directive = $template->directive($match[1])) {
-                $match[0] = $directive($match[3] ?? '', $template);
+                $match[0] = $this->create($template, $match[3] ?? '', $directive);
             } elseif (method_exists($this, $method = 'compile' . $match[1])) {
                 $match[0] = $this->$method($match[3] ?? '', $template);
             }
