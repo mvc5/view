@@ -37,6 +37,17 @@ trait Component
     protected $slotStack = [];
 
     /**
+     * Get the data for the given component.
+     *
+     * @param  string  $name
+     * @return array
+     */
+    protected function componentData($name)
+    {
+        return ['slot' => trim(ob_get_clean())] + $this->slots[$slot = count($this->componentStack)] + $this->componentData[$slot];
+    }
+
+    /**
      * Get the index for the current component.
      *
      * @return int
@@ -47,14 +58,11 @@ trait Component
     }
 
     /**
-     * Get the data for the given component.
-     *
-     * @param  string  $name
-     * @return array
+     * @return string
      */
-    protected function componentData($name)
+    protected function currentComponentName() : string
     {
-        return ['slot' => trim(ob_get_clean())] + $this->slots[$slot = count($this->componentStack)] + $this->componentData[$slot];
+        return array_pop($this->componentStack);
     }
 
     /**
@@ -67,16 +75,6 @@ trait Component
         end($this->componentStack);
 
         $this->slots[$current = $this->currentComponent()][array_pop($this->slotStack[$current])] = trim(ob_get_clean());
-    }
-
-    /**
-     * Render the current component.
-     *
-     * @return string
-     */
-    function renderComponent()
-    {
-        return $this->render($name = array_pop($this->componentStack), $this->componentData($name));
     }
 
     /**
