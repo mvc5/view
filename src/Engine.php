@@ -69,7 +69,7 @@ final class Engine
      */
     function render(TemplateModel $model) : string
     {
-        return $this->match($model->template()) ? $this->template($model, $model->template()) : parent::render($model);
+        return ltrim($this->match($model->template()) ? $this->template($model, $model->template()) : parent::render($model));
     }
 
     /**

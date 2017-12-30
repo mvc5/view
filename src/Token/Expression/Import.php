@@ -51,7 +51,6 @@ trait Import
             $namespace === substr($f, 0, $length) && $use[] = $f;
         }
 
-        return !$use ? '' : static::$import[$namespace] =
-            '<?php use function ' . implode('; use function ', $use) . '; ?>' . "\n";
+        return !$use ? '' : static::$import[$namespace] = '<?php use function ' . implode('; use function ', $use) . '; ?>';
     }
 }
