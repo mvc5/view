@@ -29,22 +29,22 @@ class Expression
      * @param int|null $limit
      * @return string
      */
-    static function args(string $expression , $limit = null) : array
+    static function args(string $expression , int $limit = null) : array
     {
         return array_map('trim', explode(',', static::expr($expression), $limit ?? \PHP_INT_MAX));
     }
 
     /**
      * @param Template $template
-     * @param string $match
+     * @param string $expression
      * @param $directive
      * @return string
      */
-    protected function create(Template $template, string $match, $directive) : string
+    protected function create(Template $template, string $expression, $directive) : string
     {
         return is_string($directive) ? str_replace(
-            ['{expression}', '{expr}', '{var}'], [$match, $this->expr($match), $this->var($match)], $directive
-        ) : $directive($match, $template);
+            ['{expression}', '{expr}', '{var}'], [$expression, $this->expr($expression), $this->var($expression)], $directive
+        ) : $directive($expression, $template);
     }
 
     /**

@@ -59,19 +59,19 @@ trait Render
 
     /**
      * @param string|TemplateModel $model
-     * @param array $data
+     * @param array $vars
      * @param string $iterator
      * @param string $empty
      * @param string $result
      * @return string
      */
-    function renderEach($model, array $data, string $iterator, string $empty = 'raw|', string $result = '') : string
+    function renderEach($model, array $vars, string $iterator, string $empty = 'raw|', string $result = '') : string
     {
-        foreach($data as $key => $value) {
+        foreach($vars as $key => $value) {
             $result .= $this->render($model, ['key' => $key, $iterator => $value]);
         }
 
-        return $data ? $result : ('raw|' === substr($empty, 0, 4) ? substr($empty, 4) : $this->render($empty));
+        return $vars ? $result : ('raw|' === substr($empty, 0, 4) ? substr($empty, 4) : $this->render($empty));
     }
 
     /**
@@ -113,7 +113,7 @@ trait Render
      */
     function renderIf(string $path, array $vars = [], array $merge = []) : string
     {
-        return FilePath::exists($path = $this->find($path)) ? $this->renderInclude((string) $path, $vars + $merge) : '';
+        return FilePath::exists($path = $this->find($path)) ? $this->renderInclude((string) $path, $vars, $merge) : '';
     }
 
     /**
