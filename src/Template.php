@@ -19,10 +19,12 @@ class Template
         'directive' => [],
         'echoFormat' => 'htmlspecialchars(%s)',
         'escapedTag' => ['{{{', '}}}'],
+        'firstCaseInSwitch' => true,
         'footer' => [],
         'forElseCounter' => 0,
-        'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
         'import' => [],
+        'json_options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT,
+        'lastSection' => null,
         'rawBlocks' => [],
         'rawTag' => ['{!!', '!!}'],
         'token' => []
@@ -54,7 +56,7 @@ class Template
 
     /**
      * @param $name
-     * @return callable|null
+     * @return callable|string|null
      */
     function directive($name)
     {

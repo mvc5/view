@@ -6,27 +6,22 @@
 
 namespace View5\Token\Expression;
 
+use View5\Template;
 use View5\Token\Expression;
 
 trait Conditional
 {
     /**
-     * Identifier for the first case in switch statement.
-     *
-     * @var bool
-     */
-    protected $firstCaseInSwitch = true;
-
-    /**
      * Compile the case statements into valid PHP.
      *
-     * @param  string  $expression
+     * @param string $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileCase(string $expression) : string
+    protected function compileCase(string $expression, Template $template) : string
     {
-        if ($this->firstCaseInSwitch) {
-            $this->firstCaseInSwitch = false;
+        if ($template['firstCaseInSwitch']) {
+            $template['firstCaseInSwitch'] = false;
 
             return 'case ' . $expression. ': ?>';
         }
@@ -133,7 +128,7 @@ trait Conditional
      * @param  string  $expression
      * @return string
      */
-    protected function compileIsset(string $expression)
+    protected function compileIsset(string $expression) : string
     {
         return '<?php if(isset'. $expression . '): ?>';
     }
@@ -141,12 +136,13 @@ trait Conditional
     /**
      * Compile the switch statements into valid PHP.
      *
-     * @param  string  $expression
+     * @param string $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileSwitch(string $expression) : string
+    protected function compileSwitch(string $expression, Template $template) : string
     {
-        $this->firstCaseInSwitch = true;
+        $template['firstCaseInSwitch'] = true;
 
         return '<?php switch' . $expression . ':';
     }

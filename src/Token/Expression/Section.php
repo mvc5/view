@@ -11,13 +11,6 @@ use View5\Template;
 trait Section
 {
     /**
-     * The name of the last section that was started.
-     *
-     * @var string
-     */
-    protected $lastSection;
-
-    /**
      * Compile the append statements into valid PHP.
      *
      * @return string
@@ -63,22 +56,25 @@ trait Section
     /**
      * Replace the @parent directive to a placeholder.
      *
+     * @param string $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileParent() : string
+    protected function compileParent(string $expression, Template $template) : string
     {
-        return Template\Stack\Section::parentPlaceholder($this->lastSection ?: '');
+        return Template\Stack\Section::parentPlaceholder($template['lastSection'] ?: '');
     }
 
     /**
      * Compile the section statements into valid PHP.
      *
-     * @param  string  $expression
+     * @param string $expression
+     * @param Template $template
      * @return string
      */
-    protected function compileSection(string $expression) : string
+    protected function compileSection(string $expression, Template $template) : string
     {
-        $this->lastSection = trim($expression, '()\'" ');
+        $template['lastSection'] = trim($expression, '()\'" ');
 
         return '<?php $__env->startSection' . $expression . '; ?>';
     }
