@@ -16,7 +16,7 @@ final class Verbatim
      * @param  int|string  $replace
      * @return string
      */
-    protected function rawPlaceholder($replace)
+    protected function rawPlaceholder($replace) : string
     {
         return str_replace('#', $replace, '@__raw_block_#__@');
     }
@@ -54,7 +54,7 @@ final class Verbatim
      * @param  string  $value
      * @return string
      */
-    protected function storeRawBlock($value, Template $template)
+    protected function storeRawBlock($value, Template $template) : string
     {
         return $this->rawPlaceHolder(array_push($template['rawBlocks'], $value) - 1);
     }

@@ -16,7 +16,7 @@ trait Loop
      * @param  string  $expression
      * @return string
      */
-    protected function compileBreak($expression)
+    protected function compileBreak(string $expression) : string
     {
         if ($expression) {
             preg_match('/\(\s*(-?\d+)\s*\)$/', $expression, $matches);
@@ -33,7 +33,7 @@ trait Loop
      * @param  string  $expression
      * @return string
      */
-    protected function compileContinue($expression)
+    protected function compileContinue(string $expression) : string
     {
         if ($expression) {
             preg_match('/\(\s*(-?\d+)\s*\)$/', $expression, $matches);
@@ -51,7 +51,7 @@ trait Loop
      * @param Template $template
      * @return string
      */
-    protected function compileEmpty($expression, Template $template)
+    protected function compileEmpty(string $expression, Template $template) : string
     {
         return $expression ? '<?php if(empty' . $expression . '): ?>' :
             '<?php '
@@ -67,7 +67,7 @@ trait Loop
      *
      * @return string
      */
-    protected function compileEndEmpty()
+    protected function compileEndEmpty() : string
     {
         return '<?php endif; ?>';
     }
@@ -77,7 +77,7 @@ trait Loop
      *
      * @return string
      */
-    protected function compileEndFor()
+    protected function compileEndFor() : string
     {
         return '<?php endfor; ?>';
     }
@@ -87,7 +87,7 @@ trait Loop
      *
      * @return string
      */
-    protected function compileEndForEach()
+    protected function compileEndForEach() : string
     {
         return '<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>';
     }
@@ -97,7 +97,7 @@ trait Loop
      *
      * @return string
      */
-    protected function compileEndForElse()
+    protected function compileEndForElse() : string
     {
         return '<?php endif; ?>';
     }
@@ -107,7 +107,7 @@ trait Loop
      *
      * @return string
      */
-    protected function compileEndWhile()
+    protected function compileEndWhile() : string
     {
         return '<?php endwhile; ?>';
     }
@@ -118,7 +118,7 @@ trait Loop
      * @param  string  $expression
      * @return string
      */
-    protected function compileFor($expression)
+    protected function compileFor(string $expression) : string
     {
         return '<?php for' . $expression . ': ?>';
     }
@@ -129,7 +129,7 @@ trait Loop
      * @param  string  $expression
      * @return string
      */
-    protected function compileForEach($expression)
+    protected function compileForEach(string $expression) : string
     {
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
@@ -147,7 +147,7 @@ trait Loop
      * @param Template $template
      * @return string
      */
-    protected function compileForElse($expression, Template $template)
+    protected function compileForElse(string $expression, Template $template) : string
     {
         preg_match('/\( *(.*) +as *(.*)\)$/is', $expression, $matches);
 
@@ -166,7 +166,7 @@ trait Loop
      * @param  string  $expression
      * @return string
      */
-    protected function compileWhile($expression)
+    protected function compileWhile(string $expression) : string
     {
         return '<?php while' . $expression . ': ?>';
     }

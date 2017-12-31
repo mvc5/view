@@ -13,7 +13,7 @@ trait Push
      *
      * @return string
      */
-    protected function compileEndPrepend()
+    protected function compileEndPrepend() : string
     {
         return '<?php $__env->stopPrepend(); ?>';
     }
@@ -23,7 +23,7 @@ trait Push
      *
      * @return string
      */
-    protected function compileEndPush()
+    protected function compileEndPush() : string
     {
         return '<?php $__env->stopPush(); ?>';
     }
@@ -34,7 +34,7 @@ trait Push
      * @param  string  $expression
      * @return string
      */
-    protected function compilePrepend($expression)
+    protected function compilePrepend(string $expression) : string
     {
         return '<?php $__env->startPrepend' . $expression . '; ?>';
     }
@@ -45,7 +45,7 @@ trait Push
      * @param  string  $expression
      * @return string
      */
-    protected function compilePush($expression)
+    protected function compilePush(string $expression) : string
     {
         return '<?php $__env->startPush' . $expression . '; ?>';
     }
@@ -56,7 +56,7 @@ trait Push
      * @param  string  $expression
      * @return string
      */
-    protected function compileStack($expression)
+    protected function compileStack(string $expression) : string
     {
         return '<?php echo $__env->stack' . $expression . '; ?>';
     }

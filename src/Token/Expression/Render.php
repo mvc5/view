@@ -30,7 +30,7 @@ trait Render
      * @param string $expression
      * @return string
      */
-    protected function compileIncludeFirst($expression)
+    protected function compileIncludeFirst($expression) : string
     {
         return $this->echoRender($expression, 'First', true);
     }
@@ -48,7 +48,7 @@ trait Render
      * @param string $expression
      * @return string
      */
-    protected function compileIncludeWhen($expression)
+    protected function compileIncludeWhen($expression) : string
     {
         return $this->echoRender($expression, 'When', true);
     }
@@ -67,7 +67,7 @@ trait Render
      * @param string $expression
      * @return string
      */
-    protected function compileRenderFirst($expression)
+    protected function compileRenderFirst($expression) : string
     {
         return $this->echoRender($expression, 'First');
     }
@@ -85,7 +85,7 @@ trait Render
      * @param string $expression
      * @return string
      */
-    protected function compileRenderWhen($expression)
+    protected function compileRenderWhen($expression) : string
     {
         return $this->echoRender($expression, 'When');
     }

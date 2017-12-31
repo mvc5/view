@@ -42,7 +42,7 @@ trait Component
      * @param  string  $name
      * @return array
      */
-    protected function componentData($name)
+    protected function componentData($name) : array
     {
         return ['slot' => trim(ob_get_clean())] + $this->slots[$slot = count($this->componentStack)] + $this->componentData[$slot];
     }
@@ -52,7 +52,7 @@ trait Component
      *
      * @return int
      */
-    protected function currentComponent()
+    protected function currentComponent() : int
     {
         return count($this->componentStack) - 1;
     }

@@ -14,7 +14,7 @@ trait Component
      * @param  string  $expression
      * @return string
      */
-    protected function compileComponent($expression)
+    protected function compileComponent(string $expression) : string
     {
         return '<?php $__env->startComponent' . $expression . '; ?>';
     }
@@ -24,7 +24,7 @@ trait Component
      *
      * @return string
      */
-    protected function compileEndComponent()
+    protected function compileEndComponent() : string
     {
         return '<?php echo $__env->renderComponent(); ?>';
     }
@@ -35,7 +35,7 @@ trait Component
      * @param  string  $expression
      * @return string
      */
-    protected function compileSlot($expression)
+    protected function compileSlot(string $expression) : string
     {
         return '<?php $__env->slot' . $expression. '; ?>';
     }
@@ -45,7 +45,7 @@ trait Component
      *
      * @return string
      */
-    protected function compileEndSlot()
+    protected function compileEndSlot() : string
     {
         return '<?php $__env->endSlot(); ?>';
     }

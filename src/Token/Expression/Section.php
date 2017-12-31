@@ -65,7 +65,7 @@ trait Section
      *
      * @return string
      */
-    protected function compileParent()
+    protected function compileParent() : string
     {
         return Template\Stack\Section::parentPlaceholder($this->lastSection ?: '');
     }

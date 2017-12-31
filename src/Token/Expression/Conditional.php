@@ -23,7 +23,7 @@ trait Conditional
      * @param  string  $expression
      * @return string
      */
-    protected function compileCase($expression)
+    protected function compileCase(string $expression) : string
     {
         if ($this->firstCaseInSwitch) {
             $this->firstCaseInSwitch = false;
@@ -39,7 +39,7 @@ trait Conditional
      *
      * @return string
      */
-    protected function compileDefault()
+    protected function compileDefault() : string
     {
         return '<?php default: ?>';
     }
@@ -70,7 +70,7 @@ trait Conditional
      *
      * @return string
      */
-    protected function compileEndIsset()
+    protected function compileEndIsset() : string
     {
         return '<?php endif; ?>';
     }
@@ -90,7 +90,7 @@ trait Conditional
      *
      * @return string
      */
-    protected function compileEndSwitch()
+    protected function compileEndSwitch() : string
     {
         return '<?php endswitch; ?>';
     }
@@ -133,7 +133,7 @@ trait Conditional
      * @param  string  $expression
      * @return string
      */
-    protected function compileIsset($expression)
+    protected function compileIsset(string $expression)
     {
         return '<?php if(isset'. $expression . '): ?>';
     }
@@ -144,7 +144,7 @@ trait Conditional
      * @param  string  $expression
      * @return string
      */
-    protected function compileSwitch($expression)
+    protected function compileSwitch(string $expression) : string
     {
         $this->firstCaseInSwitch = true;
 
