@@ -49,6 +49,13 @@ trait Stack
     {
         $this->current = 0;
 
+        $this->loopStack = [];
+
+        $this->component = [];
+        $this->componentStack = [];
+        $this->slot = [];
+        $this->slotStack = [];
+
         $this->section = [];
         $this->sectionStack = [];
 
