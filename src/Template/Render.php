@@ -50,14 +50,6 @@ trait Render
     }
 
     /**
-     * @return string
-     */
-    function renderComponent() : string
-    {
-        return $this->render($name = $this->currentComponentName(), $this->componentData($name));
-    }
-
-    /**
      * @param string|TemplateModel $model
      * @param array $vars
      * @param string $iterator

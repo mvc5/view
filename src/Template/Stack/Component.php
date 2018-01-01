@@ -6,8 +6,17 @@
 
 namespace View5\Template\Stack;
 
+use Mvc5\Exception;
+
 trait Component
 {
+    /**
+     * The original data passed to the component.
+     *
+     * @var array
+     */
+    protected $component = [];
+
     /**
      * The components being rendered.
      *
@@ -16,18 +25,11 @@ trait Component
     protected $componentStack = [];
 
     /**
-     * The original data passed to the component.
-     *
-     * @var array
-     */
-    protected $componentData = [];
-
-    /**
      * The slot contents for the component.
      *
      * @var array
      */
-    protected $slots = [];
+    protected $slot = [];
 
     /**
      * The names of the slots being rendered.
@@ -37,32 +39,42 @@ trait Component
     protected $slotStack = [];
 
     /**
-     * Get the data for the given component.
-     *
-     * @param  string  $name
-     * @return array
-     */
-    protected function componentData($name) : array
-    {
-        return ['slot' => trim(ob_get_clean())] + $this->slots[$slot = count($this->componentStack)] + $this->componentData[$slot];
-    }
-
-    /**
      * Get the index for the current component.
      *
      * @return int
      */
-    protected function currentComponent() : int
+    protected function component() : int
     {
         return count($this->componentStack) - 1;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    protected function currentComponentName() : string
+    function componentName()
     {
         return array_pop($this->componentStack);
+    }
+
+    /**
+     * Get the data for the current component.
+     *
+     * @return array
+     */
+    function componentVars() : array
+    {
+        return ['slot' => trim(ob_get_clean())] + $this->slot[$component = $this->component() + 1] + $this->component[$component];
+    }
+
+    /**
+     * @return array
+     */
+    function endComponent()
+    {
+        return [
+            $this->componentName() ?? Exception::invalidArgument('Cannot end a component without first starting one.'),
+            $this->componentVars()
+        ];
     }
 
     /**
@@ -74,26 +86,20 @@ trait Component
     {
         end($this->componentStack);
 
-        $this->slots[$current = $this->currentComponent()][array_pop($this->slotStack[$current])] = trim(ob_get_clean());
+        $component = $this->component();
+        $slot = $this->slot($component) ?? Exception::invalidArgument('Cannot end a slot without first starting one.');
+
+        $this->slot[$component][$slot] = trim(ob_get_clean());
     }
 
     /**
-     * Start the slot rendering process.
-     *
-     * @param  string  $name
-     * @param  string|null  $content
-     * @return void
+     * @param int $component
+     * @return string|null
+     * @throws \InvalidArgumentException
      */
-    function slot($name, $content = null)
+    protected function slot(int $component)
     {
-        $current = $this->currentComponent();
-
-        if (count(func_get_args()) == 2) {
-            $this->slots[$current][$name] = $content;
-        } elseif(ob_start()) {
-            $this->slots[$current][$name] = '';
-            $this->slotStack[$current][] = $name;
-        }
+        return isset($this->slotStack[$component]) ? array_pop($this->slotStack[$component]) : null;
     }
 
     /**
@@ -103,14 +109,33 @@ trait Component
      * @param  array  $data
      * @return void
      */
-    function startComponent($name, array $data = [])
+    function startComponent(string $name, array $data = [])
     {
         if (ob_start()) {
             $this->componentStack[] = $name;
 
-            $current = $this->currentComponent();
-            $this->componentData[$current] = $data;
-            $this->slots[$current] = [];
+            $component = $this->component();
+            $this->component[$component] = $data;
+            $this->slot[$component] = [];
+        }
+    }
+
+    /**
+     * Start the slot rendering process.
+     *
+     * @param $name
+     * @param array ...$args
+     * @return void
+     */
+    function startSlot(string $name, ...$args)
+    {
+        $component = $this->component();
+
+        if ($args) {
+            $this->slot[$component][$name] = $args[0];
+        } elseif(ob_start()) {
+            $this->slot[$component][$name] = '';
+            $this->slotStack[$component][] = $name;
         }
     }
 }
