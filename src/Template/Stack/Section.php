@@ -11,6 +11,11 @@ use Mvc5\Exception;
 trait Section
 {
     /**
+     * @var mixed
+     */
+    protected static $parentPlaceholder = [];
+
+    /**
      * @var array
      */
     protected $section = [];
@@ -19,11 +24,6 @@ trait Section
      * @var array
      */
     protected $sectionStack = [];
-
-    /**
-     * @var mixed
-     */
-    protected static $parentPlaceholder = [];
 
     /**
      * @return string

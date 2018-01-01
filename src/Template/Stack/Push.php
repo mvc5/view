@@ -11,16 +11,16 @@ use Mvc5\Exception;
 trait Push
 {
     /**
-     * @var array
-     */
-    protected $push = [];
-
-    /**
      * All of the finished, captured prepend sections.
      *
      * @var array
      */
     protected $prepends = [];
+
+    /**
+     * @var array
+     */
+    protected $push = [];
 
     /**
      * @var array
@@ -48,56 +48,6 @@ trait Push
     }
 
     /**
-     * @param  string  $section
-     * @param  string  $content
-     */
-    function startPush(string $section, string $content = '')
-    {
-        $content === '' ? (ob_start() && $this->pushStack[] = $section) : $this->extendPush($section, $content);
-    }
-
-    /**
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    function stopPush() : string
-    {
-        !$this->pushStack &&
-            Exception::invalidArgument('Cannot end a section without first starting one.');
-
-        $last = array_pop($this->pushStack);
-
-        $this->extendPush($last, ob_get_clean());
-
-        return $last;
-    }
-
-    /**
-     * Start prepending content into a push section.
-     *
-     * @param  string  $section
-     * @param  string  $content
-     * @return void
-     */
-    public function startPrepend(string $section, string $content = '')
-    {
-        $content === '' ? ob_start() && $this->pushStack[] = $section : $this->extendPrepend($section, $content);
-    }
-
-    /**
-     * Stop prepending content into a push section.
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function stopPrepend()
-    {
-        !$this->pushStack &&
-            Exception::invalidArgument('Cannot end a prepend operation without first starting one.');
-
-        $this->extendPrepend(array_pop($this->pushStack), ob_get_clean());
-    }
-
-    /**
      * @param string $section
      * @param string $default
      * @return string
@@ -117,5 +67,55 @@ trait Push
             $output .= implode($this->push[$section]);
 
         return $output;
+    }
+
+    /**
+     * Start prepending content into a push section.
+     *
+     * @param  string  $section
+     * @param  string  $content
+     * @return void
+     */
+    public function startPrepend(string $section, string $content = '')
+    {
+        $content === '' ? ob_start() && $this->pushStack[] = $section : $this->extendPrepend($section, $content);
+    }
+
+    /**
+     * @param  string  $section
+     * @param  string  $content
+     */
+    function startPush(string $section, string $content = '')
+    {
+        $content === '' ? (ob_start() && $this->pushStack[] = $section) : $this->extendPush($section, $content);
+    }
+
+    /**
+     * Stop prepending content into a push section.
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function stopPrepend()
+    {
+        !$this->pushStack &&
+            Exception::invalidArgument('Cannot end a prepend operation without first starting one.');
+
+        $this->extendPrepend(array_pop($this->pushStack), ob_get_clean());
+    }
+
+    /**
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    function stopPush() : string
+    {
+        !$this->pushStack &&
+            Exception::invalidArgument('Cannot end a section without first starting one.');
+
+        $last = array_pop($this->pushStack);
+
+        $this->extendPush($last, ob_get_clean());
+
+        return $last;
     }
 }
