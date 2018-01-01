@@ -33,9 +33,9 @@ class Template
     /**
      * @param array $config
      */
-    function __construct(array $config = [], array $token = [], array $directive = [])
+    function __construct(array $config = [])
     {
-        parent::__construct($config + ['token' => $token] + ['directive' => $directive] + $this->default);
+        parent::__construct($config + $this->default);
     }
 
     /**
