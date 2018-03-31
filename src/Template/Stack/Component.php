@@ -51,7 +51,7 @@ trait Component
     /**
      * @return string|null
      */
-    function componentName()
+    function componentName() : ?string
     {
         return array_pop($this->componentStack);
     }
@@ -69,7 +69,7 @@ trait Component
     /**
      * @return array
      */
-    function endComponent()
+    function endComponent() : array
     {
         return [
             $this->componentName() ?? Exception::invalidArgument('Cannot end a component without first starting one.'),
@@ -79,10 +79,8 @@ trait Component
 
     /**
      * Save the slot content for rendering.
-     *
-     * @return void
      */
-    function endSlot()
+    function endSlot() : void
     {
         end($this->componentStack);
 
@@ -97,7 +95,7 @@ trait Component
      * @return string|null
      * @throws \InvalidArgumentException
      */
-    protected function slot(int $component)
+    protected function slot(int $component) : ?string
     {
         return isset($this->slotStack[$component]) ? array_pop($this->slotStack[$component]) : null;
     }
@@ -107,9 +105,8 @@ trait Component
      *
      * @param  string  $name
      * @param  array  $data
-     * @return void
      */
-    function startComponent(string $name, array $data = [])
+    function startComponent(string $name, array $data = []) : void
     {
         if (ob_start()) {
             $this->componentStack[] = $name;
@@ -125,9 +122,8 @@ trait Component
      *
      * @param $name
      * @param array ...$args
-     * @return void
      */
-    function startSlot(string $name, ...$args)
+    function startSlot(string $name, ...$args) : void
     {
         $component = $this->component();
 

@@ -33,7 +33,7 @@ trait Push
      * @param string $section
      * @param string $content
      */
-    protected function extendPrepend($section, $content)
+    protected function extendPrepend($section, $content) : void
     {
         $this->prepends[$section][$this->current()] = $content . ($this->prepends[$section][$this->current()] ?? '');
     }
@@ -42,7 +42,7 @@ trait Push
      * @param  string  $section
      * @param  string  $content
      */
-    protected function extendPush(string $section, string $content)
+    protected function extendPush(string $section, string $content) : void
     {
         $this->push[$section][$this->current()] = ($this->push[$section][$this->current()] ?? '') . $content;
     }
@@ -74,9 +74,8 @@ trait Push
      *
      * @param  string  $section
      * @param  string  $content
-     * @return void
      */
-    public function startPrepend(string $section, string $content = '')
+    public function startPrepend(string $section, string $content = '') : void
     {
         $content === '' ? ob_start() && $this->pushStack[] = $section : $this->extendPrepend($section, $content);
     }
@@ -85,7 +84,7 @@ trait Push
      * @param  string  $section
      * @param  string  $content
      */
-    function startPush(string $section, string $content = '')
+    function startPush(string $section, string $content = '') : void
     {
         $content === '' ? (ob_start() && $this->pushStack[] = $section) : $this->extendPush($section, $content);
     }
@@ -95,7 +94,7 @@ trait Push
      *
      * @throws \InvalidArgumentException
      */
-    public function stopPrepend()
+    function stopPrepend() : void
     {
         !$this->pushStack &&
             Exception::invalidArgument('Cannot end a prepend operation without first starting one.');

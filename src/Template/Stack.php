@@ -45,7 +45,7 @@ trait Stack
     /**
      *
      */
-    protected function reset()
+    protected function reset() : void
     {
         $this->current = 0;
 

@@ -14,10 +14,10 @@ trait Loop
     protected $loopStack = [];
 
     /**
-     * @param array|\Countable $data
-     * @return array|\Countable
+     * @param iterable $data
+     * @return iterable
      */
-    function addLoop($data)
+    function addLoop(iterable $data) : iterable
     {
         $length = is_array($data) || $data instanceof \Countable ? count($data) : null;
 
@@ -48,7 +48,7 @@ trait Loop
     /**
      *
      */
-    function incrementLoopIndices()
+    function incrementLoopIndices() : void
     {
         $loop = $this->loopStack[$index = count($this->loopStack) - 1];
 
@@ -64,7 +64,7 @@ trait Loop
     /**
      *
      */
-    function popLoop()
+    function popLoop() : void
     {
         array_pop($this->loopStack);
     }

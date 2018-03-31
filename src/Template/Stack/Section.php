@@ -60,7 +60,7 @@ trait Section
      * @param  string  $section
      * @param  string  $content
      */
-    protected function extendSection(string $section, string $content)
+    protected function extendSection(string $section, string $content) : void
     {
         $this->section[$section] = isset($this->section[$section]) ?
             str_replace($this->parentPlaceholder($section), $content, $this->section[$section]) : $content;
@@ -90,7 +90,7 @@ trait Section
      * @param  string  $section
      * @param  string  $content
      */
-    function startSection(string $section, string $content = '')
+    function startSection(string $section, string $content = '') : void
     {
         $content === '' ? ob_start() && $this->sectionStack[] = $section : $this->extendSection($section, $content);
     }
