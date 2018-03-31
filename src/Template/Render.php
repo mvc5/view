@@ -56,6 +56,7 @@ trait Render
      * @param string $empty
      * @param string $result
      * @return string
+     * @throws \Throwable
      */
     function renderEach($model, array $vars, string $iterator, string $empty = 'raw|', string $result = '') : string
     {
@@ -134,6 +135,7 @@ trait Render
      * @param array|string|TemplateModel $model
      * @param array $vars
      * @return mixed
+     * @throws \Throwable
      */
     function __invoke($model = null, array $vars = [])
     {
