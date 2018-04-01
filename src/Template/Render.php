@@ -77,16 +77,13 @@ trait Render
      */
     function renderFirst(array $names, array $vars = [], $merge = []) : string
     {
-        $matched = false; $path = null;
-
         foreach($names as $name) {
-            if ($matched = FilePath::exists($path = $this->find($name))) {
-                break;
+            if (FilePath::exists($path = $this->find($name))) {
+                return $this->renderInclude((string) $path, $vars, $merge);
             }
         }
 
-        return $matched ? $this->renderInclude((string) $path, $vars, $merge) :
-            Exception::runtime('Path does not exist: ' . $path);
+        Exception::invalidArgument('No path found.');
     }
 
     /**
