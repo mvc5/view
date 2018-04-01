@@ -55,7 +55,6 @@ trait Render
 
     /**
      * @param string $expression
-     * @param string $method
      * @return string
      */
     protected function compileRender(string $expression) : string

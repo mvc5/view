@@ -7,7 +7,6 @@
 namespace View5\Token\Expression;
 
 use View5\Template;
-use View5\Token\Expression;
 
 trait Conditional
 {

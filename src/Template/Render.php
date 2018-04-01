@@ -6,6 +6,7 @@
 
 namespace View5\Template;
 
+use Mvc5\Exception;
 use Mvc5\Template\TemplateModel;
 
 trait Render
@@ -76,13 +77,16 @@ trait Render
      */
     function renderFirst(array $names, array $vars = [], $merge = []) : string
     {
+        $matched = false; $path = null;
+
         foreach($names as $name) {
-            if (FilePath::exists($path = $this->find($name))) {
+            if ($matched = FilePath::exists($path = $this->find($name))) {
                 break;
             }
         }
 
-        return $this->renderInclude((string) $path, $vars, $merge);
+        return $matched ? $this->renderInclude((string) $path, $vars, $merge) :
+            Exception::runtime('Path does not exist: ' . $path);
     }
 
     /**

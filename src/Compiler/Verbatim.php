@@ -51,7 +51,8 @@ final class Verbatim
     /**
      * Store a raw block and return a unique raw placeholder.
      *
-     * @param  string  $value
+     * @param string $value
+     * @param Template $template
      * @return string
      */
     protected function storeRawBlock($value, Template $template) : string

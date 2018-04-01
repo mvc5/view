@@ -27,7 +27,7 @@ class Expression
     /**
      * @param string $expression
      * @param int|null $limit
-     * @return string
+     * @return array
      */
     static function args(string $expression , int $limit = null) : array
     {
