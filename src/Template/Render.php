@@ -78,7 +78,7 @@ trait Render
     function renderFirst(array $names, array $vars = [], $merge = []) : string
     {
         foreach($names as $name) {
-            if (FilePath::exists($path = $this->find($name))) {
+            if (FilePath::exists($path = $this->findPath($name))) {
                 return $this->renderInclude((string) $path, $vars, $merge);
             }
         }
@@ -107,7 +107,7 @@ trait Render
      */
     function renderIf(string $path, array $vars = [], array $merge = []) : string
     {
-        return FilePath::exists($path = $this->find($path)) ? $this->renderInclude((string) $path, $vars, $merge) : '';
+        return FilePath::exists($path = $this->findPath($path)) ? $this->renderInclude((string) $path, $vars, $merge) : '';
     }
 
     /**

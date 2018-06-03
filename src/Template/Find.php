@@ -36,11 +36,20 @@ trait Find
 
     /**
      * @param  string $name
+     * @return string
+     */
+    protected function find(string $name) : string
+    {
+        return $this->findPath($name);
+    }
+
+    /**
+     * @param  string $name
      * @return string|FilePath
      */
-    function find(string $name)
+    protected function findPath(string $name)
     {
-        return $this->path($name) ?? $this->paths[$name] = $this->match($name);
+        return $this->paths[$name] ?? $this->paths[$name] = $this->match($name);
     }
 
     /**
