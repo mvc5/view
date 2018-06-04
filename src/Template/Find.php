@@ -40,7 +40,7 @@ trait Find
      */
     protected function find(string $name) : string
     {
-        return $this->findPath($name);
+        return (string) $this->findPath($name);
     }
 
     /**
