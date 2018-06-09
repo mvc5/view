@@ -8,6 +8,8 @@ namespace View5\Token\Expression;
 
 use View5\Template;
 
+use function trim;
+
 trait Section
 {
     /**

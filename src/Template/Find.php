@@ -7,6 +7,10 @@ namespace View5\Template;
 
 use Mvc5\View\Template\Path;
 
+use function file_exists;
+use function ltrim;
+use function strpos;
+
 trait Find
 {
     /**

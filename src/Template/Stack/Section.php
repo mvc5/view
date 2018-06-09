@@ -8,6 +8,12 @@ namespace View5\Template\Stack;
 
 use Mvc5\Exception;
 
+use function array_pop;
+use function ob_get_clean;
+use function ob_start;
+use function sha1;
+use function str_replace;
+
 trait Section
 {
     /**

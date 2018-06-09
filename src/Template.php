@@ -7,6 +7,8 @@ namespace View5;
 
 use Mvc5\Overload;
 
+use function sprintf;
+
 class Template
     extends Overload
 {

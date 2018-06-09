@@ -9,6 +9,11 @@ use Mvc5\Exception;
 use Mvc5\Template\TemplateModel;
 use Mvc5\View\Engine\PhpEngine;
 
+use function ltrim;
+use function realpath;
+use function substr;
+use function strlen;
+
 final class Engine
     extends PhpEngine
 {

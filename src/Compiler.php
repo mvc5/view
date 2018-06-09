@@ -5,6 +5,9 @@
 
 namespace View5;
 
+use function next;
+use function reset;
+
 final class Compiler
 {
     /**

@@ -8,6 +8,13 @@ namespace View5\Template\Stack;
 
 use Mvc5\Exception;
 
+use function array_pop;
+use function count;
+use function end;
+use function ob_get_clean;
+use function ob_start;
+use function trim;
+
 trait Component
 {
     /**

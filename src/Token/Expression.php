@@ -8,6 +8,16 @@ namespace View5\Token;
 
 use View5\Template;
 
+use function array_map;
+use function explode;
+use function is_string;
+use function method_exists;
+use function preg_replace_callback;
+use function str_replace;
+use function strpos;
+use function substr;
+use function trim;
+
 class Expression
 {
     /**

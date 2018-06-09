@@ -8,6 +8,12 @@ namespace View5\Template\Stack;
 
 use Mvc5\Exception;
 
+use function array_pop;
+use function array_reverse;
+use function implode;
+use function ob_get_clean;
+use function ob_start;
+
 trait Push
 {
     /**

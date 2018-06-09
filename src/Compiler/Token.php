@@ -8,6 +8,10 @@ namespace View5\Compiler;
 
 use View5\Template;
 
+use function is_array;
+use function token_get_all;
+use function trim;
+
 final class Token
 {
     /**

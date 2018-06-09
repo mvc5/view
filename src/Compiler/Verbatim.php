@@ -8,6 +8,11 @@ namespace View5\Compiler;
 
 use View5\Template;
 
+use function array_push;
+use function preg_replace_callback;
+use function str_replace;
+use function strpos;
+
 final class Verbatim
 {
     /**

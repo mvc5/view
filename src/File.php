@@ -5,6 +5,11 @@
 
 namespace View5;
 
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
+use function filemtime;
+
 class File
 {
     /**

@@ -8,6 +8,9 @@ namespace View5\Token;
 
 use View5\Template;
 
+use function preg_replace;
+use function sprintf;
+
 final class Comments
 {
     /**

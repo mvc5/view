@@ -8,6 +8,11 @@ namespace View5\Token;
 
 use View5\Template;
 
+use function preg_replace;
+use function preg_replace_callback;
+use function sprintf;
+use function substr;
+
 final class Echos
 {
     /**

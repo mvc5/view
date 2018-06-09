@@ -6,6 +6,12 @@
 
 namespace View5\Template\Stack;
 
+use function array_pop;
+use function array_merge;
+use function count;
+use function end;
+use function is_array;
+
 trait Loop
 {
     /**

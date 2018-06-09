@@ -9,6 +9,9 @@ namespace View5\Template;
 use Mvc5\Exception;
 use Mvc5\Template\TemplateModel;
 
+use function array_diff_key;
+use function substr;
+
 trait Render
 {
     /**

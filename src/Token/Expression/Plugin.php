@@ -6,6 +6,10 @@
 
 namespace View5\Token\Expression;
 
+use function array_shift;
+use function implode;
+use function trim;
+
 trait Plugin
 {
     /**

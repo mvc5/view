@@ -5,6 +5,8 @@
 
 namespace View5\Template;
 
+use function file_exists;
+
 class FilePath
 {
     /**

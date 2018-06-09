@@ -8,6 +8,10 @@ namespace View5\Token\Expression;
 
 use View5\Template;
 
+use function max;
+use function preg_match;
+use function trim;
+
 trait Loop
 {
     /**

@@ -6,6 +6,12 @@
 
 namespace View5\Token\Expression;
 
+use function get_defined_functions;
+use function implode;
+use function strlen;
+use function strtolower;
+use function substr;
+
 trait Import
 {
     /**
