@@ -9,8 +9,8 @@ namespace View5\Compiler;
 use View5\Template;
 
 use function array_reverse;
-use function ltrim;
 use function implode;
+use function ltrim;
 
 final class Footer
 {
