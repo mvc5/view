@@ -45,9 +45,7 @@ final class Compiler
      */
     protected function delegate() : \Closure
     {
-        return function(Template $template) {
-            return $this->call(next($this->config), $template);
-        };
+        return fn(Template $template) => $this->call(next($this->config), $template);
     }
 
     /**

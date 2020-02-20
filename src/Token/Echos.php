@@ -41,9 +41,8 @@ final class Echos
      */
     protected function escaped(string $value, Template $template) : string
     {
-        return $this->replace($value, $template['escapedTag'], function($match) use($template) {
-            return $match[1] ? $match[0] : $this->echo($template->formatEcho($this->defaults($match[2])), $match);
-        });
+        return $this->replace($value, $template['escapedTag'], fn($match) =>
+            $match[1] ? $match[0] : $this->echo($template->formatEcho($this->defaults($match[2])), $match));
     }
 
     /**
@@ -53,9 +52,8 @@ final class Echos
      */
     protected function raw(string $value, Template $template) : string
     {
-        return $this->replace($value, $template['rawTag'], function($match) {
-            return $match[1] ? substr($match[0], 1) : $this->echo($this->defaults($match[2]), $match);
-        });
+        return $this->replace($value, $template['rawTag'], fn($match) =>
+            $match[1] ? substr($match[0], 1) : $this->echo($this->defaults($match[2]), $match));
     }
 
     /**
@@ -65,9 +63,9 @@ final class Echos
      */
     protected function regular(string $value, Template $template) : string
     {
-        return $this->replace($value, $template['contentTag'], function($match) use($template) {
-            return $match[1] ? substr($match[0], 1) : $this->echo($template->formatEcho($this->defaults($match[2])), $match);
-        });
+        return $this->replace($value, $template['contentTag'], fn($match) =>
+            $match[1] ? substr($match[0], 1) : $this->echo($template->formatEcho($this->defaults($match[2])), $match)
+        );
     }
 
     /**
