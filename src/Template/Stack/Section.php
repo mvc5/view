@@ -80,8 +80,7 @@ trait Section
      */
     static function parentPlaceholder($section = '') : string
     {
-        return static::$parentPlaceholder[$section] ??
-            (static::$parentPlaceholder[$section] = '##parent-placeholder-'.sha1($section).'##');
+        return static::$parentPlaceholder[$section] ??= '##parent-placeholder-'.sha1($section).'##';
     }
 
     /**

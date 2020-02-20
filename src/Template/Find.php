@@ -53,7 +53,7 @@ trait Find
      */
     protected function findPath(string $name)
     {
-        return $this->paths[$name] ?? $this->paths[$name] = $this->match($name);
+        return $this->paths[$name] ??= $this->match($name);
     }
 
     /**
