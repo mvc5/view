@@ -17,7 +17,7 @@ trait Import
     /**
      * @var array
      */
-    static $import = [];
+    static array $import = [];
 
     /**
      * @param $expression

@@ -19,7 +19,7 @@ trait Stack
     /**
      * @var int
      */
-    protected $current = 0;
+    protected int $current = 0;
 
     /**
      * @return int

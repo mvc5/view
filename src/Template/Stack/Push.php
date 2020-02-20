@@ -21,17 +21,17 @@ trait Push
      *
      * @var array
      */
-    protected $prepends = [];
+    protected array $prepends = [];
 
     /**
      * @var array
      */
-    protected $push = [];
+    protected array $push = [];
 
     /**
      * @var array
      */
-    protected $pushStack = [];
+    protected array $pushStack = [];
 
     /**
      * Prepend content to a given stack.

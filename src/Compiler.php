@@ -13,12 +13,12 @@ final class Compiler
     /**
      * @var array
      */
-    protected $config;
+    protected array $config;
 
     /**
      * @var Template
      */
-    protected $template;
+    protected Template $template;
 
     /**
      * @param Template $template

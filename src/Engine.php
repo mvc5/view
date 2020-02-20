@@ -20,7 +20,7 @@ final class Engine
     /**
      * @var File
      */
-    protected $file;
+    protected File $file;
 
     /**
      * @var callable
@@ -30,7 +30,7 @@ final class Engine
     /**
      * @var string
      */
-    protected $extension;
+    protected string $extension;
 
     /**
      * @param File $file

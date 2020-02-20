@@ -21,12 +21,12 @@ trait Find
     /**
      * @var null|string
      */
-    protected $directory;
+    protected ?string $directory = null;
 
     /**
      * @var array
      */
-    protected $extensions = ['blade' => 'blade.php', 'php' => 'phtml'];
+    protected array $extensions = ['blade' => 'blade.php', 'php' => 'phtml'];
 
     /**
      * @param string $name

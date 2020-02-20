@@ -17,19 +17,19 @@ use function str_replace;
 trait Section
 {
     /**
-     * @var mixed
+     * @var array
      */
-    protected static $parentPlaceholder = [];
+    protected static array $parentPlaceholder = [];
 
     /**
      * @var array
      */
-    protected $section = [];
+    protected array $section = [];
 
     /**
      * @var array
      */
-    protected $sectionStack = [];
+    protected array $sectionStack = [];
 
     /**
      * @return string

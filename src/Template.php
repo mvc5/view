@@ -15,7 +15,7 @@ class Template
     /**
      * @var array
      */
-    protected $default = [
+    protected array $default = [
         'content' => '',
         'contentTag' => ['{{', '}}'],
         'directive' => [],

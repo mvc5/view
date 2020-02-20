@@ -10,9 +10,9 @@ use function file_exists;
 class FilePath
 {
     /**
-     * @var null|string
+     * @var string
      */
-    protected $path;
+    protected string $path;
 
     /**
      * @param string $path

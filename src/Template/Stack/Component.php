@@ -22,28 +22,28 @@ trait Component
      *
      * @var array
      */
-    protected $component = [];
+    protected array $component = [];
 
     /**
      * The components being rendered.
      *
      * @var array
      */
-    protected $componentStack = [];
+    protected array $componentStack = [];
 
     /**
      * The slot contents for the component.
      *
      * @var array
      */
-    protected $slot = [];
+    protected array $slot = [];
 
     /**
      * The names of the slots being rendered.
      *
      * @var array
      */
-    protected $slotStack = [];
+    protected array $slotStack = [];
 
     /**
      * Get the index for the current component.

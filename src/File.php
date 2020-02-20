@@ -15,12 +15,12 @@ class File
     /**
      * @var string
      */
-    protected $directory;
+    protected string $directory;
 
     /**
      * @var bool
      */
-    protected $expired = false;
+    protected bool $expired = false;
 
     /**
      * @param string $directory

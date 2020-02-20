@@ -17,7 +17,7 @@ trait Loop
     /**
      * @var array
      */
-    protected $loopStack = [];
+    protected array $loopStack = [];
 
     /**
      * @param iterable $data
