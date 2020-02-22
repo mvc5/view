@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "mvc5/mvc5": "10.*"
+        "php": "^7.4",
+        "mvc5/mvc5": "^11.0"
     },
     "autoload": {
         "psr-4": {
