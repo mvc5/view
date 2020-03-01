@@ -5,12 +5,12 @@
 
 namespace View5;
 
-use Mvc5\Overload;
+use Mvc5\ArrayOverload;
 
 use function sprintf;
 
 class Template
-    extends Overload
+    extends ArrayOverload
 {
     /**
      * @var array
