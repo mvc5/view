@@ -12,6 +12,8 @@ use function array_reverse;
 use function implode;
 use function ltrim;
 
+use const PHP_EOL;
+
 final class Footer
 {
     /**

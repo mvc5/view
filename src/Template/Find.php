@@ -11,6 +11,8 @@ use function file_exists;
 use function ltrim;
 use function strpos;
 
+use const DIRECTORY_SEPARATOR;
+
 trait Find
 {
     /**

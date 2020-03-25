@@ -12,6 +12,8 @@ use function is_array;
 use function token_get_all;
 use function trim;
 
+use const T_INLINE_HTML;
+
 final class Token
 {
     /**
