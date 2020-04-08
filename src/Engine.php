@@ -7,21 +7,18 @@ namespace View5;
 
 use Mvc5\Exception;
 use Mvc5\Template\TemplateModel;
-use Mvc5\View\Engine\PhpEngine;
+use Mvc5\View\ViewEngine;
+use Throwable;
 
 use function ltrim;
+use function Mvc5\Template\render;
 use function realpath;
 use function substr;
 use function strlen;
 
 final class Engine
-    extends PhpEngine
+    implements ViewEngine
 {
-    /**
-     * @var File
-     */
-    protected File $file;
-
     /**
      * @var callable
      */
@@ -31,6 +28,11 @@ final class Engine
      * @var string
      */
     protected string $extension;
+
+    /**
+     * @var File
+     */
+    protected File $file;
 
     /**
      * @param File $file
@@ -70,26 +72,26 @@ final class Engine
     /**
      * @param TemplateModel $model
      * @return string
-     * @throws \ErrorException
+     * @throws Throwable
      */
     function render(TemplateModel $model) : string
     {
-        return ltrim($this->match($model->template()) ? $this->template($model, $model->template()) : parent::render($model));
+        return ltrim($this->match($model->template()) ? $this->template($model, $model->template()) : render($model));
     }
 
     /**
      * @param TemplateModel $model
      * @param string $template
      * @return string
-     * @throws \ErrorException
+     * @throws Throwable
      */
     protected function template(TemplateModel $model, string $template) : string
     {
         try {
 
-            return parent::render($this->model($model, $template, $this->file->path($template)));
+            return render($this->model($model, $template, $this->file->path($template)));
 
-        } catch(\Throwable $exception) {
+        } catch(Throwable $exception) {
             return Exception::errorException(
                 $exception->getMessage() . ' (View: ' . realpath($template) . ')',
                 0, E_ERROR, $exception->getFile(), $exception->getLine(), $exception
@@ -100,7 +102,7 @@ final class Engine
     /**
      * @param TemplateModel $model
      * @return string
-     * @throws \ErrorException
+     * @throws Throwable
      */
     function __invoke(TemplateModel $model) : string
     {
